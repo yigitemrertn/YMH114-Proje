@@ -18,3 +18,11 @@ Bu proje, kullanıcıların problemlerine çözüm arayabileceği ve başarılar
 - Problem paylaşarak topluluktan yardım alın.
 - Diğer kullanıcıların çözümlerine göz atın ve kendi çözümlerinizi sunun.
 - Başarılarınızı paylaşın ve topluluktan geri bildirim alın.
+
+## 🧾 Özellikler
+- Giriş yapma ve kayıt olma sayfası
+- Güncel haberleri takip edebileceğiniz duyurular bölümü
+- Filtreleyerek ya da arayarak keşfedebileceğiniz forumlar ve gönderiler
+- Kendi forumunuzu ya da gönderinizi oluşturma
+- Diğer kullanıcıların gönderilerine yorum yapma veya forumlarına çözüm sunma
+- Diğer kullanıcılar ile takipleşip sosyalleşme
