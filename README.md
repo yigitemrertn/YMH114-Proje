@@ -13,3 +13,8 @@ Bu proje, kullanıcıların problemlerine çözüm arayabileceği ve başarılar
 - **Backend:** JavaScript
 - **Veritabanı:** MySql
 
+## 🔥 Kullanım
+- Siteye giriş yapın veya yeni bir hesap oluşturun.
+- Problem paylaşarak topluluktan yardım alın.
+- Diğer kullanıcıların çözümlerine göz atın ve kendi çözümlerinizi sunun.
+- Başarılarınızı paylaşın ve topluluktan geri bildirim alın.
