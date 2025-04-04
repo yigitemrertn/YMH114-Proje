@@ -1,79 +1,70 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kayıt Ol</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/login-register.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <nav>
         <div class="logo-container">
-            <a href="registration.html" class="logo"><h1>ForumFU</h1></a>
+            <a href="registration.html" class="logo">
+                <h1>ForumFU</h1>
+            </a>
         </div>
-        <div class="search-container">
-            <label for="navbar-search-box">
-                <input type="search" placeholder="Arama yap..." id="navbar-search-box">
-            </label>
-            <button id="navbar-search-button">Ara</button>
-        </div>
-        <div class="hamburger-container">
-            <div class="hamburger-menu">
-<!--                <div class="bar">Ana Sayfa</div>-->
-<!--                <div class="bar">Profil</div>-->
-<!--                <div class="bar">Hakkımızda</div>-->
-<!--                <div class="bar">İletişim</div>-->
-            </div>
-        </div>
+
+
     </nav>
     <div class="main-container">
         <div id="main-container-header">
             <h2>Kayıt Formu</h2>
         </div>
-        <div class="input-container">
-            <div id="name-input">
-                <h3>İsim</h3>
-                <label for="name-input-box">
-                    <input type="text" id="name-input-box" placeholder="İsim">
-                </label>
-            </div>
-            <div id="surname-input">
-                <h3>Soyisim</h3>
-                <label for="surname-input-box">
-                    <input type="text" id="surname-input-box" placeholder="Soyisim">
-                </label>
-            </div>
-            <div id="birthdate-input">
-                <h3>Doğum günü</h3>
-                <label for="birthday-input-box">
-                    <input type="date" id="birthday-input-box" placeholder="Doğum günü">
-                </label>
-            </div>
-            <div id="username-input">
-                <h3>Kullanıcı adı</h3>
-                <label for="username-input-box">
-                    <input type="text" id="username-input-box" placeholder="Kullanıcı adı">
-                </label>
-            </div>
-            <div id="email-input">
-                <h3>E-mail</h3>
-                <label for="email-input-box">
-                    <input type="email" id="email-input-box" placeholder="E-mail">
-                </label>
-            </div>
-            <div id="password-input">
-                <h3>Şifre</h3>
-                <label for="password-input-box">
-                    <input type="password" id="password-input-box" placeholder="Şifre">
-                </label>
-            </div>
-            <button id="register-login-button">Kayıt Ol</button>
-        </div>
+
+        <form action="">
+            <label for="name-input-box">
+                İsim
+                <input type="text" id="name-input-box" placeholder="İsim">
+            </label>
+    
+            <label for="surname-input-box">
+                Soyisim
+                <input type="text" id="surname-input-box" placeholder="Soyisim">
+            </label>
+    
+           
+    
+            <label for="username-input-box">
+                Kullanıcı Adı
+                <input type="text" id="username-input-box" placeholder="Kullanıcı adı">
+            </label>
+    
+            <label for="email-input-box">
+                E-posta
+                <input type="email" id="email-input-box" placeholder="E-mail">
+            </label>
+    
+            <label for="password-input-box">
+                Şifre
+                <input type="password" id="password-input-box" placeholder="Şifre">
+            </label>
+            
+            <label for="register-login-button">
+                <button type="submit" id="register-login-button">Kayıt Ol</button>
+            </label>
+        </form>
+        
+       
+    </div>
     </div>
 </body>
+
 </html>
