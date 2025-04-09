@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+            <a href="index.html" class="logo">ForumFU</a>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="./index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="./AboutUs.html" class="menu-item">Hakkımızda</a>
+                    <a href="./contact.html" class="menu-item">İletişim</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-container">
+        <div id="main-container-header">
+            <h2>Kaydol</h2>
+        </div>
+        <div class="input-container">
+            <div id="name-input" class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <h3>İsim</h3>
+                <label for="name-input-box">
+                    <input type="text" id="name-input-box" placeholder="İsminizi girin">
+                </label>
+                <span class="error-message"></span>
+            </div>
+            <div id="surname-input" class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <h3>Soyisim</h3>
+                <label for="surname-input-box">
+                    <input type="text" id="surname-input-box" placeholder="Soyisminizi girin">
+                </label>
+                <span class="error-message"></span>
+            </div>
+            <div id="username-input" class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <h3>Kullanıcı adı</h3>
+                <label for="username-input-box">
+                    <input type="text" id="username-input-box" placeholder="Kullanıcı adınızı girin">
+                </label>
+                <span class="error-message"></span>
+            </div>
+            <div id="email-input" class="input-group">
+                <i class="fas fa-envelope input-icon"></i>
+                <h3>E-posta</h3>
+                <label for="email-input-box">
+                    <input type="email" id="email-input-box" placeholder="E-posta adresinizi girin">
+                </label>
+                <span class="error-message"></span>
+            </div>
+            <div id="password-input" class="input-group">
+                <i class="fas fa-lock input-icon"></i>
+                <h3>Şifre</h3>
+                <label for="password-input-box">
+                    <input type="password" id="password-input-box" placeholder="Şifrenizi girin">
+                </label>
+                <div class="password-strength">
+                    <div class="strength-bar"></div>
+                </div>
+                <span class="error-message"></span>
+            </div>
+            <button id="register-login-button">
+                <i class="fas fa-user-plus"></i>
+                Kaydol
+            </button>
+        </div>
+    </div>
+    <script src="js/registration.js"></script>
+</body>
+
+</html>

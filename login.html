@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ForumFU - Giriş Yap</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="./AboutUs.html" class="menu-item">Hakkımızda</a>
+                    <a href="./iletisim" class="menu-item">İletişim</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="main-container">
+        <div id="main-container-header">
+            <h2>Giriş Yap</h2>
+            <p class="subtitle">ForumFU'ya hoş geldiniz</p>
+        </div>
+        <div class="input-container">
+            <div class="input-group">
+                <h3>E-posta</h3>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" name="email" required aria-label="E-posta" placeholder="E-posta adresinizi giriniz">
+                </div>
+                <div class="error-message"></div>
+            </div>
+            <div class="input-group">
+                <h3>Şifre</h3>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" name="password" required aria-label="Şifreniz" placeholder="Şifrenizi giriniz">
+                </div>
+                <div class="error-message"></div>
+                <div class="register-container" style="display: flex; justify-content: center; margin-top: 20px;">
+                    <button type="button" class="register-button" id="register-now-button" onclick="window.location.href='registration.html'" style="display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; outline: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px; width: auto;">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Hemen kayıt olun!</span>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="register-button" id="login-button" style="outline: none; display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px;">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Giriş Yap</span>
+            </button>
+        </div>
+    </main>
+    <script src="js/login.js"></script>
+</body>
+</html>
