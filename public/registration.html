@@ -17,30 +17,44 @@
 <body>
     <nav>
         <div class="logo-container">
-            <a href="index.html" class="logo">ForumFU</a>
+            <a href="../index.html" class="logo">ForumFU</a>
         </div>
         <div class="search-container">
-            <input type="text" placeholder="Forumda ara..." class="search-input">
+            <label for="search-input" class="visually-hidden">Forumda ara</label>
+            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
             <button class="search-button">
                 <i class="fas fa-search"></i>
             </button>
         </div>
         <div class="nav-controls">
+            <button class="search-button-mobile" aria-label="Ara">
+                <i class="fas fa-search"></i>
+            </button>
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
             <div class="hamburger-container">
-                <button class="hamburger-button">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="./index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="../index.html" class="menu-item">Ana Sayfa</a>
                     <a href="./AboutUs.html" class="menu-item">Hakkımızda</a>
                     <a href="./contact.html" class="menu-item">İletişim</a>
                 </div>
             </div>
         </div>
     </nav>
+
+    <div class="search-dropdown">
+        <div class="search-container">
+            <label for="search-input-mobile" class="visually-hidden">Forumda ara</label>
+            <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
     <div class="main-container">
         <div id="main-container-header">
             <h2>Kaydol</h2>
@@ -96,6 +110,7 @@
         </div>
     </div>
     <script src="js/registration.js"></script>
+    <script src="js/search.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ForumFU - Ana Sayfa</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="public/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -18,16 +18,20 @@
             <a href="index.html" class="logo"><h1>ForumFU</h1></a>
         </div>
         <div class="search-container">
-            <input type="text" placeholder="Forumda ara..." class="search-input">
+            <label for="search-input" class="visually-hidden">Forumda ara</label>
+            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
             <button class="search-button">
                 <i class="fas fa-search"></i>
             </button>
         </div>
         <div class="nav-controls">
-            <a href="login.html" class="register-button">
+            <a href="public/login.html" class="register-button">
                 <i class="fas fa-user-plus"></i>
                 Giriş Yap
             </a>
+            <button class="search-button-mobile" aria-label="Ara">
+                <i class="fas fa-search"></i>
+            </button>
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
@@ -36,14 +40,28 @@
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="/" class="menu-item">Ana Sayfa</a>
-                    <a href="AboutUs.html" class="menu-item">Hakkımızda</a> <!-- Updated link -->
+                    <a href="public/login.html" class="register-button-mobile">
+                        <i class="fas fa-user-plus"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="/public" class="menu-item">Ana Sayfa</a>
+                    <a href="public/AboutUs.html" class="menu-item">Hakkımızda</a> <!-- Updated link -->
                     <a href="/iletisim" class="menu-item">İletişim</a>
                     <a href="/profil" class="menu-item">Profil</a>
                 </div>
             </div>
         </div>
     </nav>
+
+    <div class="search-dropdown">
+        <div class="search-container">
+            <label for="search-input-mobile" class="visually-hidden">Forumda ara</label>
+            <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
     <div class="main-content">
         <main class="forum-container">
             <div class="forum-header">
@@ -262,6 +280,7 @@
             </div>
         </aside>
     </div>
-    <script src="js/index.js"></script>
+    <script src="public/js/index.js"></script>
+    <script src="public/js/search.js"></script>
 </body>
 </html>
