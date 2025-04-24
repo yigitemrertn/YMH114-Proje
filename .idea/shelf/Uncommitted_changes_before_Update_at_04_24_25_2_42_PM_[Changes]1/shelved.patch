@@ -1,0 +1,561 @@
+Index: settings.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.html b/settings.html
+new file mode 100644
+--- /dev/null	(date 1745363034851)
++++ b/settings.html	(date 1745363034851)
+@@ -0,0 +1,264 @@
++<!doctype html>
++<html lang="tr">
++<head>
++    <meta charset="UTF-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>ForumFU - Ayarlar</title>
++    <link rel="stylesheet" href="css/styles.css">
++    <link rel="preconnect" href="https://fonts.googleapis.com">
++    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
++    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
++    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
++</head>
++<body>
++    <nav>
++        <div class="logo-container">
++            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
++        </div>
++        <div class="search-container">
++            <input type="text" placeholder="Forumda ara..." class="search-input">
++            <button class="search-button">
++                <i class="fas fa-search"></i>
++            </button>
++        </div>
++        <div class="nav-controls">
++            <a href="login.html" class="register-button">
++                <i class="fas fa-user-plus"></i>
++                Giriş Yap
++            </a>
++            <button class="theme-toggle" aria-label="Toggle Dark Mode">
++                <i class="fas fa-moon"></i>
++            </button>
++            <div class="hamburger-container">
++                <button class="hamburger-button" aria-label="Menüyü Aç">
++                    <span class="hamburger-icon"></span>
++                </button>
++                <div class="hamburger-menu">
++                    <a href="index.html" class="menu-item">Ana Sayfa</a>
++                    <a href="AboutUs.html" class="menu-item">Hakkımızda</a>
++                    <a href="iletisim.html" class="menu-item">İletişim</a>
++                    <a href="profile.html" class="menu-item">Profil</a>
++                    <a href="settings.html" class="menu-item">Ayarlar</a>
++                </div>
++            </div>
++        </div>
++    </nav>
++    <div class="settings-content">
++        <div class="left-container">
++            <h2>Ayarlar Menüsü</h2>
++            <ul class="settings-menu">
++                <li class="active" data-target="profile-settings">
++                    <span class="material-icons">person</span>
++                    <span>Profil Ayarları</span>
++                </li>
++                <li data-target="privacy-settings">
++                    <span class="material-icons">lock</span>
++                    <span>Gizlilik Ayarları</span>
++                </li>
++                <li data-target="notification-settings">
++                    <span class="material-icons">notifications</span>
++                    <span>Bildirim Ayarları</span>
++                </li>
++                <li data-target="account-settings">
++                    <span class="material-icons">manage_accounts</span>
++                    <span>Hesap Ayarları</span>
++                </li>
++                <li data-target="appearance-settings">
++                    <span class="material-icons">palette</span>
++                    <span>Görünüm Ayarları</span>
++                </li>
++            </ul>
++        </div>
++
++        <main class="settings-container">
++            <div class="settings-section active" id="profile-settings">
++                <div class="forum-header">
++                    <h2>Profil Ayarları</h2>
++                </div>
++                <form class="settings-form">
++                    <div class="form-group">
++                        <label for="profile-name">Ad Soyad</label>
++                        <input type="text" id="profile-name" name="profile-name" placeholder="Adınız Soyadınız">
++                    </div>
++                    <div class="form-group">
++                        <label for="profile-username">Kullanıcı Adı</label>
++                        <input type="text" id="profile-username" name="profile-username" placeholder="Kullanıcı adınız">
++                    </div>
++                    <div class="form-group">
++                        <label for="profile-email">E-posta</label>
++                        <input type="email" id="profile-email" name="profile-email" placeholder="E-posta adresiniz">
++                    </div>
++                    <div class="form-group">
++                        <label for="profile-bio">Hakkımda</label>
++                        <textarea id="profile-bio" name="profile-bio" placeholder="Kendinizi tanıtın"></textarea>
++                    </div>
++                    <div class="form-group">
++                        <label for="profile-avatar">Profil Resmi</label>
++                        <div class="avatar-upload">
++                            <div class="avatar-preview">
++                                <div id="avatar-preview" class="avatar-preview-image" data-image-url="https://via.placeholder.com/150"></div>
++                            </div>
++                            <div class="avatar-edit">
++                                <input type="file" id="profile-avatar" name="profile-avatar" accept=".png, .jpg, .jpeg">
++                                <label for="profile-avatar">Resim Seç</label>
++                            </div>
++                        </div>
++                    </div>
++                    <button type="submit" class="settings-save-button">Kaydet</button>
++                </form>
++            </div>
++
++            <div class="settings-section" id="privacy-settings">
++                <div class="forum-header">
++                    <h2>Gizlilik Ayarları</h2>
++                </div>
++                <form class="settings-form">
++                    <div class="form-group">
++                        <label>Profil Görünürlüğü</label>
++                        <div class="radio-group">
++                            <div class="radio-option">
++                                <input type="radio" id="privacy-public" name="profile-visibility" value="public" checked>
++                                <label for="privacy-public">Herkese Açık</label>
++                            </div>
++                            <div class="radio-option">
++                                <input type="radio" id="privacy-friends" name="profile-visibility" value="friends">
++                                <label for="privacy-friends">Sadece Arkadaşlar</label>
++                            </div>
++                            <div class="radio-option">
++                                <input type="radio" id="privacy-private" name="profile-visibility" value="private">
++                                <label for="privacy-private">Gizli</label>
++                            </div>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label>İki Faktörlü Doğrulama</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="two-factor-auth" name="two-factor-auth">
++                            <label for="two-factor-auth"></label>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label>Çevrimiçi Durumumu Göster</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="show-online-status" name="show-online-status" checked>
++                            <label for="show-online-status"></label>
++                        </div>
++                    </div>
++                    <button type="submit" class="settings-save-button">Kaydet</button>
++                </form>
++            </div>
++
++            <div class="settings-section" id="notification-settings">
++                <div class="forum-header">
++                    <h2>Bildirim Ayarları</h2>
++                </div>
++                <form class="settings-form">
++                    <div class="form-group">
++                        <label>E-posta Bildirimleri</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="email-notifications" name="email-notifications" checked>
++                            <label for="email-notifications"></label>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label>Yeni Mesaj Bildirimleri</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="message-notifications" name="message-notifications" checked>
++                            <label for="message-notifications"></label>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label>Yorum Bildirimleri</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="comment-notifications" name="comment-notifications" checked>
++                            <label for="comment-notifications"></label>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label>Takipçi Bildirimleri</label>
++                        <div class="toggle-switch">
++                            <input type="checkbox" id="follower-notifications" name="follower-notifications" checked>
++                            <label for="follower-notifications"></label>
++                        </div>
++                    </div>
++                    <button type="submit" class="settings-save-button">Kaydet</button>
++                </form>
++            </div>
++
++            <div class="settings-section" id="account-settings">
++                <div class="forum-header">
++                    <h2>Hesap Ayarları</h2>
++                </div>
++                <form class="settings-form">
++                    <div class="form-group">
++                        <label for="current-password">Mevcut Şifre</label>
++                        <input type="password" id="current-password" name="current-password" placeholder="Mevcut şifreniz">
++                    </div>
++                    <div class="form-group">
++                        <label for="new-password">Yeni Şifre</label>
++                        <input type="password" id="new-password" name="new-password" placeholder="Yeni şifreniz">
++                    </div>
++                    <div class="form-group">
++                        <label for="confirm-password">Şifre Tekrar</label>
++                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Yeni şifrenizi tekrar girin">
++                    </div>
++                    <div class="password-strength">
++                        <div class="strength-bar"></div>
++                    </div>
++                    <button type="submit" class="settings-save-button">Şifreyi Güncelle</button>
++
++                    <div class="danger-zone">
++                        <h3>Tehlikeli Bölge</h3>
++                        <button type="button" class="danger-button" id="deactivate-account">Hesabı Devre Dışı Bırak</button>
++                        <button type="button" class="danger-button" id="delete-account">Hesabı Sil</button>
++                    </div>
++                </form>
++            </div>
++
++            <div class="settings-section" id="appearance-settings">
++                <div class="forum-header">
++                    <h2>Görünüm Ayarları</h2>
++                </div>
++                <form class="settings-form">
++                    <div class="form-group">
++                        <label>Tema</label>
++                        <div class="theme-options">
++                            <div class="theme-option">
++                                <input type="radio" id="theme-light" name="theme" value="light" checked>
++                                <label for="theme-light">
++                                    <div class="theme-preview light-theme"></div>
++                                    <span>Açık Tema</span>
++                                </label>
++                            </div>
++                            <div class="theme-option">
++                                <input type="radio" id="theme-dark" name="theme" value="dark">
++                                <label for="theme-dark">
++                                    <div class="theme-preview dark-theme"></div>
++                                    <span>Koyu Tema</span>
++                                </label>
++                            </div>
++                            <div class="theme-option">
++                                <input type="radio" id="theme-system" name="theme" value="system">
++                                <label for="theme-system">
++                                    <div class="theme-preview system-theme"></div>
++                                    <span>Sistem Teması</span>
++                                </label>
++                            </div>
++                        </div>
++                    </div>
++                    <div class="form-group">
++                        <label for="font-size">Yazı Boyutu</label>
++                        <div class="range-slider">
++                            <input type="range" id="font-size" name="font-size" min="12" max="20" value="16">
++                            <div class="range-value">16px</div>
++                        </div>
++                    </div>
++                    <button type="submit" class="settings-save-button">Kaydet</button>
++                </form>
++            </div>
++        </main>
++    </div>
++    <script src="js/settings.js"></script>
++</body>
++</html>
+Index: js/settings.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/js/settings.js b/js/settings.js
+new file mode 100644
+--- /dev/null	(date 1745362916790)
++++ b/js/settings.js	(date 1745362916790)
+@@ -0,0 +1,277 @@
++document.addEventListener('DOMContentLoaded', function() {
++    // Hamburger Menu Functionality
++    const hamburgerButton = document.querySelector('.hamburger-button');
++    const hamburgerMenu = document.querySelector('.hamburger-menu');
++
++    hamburgerButton.addEventListener('click', function() {
++        hamburgerButton.classList.toggle('active');
++        hamburgerMenu.classList.toggle('active');
++    });
++
++    document.addEventListener('click', function(event) {
++        if (!hamburgerButton.contains(event.target) && !hamburgerMenu.contains(event.target)) {
++            hamburgerButton.classList.remove('active');
++            hamburgerMenu.classList.remove('active');
++        }
++    });
++
++    // Dark Mode Toggle
++    const themeToggle = document.querySelector('.theme-toggle');
++    const icon = themeToggle.querySelector('i');
++
++    // Function to apply theme
++    function applyTheme(isDark) {
++        if (isDark) {
++            document.body.classList.add('dark-mode');
++            icon.classList.replace('fa-moon', 'fa-sun');
++
++            // Update theme radio button in appearance settings if it exists
++            const themeDarkRadio = document.getElementById('theme-dark');
++            if (themeDarkRadio) {
++                themeDarkRadio.checked = true;
++            }
++        } else {
++            document.body.classList.remove('dark-mode');
++            icon.classList.replace('fa-sun', 'fa-moon');
++
++            // Update theme radio button in appearance settings if it exists
++            const themeLightRadio = document.getElementById('theme-light');
++            if (themeLightRadio) {
++                themeLightRadio.checked = true;
++            }
++        }
++    }
++
++    // Check for saved theme preference
++    if (localStorage.getItem('theme') === 'dark') {
++        applyTheme(true);
++    }
++
++    // Listen for theme changes from other tabs/windows
++    window.addEventListener('storage', function(e) {
++        if (e.key === 'theme') {
++            applyTheme(e.newValue === 'dark');
++        }
++    });
++
++    themeToggle.addEventListener('click', function() {
++        const isDark = document.body.classList.toggle('dark-mode');
++
++        if (isDark) {
++            localStorage.setItem('theme', 'dark');
++            icon.classList.replace('fa-moon', 'fa-sun');
++        } else {
++            localStorage.setItem('theme', 'light');
++            icon.classList.replace('fa-sun', 'fa-moon');
++        }
++    });
++
++    // Settings Menu Functionality
++    const settingsMenuItems = document.querySelectorAll('.settings-menu li');
++    const settingsSections = document.querySelectorAll('.settings-section');
++
++    // Function to switch active setting section
++    function switchSettingsSection(targetId) {
++        // Hide all sections
++        settingsSections.forEach(section => {
++            section.classList.remove('active');
++        });
++
++        // Remove active class from all menu items
++        settingsMenuItems.forEach(item => {
++            item.classList.remove('active');
++        });
++
++        // Show the target section
++        const targetSection = document.getElementById(targetId);
++        if (targetSection) {
++            targetSection.classList.add('active');
++        }
++
++        // Add active class to the clicked menu item
++        const activeMenuItem = document.querySelector(`.settings-menu li[data-target="${targetId}"]`);
++        if (activeMenuItem) {
++            activeMenuItem.classList.add('active');
++        }
++    }
++
++    // Add click event to menu items
++    settingsMenuItems.forEach(item => {
++        item.addEventListener('click', function() {
++            const targetId = this.getAttribute('data-target');
++            switchSettingsSection(targetId);
++        });
++    });
++
++    // Profile Image Upload Preview
++    const profileAvatarInput = document.getElementById('profile-avatar');
++    const avatarPreview = document.getElementById('avatar-preview');
++
++    if (profileAvatarInput && avatarPreview) {
++        // Initialize from data attribute
++        if (avatarPreview.dataset.imageUrl) {
++            avatarPreview.style.backgroundImage = `url(${avatarPreview.dataset.imageUrl})`;
++        }
++
++        profileAvatarInput.addEventListener('change', function() {
++            const file = this.files[0];
++            if (file) {
++                const reader = new FileReader();
++
++                reader.addEventListener('load', function() {
++                    avatarPreview.style.backgroundImage = `url(${reader.result})`;
++                    // Update data attribute for consistency
++                    avatarPreview.dataset.imageUrl = reader.result;
++                });
++
++                reader.readAsDataURL(file);
++            }
++        });
++    }
++
++    // Password Strength Indicator
++    const newPasswordInput = document.getElementById('new-password');
++    const strengthBar = document.querySelector('.password-strength .strength-bar');
++
++    if (newPasswordInput && strengthBar) {
++        newPasswordInput.addEventListener('input', function() {
++            const password = this.value;
++            let strength = 0;
++
++            if (password.length >= 8) strength++;
++            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
++            if (password.match(/\d/)) strength++;
++            if (password.match(/[^a-zA-Z\d]/)) strength++;
++
++            strengthBar.style.width = (strength * 25) + '%';
++
++            // Remove all strength classes
++            strengthBar.className = 'strength-bar';
++
++            // Add appropriate strength class
++            if (strength > 0) {
++                strengthBar.classList.add('strength-' + strength);
++            }
++        });
++    }
++
++    // Font Size Range Slider
++    const fontSizeSlider = document.getElementById('font-size');
++    const rangeValue = document.querySelector('.range-value');
++
++    if (fontSizeSlider && rangeValue) {
++        // Update range value display
++        fontSizeSlider.addEventListener('input', function() {
++            rangeValue.textContent = this.value + 'px';
++        });
++
++        // Apply font size change
++        fontSizeSlider.addEventListener('change', function() {
++            document.documentElement.style.fontSize = this.value + 'px';
++            localStorage.setItem('fontSize', this.value);
++        });
++
++        // Load saved font size
++        const savedFontSize = localStorage.getItem('fontSize');
++        if (savedFontSize) {
++            fontSizeSlider.value = savedFontSize;
++            rangeValue.textContent = savedFontSize + 'px';
++            document.documentElement.style.fontSize = savedFontSize + 'px';
++        }
++    }
++
++    // Theme Options in Appearance Settings
++    const themeOptions = document.querySelectorAll('input[name="theme"]');
++
++    if (themeOptions.length > 0) {
++        // Set initial value based on current theme
++        const currentTheme = localStorage.getItem('theme') || 'light';
++        const themeRadio = document.getElementById(`theme-${currentTheme}`);
++        if (themeRadio) {
++            themeRadio.checked = true;
++        }
++
++        // Add change event to theme options
++        themeOptions.forEach(option => {
++            option.addEventListener('change', function() {
++                if (this.value === 'dark') {
++                    applyTheme(true);
++                } else if (this.value === 'light') {
++                    applyTheme(false);
++                } else if (this.value === 'system') {
++                    // Check system preference
++                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
++                    applyTheme(prefersDark);
++                    localStorage.setItem('theme', prefersDark ? 'dark' : 'light');
++
++                    // Listen for system theme changes
++                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
++                        if (document.getElementById('theme-system').checked) {
++                            applyTheme(e.matches);
++                            localStorage.setItem('theme', e.matches ? 'dark' : 'light');
++                        }
++                    });
++                }
++            });
++        });
++    }
++
++    // Form Submission Handling
++    const settingsForms = document.querySelectorAll('.settings-form');
++
++    settingsForms.forEach(form => {
++        form.addEventListener('submit', function(e) {
++            e.preventDefault();
++
++            // Create a FormData object to collect form data
++            const formData = new FormData(this);
++            const formObject = {};
++
++            // Convert FormData to a regular object
++            for (let [key, value] of formData.entries()) {
++                formObject[key] = value;
++            }
++
++            // Log the form data (in a real app, you would send this to the server)
++            console.log('Form submitted:', formObject);
++
++            // Show success message
++            const successMessage = document.createElement('div');
++            successMessage.className = 'success-message';
++            successMessage.textContent = 'Ayarlar başarıyla kaydedildi!';
++
++            // Add success message to the form
++            this.appendChild(successMessage);
++
++            // Remove success message after 3 seconds
++            setTimeout(() => {
++                successMessage.remove();
++            }, 3000);
++        });
++    });
++
++    // Danger Zone Buttons
++    const deactivateButton = document.getElementById('deactivate-account');
++    const deleteButton = document.getElementById('delete-account');
++
++    if (deactivateButton) {
++        deactivateButton.addEventListener('click', function() {
++            if (confirm('Hesabınızı devre dışı bırakmak istediğinizden emin misiniz? Bu işlem geri alınabilir.')) {
++                alert('Hesabınız devre dışı bırakıldı. Tekrar giriş yaparak hesabınızı aktifleştirebilirsiniz.');
++            }
++        });
++    }
++
++    if (deleteButton) {
++        deleteButton.addEventListener('click', function() {
++            if (confirm('Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
++                if (prompt('Bu işlemi onaylamak için "SİL" yazın:') === 'SİL') {
++                    alert('Hesabınız silindi. Yönlendiriliyorsunuz...');
++                    setTimeout(() => {
++                        window.location.href = 'index.html';
++                    }, 2000);
++                }
++            }
++        });
++    }
++});

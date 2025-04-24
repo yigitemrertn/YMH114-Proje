@@ -954,3 +954,14 @@ body.dark-mode ::-webkit-scrollbar-thumb:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     background-color: #0056b3;
 }
+/* Accessibility - Visually hidden elements that remain accessible to screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}

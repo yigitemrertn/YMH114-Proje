@@ -1,0 +1,100 @@
+Index: css/index.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* GENERAL STYLING STARTS HERE */\r\n\r\nbody {\r\n    font-family: Arial, sans-serif;\r\n    background-color: #212529;\r\n}\r\n\r\n/* GENERAL STYLING ENDS HERE */\r\n\r\n/* NAVIGATION BAR STARTS HERE */\r\n\r\nnav {\r\n    display: flex;\r\n    background-color: #343A40;\r\n    padding: 0;\r\n    border-radius: 10px;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n\r\n.logo-container {\r\n    font-family: \"Arial Black\", sans-serif !important;\r\n    color: white;\r\n    margin-left: 23px;\r\n    justify-content: center;\r\n}\r\n\r\n.search-container {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    height: 34px;\r\n    column-gap: 10px;\r\n    width: 100%;\r\n}\r\n\r\n#search-bar {\r\n    width: 100%;\r\n    height: 34px;\r\n    background-color: white;\r\n    border-radius: 10px;\r\n    border: 1px solid #343A40;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.search-button {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    background-color: #343A40;\r\n    height: 34px;\r\n    width: 34px;\r\n    color: white;\r\n    border: 1px solid #6C757D;\r\n    border-radius: 10px;\r\n}\r\n\r\n.search-button:hover {\r\n    background-color: #6C757D;\r\n    cursor: pointer;\r\n}\r\n\r\n.icons-container {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    margin-right: 15px;\r\n    gap: 10px;\r\n}\r\n\r\n.icons-container button {\r\n    justify-content: center;\r\n    display: flex;\r\n    align-items: center;\r\n    background-color: #343A40;\r\n    height: 34px;\r\n    width: 34px;\r\n    color: white;\r\n    border: 1px solid #6C757D;\r\n    border-radius: 10px;\r\n}\r\n\r\n.icons-container button:hover {\r\n    background-color: #6C757D;\r\n    cursor: pointer;\r\n}\r\n\r\n/* NAVIGATION BAR ENDS HERE */\r\n\r\n/* MAIN CONTENT STARTS HERE */\r\n\r\n.flex-container {\r\n    display: flex;\r\n    margin: 15px 0;\r\n}\r\n\r\n.left-container{\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-color: #343A40;\r\n    border-radius: 10px;\r\n    padding: 10px;\r\n    gap: 10px;\r\n    margin-right: 5px;\r\n    flex:1;\r\n    font-family: \"Arial Black\", sans-serif !important;\r\n    color: white;\r\n}\r\n\r\n.mid-container, .right-container {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-color: #343A40;\r\n    border-radius: 10px;\r\n    padding: 10px;\r\n    gap: 10px;\r\n    margin-right: 5px;\r\n}\r\n\r\n.mid-container {\r\n    flex:3;\r\n    margin-right: 5px;\r\n    margin-left: 5px;\r\n}\r\n\r\n.right-container {\r\n    flex:2;\r\n    margin: 0 5px;\r\n}\r\n\r\n.mid-container h3, .right-container h3 {\r\n    color: white;\r\n    font-family: \"Arial Black\", sans-serif !important;\r\n}\r\n\r\n.sidebar-item {\r\n    padding: 10px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    width: 100%;\r\n    background-color: #6C757D;\r\n    color: white;\r\n    border-radius: 10px;\r\n    text-decoration: none;\r\n}\r\n\r\n.sidebar-item .sidebar-text {\r\n    margin-left: 5px;\r\n}\r\n\r\n.content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    width: 100%;\r\n    background-color: #6C757D;\r\n    color: white;\r\n    border-radius: 10px;\r\n    text-decoration: none;\r\n}\r\n\r\n.content h4 {\r\n    margin: 10px;\r\n    text-align: center;\r\n}\r\n\r\n.content p {\r\n    margin: 10px;\r\n    text-align: justify;\r\n}\r\n\r\n/* MAIN CONTENT ENDS HERE */\r\n\r\n/* SCREEN SIZE DEPENDENCY STARTS HERE */\r\n\r\n@media (max-width: 420px) {\r\n\r\n    /* NAVIGATION BAR STARTS HERE */\r\n    nav {\r\n        justify-content: center;\r\n    }\r\n\r\n    .logo-container {\r\n        margin: 0;\r\n    }\r\n\r\n    /* MAIN CONTENT STARTS HERE */\r\n    .flex-container {\r\n        flex-direction: column;\r\n    }\r\n\r\n    .mid-container, .right-container {\r\n        margin: auto 0;\r\n    }\r\n\r\n    /* MAIN CONTENT ENDS HERE */\r\n}\r\n\r\n/* SCREEN SIZE DEPENDENCY ENDS HERE */
+===================================================================
+diff --git a/css/index.css b/css/index.css
+--- a/css/index.css	(revision 240f3ee5ff9bb829a217bf06973313df5bfeeecb)
++++ b/css/index.css	(date 1742993216875)
+@@ -14,7 +14,7 @@
+     background-color: #343A40;
+     padding: 0;
+     border-radius: 10px;
+-    justify-content: space-around;
++    justify-content: space-between;
+     align-items: center;
+ }
+ 
+@@ -41,6 +41,8 @@
+     border-radius: 10px;
+     border: 1px solid #343A40;
+     box-sizing: border-box;
++    margin: 0;
++    padding: 0 10px;
+ }
+ 
+ .search-button {
+@@ -74,7 +76,8 @@
+     align-items: center;
+     background-color: #343A40;
+     height: 34px;
+-    width: 34px;
++    width: fit-content;
++    text-wrap: nowrap;
+     color: white;
+     border: 1px solid #6C757D;
+     border-radius: 10px;
+@@ -90,11 +93,15 @@
+ /* MAIN CONTENT STARTS HERE */
+ 
+ .flex-container {
+-    display: flex;
++    display: grid;
+     margin: 15px 0;
++    grid-template-rows: auto 1fr;
++    grid-template-columns: 1fr 3fr 2fr;
++    gap: 10px;
+ }
+ 
+-.left-container{
++.top-container{
++    grid-column: 1 / -1;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+@@ -106,9 +113,20 @@
+     flex:1;
+     font-family: "Arial Black", sans-serif !important;
+     color: white;
++    height: fit-content;
+ }
+ 
+ .mid-container, .right-container {
++    display: flex;
++    flex-direction: column;
++    background-color: #343A40;
++    border-radius: 10px;
++    padding: 10px;
++    gap: 10px;
++    width: auto;
++}
++
++.mid-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+@@ -117,17 +135,19 @@
+     padding: 10px;
+     gap: 10px;
+     margin-right: 5px;
+-}
+-
+-.mid-container {
+-    flex:3;
+-    margin-right: 5px;
+     margin-left: 5px;
+ }
+ 
+ .right-container {
+     flex:2;
+     margin: 0 5px;
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    background-color: #343A40;
++    border-radius: 10px;
++    padding: 10px;
++    gap: 10px;
+ }
+ 
+ .mid-container h3, .right-container h3 {

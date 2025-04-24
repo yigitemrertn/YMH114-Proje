@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForumFU - Profil</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo-container">
+            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+        </div>
+        <div class="search-container">
+            <label for="search-input" class="visually-hidden">Forumda ara</label>
+            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <a href="login.html" class="register-button">
+                <i class="fas fa-user-plus"></i>
+                Giriş Yap
+            </a>
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="AboutUs.html" class="menu-item">Hakkımızda</a>
+                    <a href="iletisim.html" class="menu-item">İletişim</a>
+                    <a href="profile.html" class="menu-item">Profil</a>
+                    <a href="settings.html" class="menu-item">Ayarlar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <!-- Left Sidebar -->
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <img src="https://via.placeholder.com/150" alt="Profil Resmi">
+                </div>
+                <h2 class="profile-name">Kullanıcı Adı</h2>
+                <p class="profile-username">@kullanici</p>
+                <p class="profile-bio">Kısa biyografi bilgisi burada yer alacak. Kullanıcı kendisi hakkında kısa bir açıklama yazabilir.</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">120</span>
+                        <span class="stat-label">Gönderi</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">1.5K</span>
+                        <span class="stat-label">Takipçi</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">350</span>
+                        <span class="stat-label">Takip</span>
+                    </div>
+                </div>
+                <a href="settings.html" class="edit-profile-button">
+                    <i class="fas fa-edit"></i>
+                    Profili Düzenle
+                </a>
+            </div>
+            <ul class="profile-menu">
+                <li class="active" data-target="posts">
+                    <span class="material-icons">article</span>
+                    <span>Gönderiler</span>
+                </li>
+                <li data-target="replies">
+                    <span class="material-icons">reply</span>
+                    <span>Yanıtlar</span>
+                </li>
+                <li data-target="media">
+                    <span class="material-icons">image</span>
+                    <span>Medya</span>
+                </li>
+                <li data-target="likes">
+                    <span class="material-icons">favorite</span>
+                    <span>Beğeniler</span>
+                </li>
+                <li data-target="bookmarks">
+                    <span class="material-icons">bookmark</span>
+                    <span>Yer İşaretleri</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <main class="profile-main">
+            <!-- New Post Form -->
+            <div class="new-post-form">
+                <div class="new-post-avatar">
+                    <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                </div>
+                <div class="new-post-input">
+                    <textarea placeholder="Neler oluyor?"></textarea>
+                    <div class="new-post-actions">
+                        <div class="post-attachments">
+                            <button class="attachment-button">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button class="attachment-button">
+                                <i class="fas fa-poll"></i>
+                            </button>
+                            <button class="attachment-button">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                            <button class="attachment-button">
+                                <i class="fas fa-calendar"></i>
+                            </button>
+                        </div>
+                        <button class="post-button">Gönder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Posts Section -->
+            <div class="profile-section active" id="posts">
+                <div class="forum-header">
+                    <h2>Gönderiler</h2>
+                </div>
+                <div class="posts-container">
+                    <!-- Post Item -->
+                    <div class="post-item">
+                        <div class="post-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                        </div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-name">Kullanıcı Adı</span>
+                                <span class="post-username">@kullanici</span>
+                                <span class="post-time">· 2 saat önce</span>
+                            </div>
+                            <div class="post-text">
+                                <p>Bu bir örnek gönderidir. Kullanıcılar burada düşüncelerini, sorularını veya paylaşmak istedikleri içerikleri yazabilirler.</p>
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>24</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="fas fa-retweet"></i>
+                                    <span>12</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-heart"></i>
+                                    <span>148</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-share-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Item -->
+                    <div class="post-item">
+                        <div class="post-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                        </div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-name">Kullanıcı Adı</span>
+                                <span class="post-username">@kullanici</span>
+                                <span class="post-time">· 1 gün önce</span>
+                            </div>
+                            <div class="post-text">
+                                <p>Bugün yeni bir JavaScript kütüphanesi keşfettim. React ile birlikte kullanılabiliyor ve performansı oldukça iyi. #JavaScript #WebDev</p>
+                            </div>
+                            <div class="post-image">
+                                <img src="https://via.placeholder.com/500x300" alt="Gönderi Resmi">
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>8</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="fas fa-retweet"></i>
+                                    <span>5</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-heart"></i>
+                                    <span>76</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-share-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Item -->
+                    <div class="post-item">
+                        <div class="post-avatar">
+                            <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                        </div>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-name">Kullanıcı Adı</span>
+                                <span class="post-username">@kullanici</span>
+                                <span class="post-time">· 3 gün önce</span>
+                            </div>
+                            <div class="post-text">
+                                <p>Yeni projemde veritabanı tasarımı ile ilgili önerileriniz var mı? NoSQL vs SQL konusunda kararsız kaldım. #Database #Development</p>
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>32</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="fas fa-retweet"></i>
+                                    <span>7</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-heart"></i>
+                                    <span>93</span>
+                                </button>
+                                <button class="post-action">
+                                    <i class="far fa-share-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Sections (Hidden by Default) -->
+            <div class="profile-section" id="replies">
+                <div class="forum-header">
+                    <h2>Yanıtlar</h2>
+                </div>
+                <div class="empty-state">
+                    <i class="fas fa-reply"></i>
+                    <p>Henüz yanıt yok</p>
+                </div>
+            </div>
+
+            <div class="profile-section" id="media">
+                <div class="forum-header">
+                    <h2>Medya</h2>
+                </div>
+                <div class="media-grid">
+                    <div class="media-item">
+                        <img src="https://via.placeholder.com/300" alt="Medya">
+                    </div>
+                    <div class="media-item">
+                        <img src="https://via.placeholder.com/300" alt="Medya">
+                    </div>
+                    <div class="media-item">
+                        <img src="https://via.placeholder.com/300" alt="Medya">
+                    </div>
+                    <div class="media-item">
+                        <img src="https://via.placeholder.com/300" alt="Medya">
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section" id="likes">
+                <div class="forum-header">
+                    <h2>Beğeniler</h2>
+                </div>
+                <div class="empty-state">
+                    <i class="fas fa-heart"></i>
+                    <p>Henüz beğeni yok</p>
+                </div>
+            </div>
+
+            <div class="profile-section" id="bookmarks">
+                <div class="forum-header">
+                    <h2>Yer İşaretleri</h2>
+                </div>
+                <div class="empty-state">
+                    <i class="fas fa-bookmark"></i>
+                    <p>Henüz yer işareti yok</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="profile-suggestions">
+            <div class="suggestions-header">
+                <h2>Kimi Takip Etmeli</h2>
+            </div>
+            <div class="suggestions-list">
+                <div class="suggestion-item">
+                    <div class="suggestion-avatar">
+                        <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                    </div>
+                    <div class="suggestion-info">
+                        <span class="suggestion-name">Ahmet Yılmaz</span>
+                        <span class="suggestion-username">@ahmetyilmaz</span>
+                    </div>
+                    <button class="follow-button">Takip Et</button>
+                </div>
+                <div class="suggestion-item">
+                    <div class="suggestion-avatar">
+                        <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                    </div>
+                    <div class="suggestion-info">
+                        <span class="suggestion-name">Mehmet Gözalan</span>
+                        <span class="suggestion-username">@mehmetgozalan</span>
+                    </div>
+                    <button class="follow-button">Takip Et</button>
+                </div>
+                <div class="suggestion-item">
+                    <div class="suggestion-avatar">
+                        <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                    </div>
+                    <div class="suggestion-info">
+                        <span class="suggestion-name">Yiğit Erten</span>
+                        <span class="suggestion-username">@yigiterten</span>
+                    </div>
+                    <button class="follow-button">Takip Et</button>
+                </div>
+            </div>
+
+            <div class="trending-header">
+                <h2>Gündemler</h2>
+            </div>
+            <div class="trending-list">
+                <div class="trending-item">
+                    <div class="trending-category">Teknoloji · Gündemdekiler</div>
+                    <div class="trending-topic">#JavaScript</div>
+                    <div class="trending-count">2.5B gönderi</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-category">Yazılım · Gündemdekiler</div>
+                    <div class="trending-topic">#WebDevelopment</div>
+                    <div class="trending-count">1.8B gönderi</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-category">Veritabanı · Gündemdekiler</div>
+                    <div class="trending-topic">#SQL</div>
+                    <div class="trending-count">1.2B gönderi</div>
+                </div>
+                <div class="trending-item">
+                    <div class="trending-category">Mobil · Gündemdekiler</div>
+                    <div class="trending-topic">#ReactNative</div>
+                    <div class="trending-count">950 gönderi</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="../js/profile.js"></script>
+</body>
+</html>
