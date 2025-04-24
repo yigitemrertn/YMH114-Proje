@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForumFU - Ayarlar</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <a href="login.html" class="register-button">
+                <i class="fas fa-user-plus"></i>
+                Giriş Yap
+            </a>
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="AboutUs.html" class="menu-item">Hakkımızda</a>
+                    <a href="iletisim.html" class="menu-item">İletişim</a>
+                    <a href="profile.html" class="menu-item">Profil</a>
+                    <a href="settings.html" class="menu-item">Ayarlar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="settings-content">
+        <div class="left-container">
+            <h2>Ayarlar Menüsü</h2>
+            <ul class="settings-menu">
+                <li class="active" data-target="profile-settings">
+                    <span class="material-icons">person</span>
+                    <span>Profil Ayarları</span>
+                </li>
+                <li data-target="privacy-settings">
+                    <span class="material-icons">lock</span>
+                    <span>Gizlilik Ayarları</span>
+                </li>
+                <li data-target="notification-settings">
+                    <span class="material-icons">notifications</span>
+                    <span>Bildirim Ayarları</span>
+                </li>
+                <li data-target="account-settings">
+                    <span class="material-icons">manage_accounts</span>
+                    <span>Hesap Ayarları</span>
+                </li>
+                <li data-target="appearance-settings">
+                    <span class="material-icons">palette</span>
+                    <span>Görünüm Ayarları</span>
+                </li>
+            </ul>
+        </div>
+
+        <main class="settings-container">
+            <div class="settings-section active" id="profile-settings">
+                <div class="forum-header">
+                    <h2>Profil Ayarları</h2>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="profile-name">Ad Soyad</label>
+                        <input type="text" id="profile-name" name="profile-name" placeholder="Adınız Soyadınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-username">Kullanıcı Adı</label>
+                        <input type="text" id="profile-username" name="profile-username" placeholder="Kullanıcı adınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">E-posta</label>
+                        <input type="email" id="profile-email" name="profile-email" placeholder="E-posta adresiniz">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-bio">Hakkımda</label>
+                        <textarea id="profile-bio" name="profile-bio" placeholder="Kendinizi tanıtın"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-avatar">Profil Resmi</label>
+                        <div class="avatar-upload">
+                            <div class="avatar-preview">
+                                <div id="avatar-preview" class="avatar-preview-image" data-image-url="https://via.placeholder.com/150"></div>
+                            </div>
+                            <div class="avatar-edit">
+                                <input type="file" id="profile-avatar" name="profile-avatar" accept=".png, .jpg, .jpeg">
+                                <label for="profile-avatar">Resim Seç</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="settings-save-button">Kaydet</button>
+                </form>
+            </div>
+
+            <div class="settings-section" id="privacy-settings">
+                <div class="forum-header">
+                    <h2>Gizlilik Ayarları</h2>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>Profil Görünürlüğü</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="privacy-public" name="profile-visibility" value="public" checked>
+                                <label for="privacy-public">Herkese Açık</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="privacy-friends" name="profile-visibility" value="friends">
+                                <label for="privacy-friends">Sadece Arkadaşlar</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="privacy-private" name="profile-visibility" value="private">
+                                <label for="privacy-private">Gizli</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>İki Faktörlü Doğrulama</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="two-factor-auth" name="two-factor-auth">
+                            <label for="two-factor-auth"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Çevrimiçi Durumumu Göster</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="show-online-status" name="show-online-status" checked>
+                            <label for="show-online-status"></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="settings-save-button">Kaydet</button>
+                </form>
+            </div>
+
+            <div class="settings-section" id="notification-settings">
+                <div class="forum-header">
+                    <h2>Bildirim Ayarları</h2>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>E-posta Bildirimleri</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="email-notifications" name="email-notifications" checked>
+                            <label for="email-notifications"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Yeni Mesaj Bildirimleri</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="message-notifications" name="message-notifications" checked>
+                            <label for="message-notifications"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Yorum Bildirimleri</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="comment-notifications" name="comment-notifications" checked>
+                            <label for="comment-notifications"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Takipçi Bildirimleri</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="follower-notifications" name="follower-notifications" checked>
+                            <label for="follower-notifications"></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="settings-save-button">Kaydet</button>
+                </form>
+            </div>
+
+            <div class="settings-section" id="account-settings">
+                <div class="forum-header">
+                    <h2>Hesap Ayarları</h2>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="current-password">Mevcut Şifre</label>
+                        <input type="password" id="current-password" name="current-password" placeholder="Mevcut şifreniz">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Yeni Şifre</label>
+                        <input type="password" id="new-password" name="new-password" placeholder="Yeni şifreniz">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Şifre Tekrar</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Yeni şifrenizi tekrar girin">
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                    </div>
+                    <button type="submit" class="settings-save-button">Şifreyi Güncelle</button>
+
+                    <div class="danger-zone">
+                        <h3>Tehlikeli Bölge</h3>
+                        <button type="button" class="danger-button" id="deactivate-account">Hesabı Devre Dışı Bırak</button>
+                        <button type="button" class="danger-button" id="delete-account">Hesabı Sil</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="settings-section" id="appearance-settings">
+                <div class="forum-header">
+                    <h2>Görünüm Ayarları</h2>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>Tema</label>
+                        <div class="theme-options">
+                            <div class="theme-option">
+                                <input type="radio" id="theme-light" name="theme" value="light" checked>
+                                <label for="theme-light">
+                                    <span class="theme-preview light-theme"></span>
+                                    <span>Açık Tema</span>
+                                </label>
+                            </div>
+                            <div class="theme-option">
+                                <input type="radio" id="theme-dark" name="theme" value="dark">
+                                <label for="theme-dark">
+                                    <span class="theme-preview dark-theme"></span>
+                                    <span>Koyu Tema</span>
+                                </label>
+                            </div>
+                            <div class="theme-option">
+                                <input type="radio" id="theme-system" name="theme" value="system">
+                                <label for="theme-system">
+                                    <span class="theme-preview system-theme"></span>
+                                    <span>Sistem Teması</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="font-size">Yazı Boyutu</label>
+                        <div class="range-slider">
+                            <input type="range" id="font-size" name="font-size" min="12" max="20" value="16">
+                            <div class="range-value">16px</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="settings-save-button">Kaydet</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="../js/settings.js"></script>
+</body>
+</html>
