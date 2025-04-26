@@ -60,9 +60,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isDark) {
             localStorage.setItem('theme', 'dark');
             icon.classList.replace('fa-moon', 'fa-sun');
+
+            // Update radio button if it exists
+            const themeDarkRadio = document.getElementById('theme-dark');
+            if (themeDarkRadio) {
+                themeDarkRadio.checked = true;
+            }
         } else {
             localStorage.setItem('theme', 'light');
             icon.classList.replace('fa-sun', 'fa-moon');
+
+            // Update radio button if it exists
+            const themeLightRadio = document.getElementById('theme-light');
+            if (themeLightRadio) {
+                themeLightRadio.checked = true;
+            }
         }
     });
 
@@ -195,22 +207,11 @@ document.addEventListener('DOMContentLoaded', function() {
         themeOptions.forEach(option => {
             option.addEventListener('change', function() {
                 if (this.value === 'dark') {
+                    localStorage.setItem('theme', 'dark');
                     applyTheme(true);
                 } else if (this.value === 'light') {
+                    localStorage.setItem('theme', 'light');
                     applyTheme(false);
-                } else if (this.value === 'system') {
-                    // Check system preference
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    applyTheme(prefersDark);
-                    localStorage.setItem('theme', prefersDark ? 'dark' : 'light');
-
-                    // Listen for system theme changes
-                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                        if (document.getElementById('theme-system').checked) {
-                            applyTheme(e.matches);
-                            localStorage.setItem('theme', e.matches ? 'dark' : 'light');
-                        }
-                    });
                 }
             });
         });

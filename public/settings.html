@@ -15,7 +15,7 @@
         .settings-wrapper {
             display: flex;
             min-height: calc(100vh - 50px);
-            background-color: rgba(245, 248, 252, 0.9);
+            background-color: rgba(245, 248, 252, 0.9)  ;
 
         }
 
@@ -206,8 +206,8 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 40px;
+            height: 32px;
         }
 
         .toggle-switch input {
@@ -231,10 +231,10 @@
         .toggle-switch label:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
+            height: 18px;
+            width: 18px;
             left: 4px;
-            bottom: 4px;
+            bottom: 3px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
@@ -249,7 +249,7 @@
         }
 
         .toggle-switch input:checked + label:before {
-            transform: translateX(26px);
+            transform: translateX(15px);
         }
 
         /* Button Styles */
@@ -704,10 +704,6 @@
                         <div class="form-group">
                             <input type="radio" id="theme-dark" name="theme" value="dark">
                             <label for="theme-dark">Koyu Tema - Koyu arka plan ve açık metin</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="radio" id="theme-system" name="theme" value="system">
-                            <label for="theme-system">Sistem Teması - Cihazınızın tema ayarlarını kullanır</label>
                         </div>
                     </div>
                     <div class="form-group">
