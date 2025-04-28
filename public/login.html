@@ -92,5 +92,23 @@
     </main>
     <script src="js/login.js"></script>
     <script src="js/search.js"></script>
+    <script>
+        // Login state handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+            const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
+            const logoutButton = document.querySelector('.logout-button');
+
+            if (isLoggedIn) {
+                loginButtons.forEach(button => button.style.display = 'none');
+                logoutButton.style.display = 'block';
+            }
+
+            logoutButton.addEventListener('click', function() {
+                localStorage.setItem('loggedIn', 'false');
+                location.reload();
+            });
+        });
+    </script>
 </body>
 </html>

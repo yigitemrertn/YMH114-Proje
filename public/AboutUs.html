@@ -24,7 +24,7 @@
             </button>
         </div>
         <div class="nav-controls">
-            <a href="login.html" class="register-button">
+            <a href="login.html" class="register-button login-button">
                 <i class="fas fa-user-plus"></i>
                 Giriş Yap
             </a>
@@ -39,7 +39,7 @@
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="login.html" class="register-button-mobile">
+                    <a href="login.html" class="register-button-mobile login-button-mobile">
                         <i class="fas fa-user-plus"></i>
                         Giriş Yap
                     </a>
@@ -49,6 +49,10 @@
                     <a href="profile.html" class="menu-item">Profil</a>
                     <a href="settings.html" class="menu-item">Ayarlar</a>
                     <a href="registration.html" class="menu-item">Kaydol</a>
+                    <a href="#" class="menu-item logout-button" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
                 </div>
             </div>
         </div>
@@ -127,6 +131,23 @@
                 const isDark = document.body.classList.toggle('dark-mode');
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
                 applyTheme(isDark);
+            });
+        });
+
+        // Login state handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+            const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
+            const logoutButton = document.querySelector('.logout-button');
+
+            if (isLoggedIn) {
+                loginButtons.forEach(button => button.style.display = 'none');
+                logoutButton.style.display = 'block';
+            }
+
+            logoutButton.addEventListener('click', function() {
+                localStorage.setItem('loggedIn', 'false');
+                location.reload();
             });
         });
     </script>

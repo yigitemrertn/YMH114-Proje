@@ -206,7 +206,7 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 40px;
+            width: 60px; /* Increased width */
             height: 32px;
         }
 
@@ -249,7 +249,7 @@
         }
 
         .toggle-switch input:checked + label:before {
-            transform: translateX(15px);
+            transform: translateX(34px); /* Adjusted to match the increased width */
         }
 
         /* Button Styles */
@@ -462,7 +462,7 @@
             </button>
         </div>
         <div class="nav-controls">
-            <a href="login.html" class="register-button">
+            <a href="login.html" class="register-button login-button">
                 <i class="fas fa-user-plus"></i>
                 Giriş Yap
             </a>
@@ -477,9 +477,13 @@
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="login.html" class="register-button-mobile">
+                    <a href="login.html" class="register-button-mobile login-button-mobile">
                         <i class="fas fa-user-plus"></i>
                         Giriş Yap
+                    </a>
+                    <a href="#" class="menu-item logout-button" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
                     </a>
                     <a href="../index.html" class="menu-item">Ana Sayfa</a>
                     <a href="AboutUs.html" class="menu-item">Hakkımızda</a>
@@ -719,5 +723,51 @@
 
     <script src="js/settings.js"></script>
     <script src="js/search.js"></script>
+    <script>
+        // Login state handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+            const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
+            const logoutButton = document.querySelector('.logout-button');
+            const profileMenuItem = document.querySelector('.menu-item[href="profile.html"]');
+            const profileSettingsSection = document.getElementById('profile-settings');
+            const privacySettingsSection = document.getElementById('privacy-settings');
+            const notificationSettingsSection = document.getElementById('notification-settings');
+            const accountSettingsSection = document.getElementById('account-settings');
+            const profileSettingsNavItem = document.querySelector('.settings-nav-item[data-target="profile-settings"]');
+            const privacySettingsNavItem = document.querySelector('.settings-nav-item[data-target="privacy-settings"]');
+            const notificationSettingsNavItem = document.querySelector('.settings-nav-item[data-target="notification-settings"]');
+            const accountSettingsNavItem = document.querySelector('.settings-nav-item[data-target="account-settings"]');
+
+            if (isLoggedIn) {
+                loginButtons.forEach(button => button.style.display = 'none');
+                logoutButton.style.display = 'block';
+                profileMenuItem.style.display = 'block';
+                profileSettingsSection.style.display = 'block';
+                privacySettingsSection.style.display = 'block';
+                notificationSettingsSection.style.display = 'block';
+                accountSettingsSection.style.display = 'block';
+                profileSettingsNavItem.style.display = 'flex';
+                privacySettingsNavItem.style.display = 'flex';
+                notificationSettingsNavItem.style.display = 'flex';
+                accountSettingsNavItem.style.display = 'flex';
+            } else {
+                profileMenuItem.style.display = 'none';
+                profileSettingsSection.style.display = 'none';
+                privacySettingsSection.style.display = 'none';
+                notificationSettingsSection.style.display = 'none';
+                accountSettingsSection.style.display = 'none';
+                profileSettingsNavItem.style.display = 'none';
+                privacySettingsNavItem.style.display = 'none';
+                notificationSettingsNavItem.style.display = 'none';
+                accountSettingsNavItem.style.display = 'none';
+            }
+
+            logoutButton.addEventListener('click', function() {
+                localStorage.setItem('loggedIn', 'false');
+                location.reload();
+            });
+        });
+    </script>
 </body>
 </html>

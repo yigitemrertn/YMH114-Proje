@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,12 +21,14 @@ db.connect(err => {
     console.log('MySQL Bağlantısı Başarılı!');
 });
 
-// Statik dosyaları sunmak için
+// Serve static files from the "public" directory
 app.use(express.static('public'));
 
-// Ana sayfa için GET endpoint'i
+let isLoggedIn = false; // Boolean to track login status
+
+// Serve index.html for the root route
 app.get('/', (req, res) => {
-    res.send('ForumFU API Çalışıyor!');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Kayıt Olma Endpoint'i
@@ -67,8 +70,20 @@ app.post('/login', (req, res) => {
             return res.status(401).send('Geçersiz şifre.');
         }
 
+        isLoggedIn = true; // Set login status to true
         res.status(200).send('Giriş başarılı!');
     });
+});
+
+// Logout endpoint to reset login status
+app.post('/logout', (req, res) => {
+    isLoggedIn = false; // Reset login status
+    res.status(200).send('Çıkış başarılı!');
+});
+
+// Endpoint to check login status
+app.get('/status', (req, res) => {
+    res.json({ isLoggedIn });
 });
 
 // Sunucuyu Başlat

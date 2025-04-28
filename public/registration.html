@@ -33,6 +33,10 @@
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
+            <a href="login.html" class="register-button login-button">
+                <i class="fas fa-user-plus"></i>
+                Giriş Yap
+            </a>
             <div class="hamburger-container">
                 <button class="hamburger-button" aria-label="Menüyü Aç">
                     <span class="hamburger-icon"></span>
@@ -43,7 +47,14 @@
                     <a href="iletisim.html" class="menu-item">İletişim</a>
                     <a href="profile.html" class="menu-item">Profil</a>
                     <a href="settings.html" class="menu-item">Ayarlar</a>
-                    <a href="login.html" class="menu-item">Giriş Yap</a>
+                    <a href="login.html" class="register-button-mobile login-button-mobile">
+                        <i class="fas fa-user-plus"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="#" class="menu-item logout-button" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
                 </div>
             </div>
         </div>
@@ -106,7 +117,7 @@
                 </div>
                 <span class="error-message"></span>
             </div>
-            <button id="register-login-button">
+            <button id="register-login-button" class="register-button" style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
                 <i class="fas fa-user-plus"></i>
                 Kaydol
             </button>
@@ -114,6 +125,24 @@
     </div>
     <script src="js/registration.js"></script>
     <script src="js/search.js"></script>
+    <script>
+        // Login state handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+            const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
+            const logoutButton = document.querySelector('.logout-button');
+
+            if (isLoggedIn) {
+                loginButtons.forEach(button => button.style.display = 'none');
+                logoutButton.style.display = 'block';
+            }
+
+            logoutButton.addEventListener('click', function() {
+                localStorage.setItem('loggedIn', 'false');
+                location.reload();
+            });
+        });
+    </script>
 </body>
 
 </html>
