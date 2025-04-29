@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ForumFU - **** Konu</title>
+    <!-- Add the necessary stylesheets -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/detailed-topic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <a href="../public/index.html" class="logo"><h1>ForumFU</h1></a>
+        </div>
+        <div class="search-container">
+            <label for="search-input" class="visually-hidden"></label>
+            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <button class="search-button-mobile" aria-label="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="../public/index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="about-us.html" class="menu-item">Hakkımızda</a>
+                    <a href="iletisim.html" class="menu-item">İletişim</a>
+                    <a href="profile.html" class="menu-item">Profil</a>
+                    <a href="settings.html" class="menu-item">Ayarlar</a>
+                    <a href="registration.html" class="menu-item">Kaydol</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="detailed-topic-container">
+
+        <div class="content-wrapper">
+            <div class="container">
+                <h1>Ana Konu Adı</h1>
+                <a href="detailed-post.html" class="card-link">
+                    <div class="card">
+                        <div class="icon">icon</div>
+                        <div class="card-content">
+                            <h2>Konu Başlığı</h2>
+                            <p>Konu içeriği...</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="detailed-post.html" class="card-link">
+                    <div class="card">
+                        <div class="icon">icon</div>
+                        <div class="card-content">
+                            <h2>Konu Başlığı</h2>
+                            <p>Konu içeriği...</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="detailed-post.html" class="card-link">
+                    <div class="card">
+                        <div class="icon">icon</div>
+                        <div class="card-content">
+                            <h2>Konu Başlığı</h2>
+                            <p>Konu içeriği...</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="detailed-post.html" class="card-link">
+                    <div class="card">
+                        <div class="icon">icon</div>
+                        <div class="card-content">
+                            <h2>Konu Başlığı</h2>
+                            <p>Konu içeriği...</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="pagination">
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button class="dots">.........</button>
+                <button>316</button>
+            </div>
+        </div>
+
+        <aside class="featured-topics">
+            <div class="featured-header">
+                <h2>Öne Çıkan Konular</h2>
+            </div>
+            <div class="featured-list">
+                <div class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yapay Zeka ile İnsan Beyni Arasındaki Bağlantı</h3>
+                        <p>Son yorum: 2 saat önce</p>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+    <script src="js/theme-toggle.js" defer></script>
+    <script src="js/hamburger.js" defer></script>
+    <script src="js/search.js" defer></script>
+    </body>
+</html>

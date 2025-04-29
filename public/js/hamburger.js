@@ -22,4 +22,4 @@ function initHamburgerMenu() {
 }
 
 // Export the function so it can be used in other files
-document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+document.addEventListener('DOMContentLoaded', initHamburgerMenu); // Ensure DOM is fully loaded

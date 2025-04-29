@@ -12,7 +12,7 @@ function initDarkMode() {
             document.body.classList.add('dark-mode');
             if (icon) icon.classList.replace('fa-moon', 'fa-sun');
             
-            // Update theme radio button in appearance settings if it exists
+            // Update the theme radio button in appearance settings if it exists
             const themeDarkRadio = document.getElementById('theme-dark');
             if (themeDarkRadio) {
                 themeDarkRadio.checked = true;
@@ -21,7 +21,7 @@ function initDarkMode() {
             document.body.classList.remove('dark-mode');
             if (icon) icon.classList.replace('fa-sun', 'fa-moon');
             
-            // Update theme radio button in appearance settings if it exists
+            // Update the theme radio button in appearance settings if it exists
             const themeLightRadio = document.getElementById('theme-light');
             if (themeLightRadio) {
                 themeLightRadio.checked = true;
@@ -49,4 +49,4 @@ function initDarkMode() {
 }
 
 // Export the function so it can be used in other files
-document.addEventListener('DOMContentLoaded', initDarkMode);
+document.addEventListener('DOMContentLoaded', initDarkMode); // Ensure DOM is fully loaded

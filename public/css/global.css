@@ -850,6 +850,8 @@ body.dark-mode .register-button:hover {
     transition: background-color 0.5s ease;
 }
 
+
+
 @media (max-width: 768px) {
     .search-dropdown {
         top: 45px;
