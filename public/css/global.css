@@ -790,6 +790,7 @@ body.dark-mode .register-button:hover {
 /* Search Container Styles */
 .search-container {
     display: flex;
+    align-items: center;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 25px;
     padding: 0.25rem 1rem;
@@ -798,6 +799,7 @@ body.dark-mode .register-button:hover {
     max-width: 500px;
     transition: background-color 0.5s ease, box-shadow 0.5s ease, transform 0.3s ease;
     height: 35px;
+    position: relative;
 }
 
 .search-container:focus-within {
@@ -814,6 +816,7 @@ body.dark-mode .register-button:hover {
     color: #2c3e50;
     outline: none;
     transition: color 0.5s ease;
+    width: 100%;
 }
 
 .search-input::placeholder {
@@ -828,10 +831,14 @@ body.dark-mode .register-button:hover {
     cursor: pointer;
     padding: 0.25rem;
     transition: all 0.3s ease;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .search-button:hover {
-    transform: scale(1.1);
+    transform: translateY(-50%) scale(1.1);
     color: #2980b9;
 }
 

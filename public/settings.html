@@ -15,7 +15,7 @@
 <body>
     <nav>
         <div class="logo-container">
-            <a href="../public/index.html" class="logo"><h1>ForumFU</h1></a>
+            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
         </div>
         <div class="search-container">
             <label for="search-input" class="visually-hidden"></label>
@@ -40,20 +40,16 @@
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="login.html" class="register-button-mobile login-button-mobile">
-                        <i class="fas fa-user-plus"></i>
-                        Giriş Yap
-                    </a>
-                    <a href="#" class="menu-item logout-button" style="display: none;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Çıkış Yap
-                    </a>
-                    <a href="../public/index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="index.html" class="menu-item">Ana Sayfa</a>
                     <a href="about-us.html" class="menu-item">Hakkımızda</a>
                     <a href="iletisim.html" class="menu-item">İletişim</a>
                     <a href="profile.html" class="menu-item">Profil</a>
                     <a href="settings.html" class="menu-item">Ayarlar</a>
                     <a href="registration.html" class="menu-item">Kaydol</a>
+                    <a href="#" class="menu-item logout-button" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
                 </div>
             </div>
         </div>
@@ -111,11 +107,14 @@
                         <label for="profile-avatar">Profil Resmi</label>
                         <div class="avatar-upload">
                             <div class="avatar-preview">
-                                <div id="avatar-preview" class="avatar-preview-image" data-image-url="https://via.placeholder.com/150"></div>
+                                <img id="avatar-preview" src="https://via.placeholder.com/150" alt="Profil Resmi">
                             </div>
                             <div class="avatar-edit">
                                 <input type="file" id="profile-avatar" name="profile-avatar" accept=".png, .jpg, .jpeg">
-                                <label for="profile-avatar">Resim Seç</label>
+                                <label for="profile-avatar">
+                                    <i class="fas fa-camera"></i>
+                                    Resim Seç
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -286,7 +285,38 @@
     <script src="js/settings.js"></script>
     <script src="js/search.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/avatar.js"></script>
     <script src="js/theme-toggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Avatar yükleme işlemi
+            const avatarInput = document.getElementById('profile-avatar');
+            const avatarPreview = document.getElementById('avatar-preview');
+
+            avatarInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarPreview.src = e.target.result;
+                        // Avatar yüklendiğinde localStorage'a kaydet
+                        localStorage.setItem('customAvatar', e.target.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Sayfa yüklendiğinde avatar kontrolü
+            const customAvatar = localStorage.getItem('customAvatar');
+            if (customAvatar) {
+                avatarPreview.src = customAvatar;
+            } else {
+                // Default avatar kullan
+                const username = localStorage.getItem('username');
+                setDefaultAvatar(username);
+            }
+        });
+    </script>
     <script src="js/hamburger.js"></script>
 </body>
 </html>
