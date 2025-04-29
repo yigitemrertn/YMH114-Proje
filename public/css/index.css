@@ -1,0 +1,39 @@
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.forum-container {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.featured-topics {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.forum-topic {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.topic-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.topic-content h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.topic-stats span {
+    margin-right: 10px;
+    font-size: 14px;
+    color: gray;
+}

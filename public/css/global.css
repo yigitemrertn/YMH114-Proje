@@ -19,9 +19,9 @@ body {
 }
 
 @keyframes gradientBG {
-    0% { background-position: 0%  50%; }
+    0% { background-position: 0  50%; }
     50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    100% { background-position: 0 50%; }
 }
 
 /* Navigation Styles */
@@ -790,7 +790,6 @@ body.dark-mode .register-button:hover {
 /* Search Container Styles */
 .search-container {
     display: flex;
-    align-items: center;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 25px;
     padding: 0.25rem 1rem;

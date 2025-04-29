@@ -1,83 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Hamburger Menu Functionality
-    const hamburgerButton = document.querySelector('.hamburger-button');
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-
-    hamburgerButton.addEventListener('click', function() {
-        hamburgerButton.classList.toggle('active');
-        hamburgerMenu.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!hamburgerButton.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-            hamburgerButton.classList.remove('active');
-            hamburgerMenu.classList.remove('active');
-        }
-    });
-
-    // Dark Mode Toggle
-    const themeToggle = document.querySelector('.theme-toggle');
-    const icon = themeToggle.querySelector('i');
-
-    // Function to apply theme
-    function applyTheme(isDark) {
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-            icon.classList.replace('fa-moon', 'fa-sun');
-
-            // Update theme radio button in appearance settings if it exists
-            const themeDarkRadio = document.getElementById('theme-dark');
-            if (themeDarkRadio) {
-                themeDarkRadio.checked = true;
-            }
-        } else {
-            document.body.classList.remove('dark-mode');
-            icon.classList.replace('fa-sun', 'fa-moon');
-
-            // Update theme radio button in appearance settings if it exists
-            const themeLightRadio = document.getElementById('theme-light');
-            if (themeLightRadio) {
-                themeLightRadio.checked = true;
-            }
-        }
-    }
-
-    // Check for saved theme preference
-    if (localStorage.getItem('theme') === 'dark') {
-        applyTheme(true);
-    }
-
-    // Listen for theme changes from other tabs/windows
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'theme') {
-            applyTheme(e.newValue === 'dark');
-        }
-    });
-
-    themeToggle.addEventListener('click', function() {
-        const isDark = document.body.classList.toggle('dark-mode');
-
-        if (isDark) {
-            localStorage.setItem('theme', 'dark');
-            icon.classList.replace('fa-moon', 'fa-sun');
-
-            // Update radio button if it exists
-            const themeDarkRadio = document.getElementById('theme-dark');
-            if (themeDarkRadio) {
-                themeDarkRadio.checked = true;
-            }
-        } else {
-            localStorage.setItem('theme', 'light');
-            icon.classList.replace('fa-sun', 'fa-moon');
-
-            // Update radio button if it exists
-            const themeLightRadio = document.getElementById('theme-light');
-            if (themeLightRadio) {
-                themeLightRadio.checked = true;
-            }
-        }
-    });
-
     // Settings Menu Functionality
     const settingsMenuItems = document.querySelectorAll('.settings-nav-item');
     const settingsSections = document.querySelectorAll('.settings-section');
@@ -206,13 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add change event to theme options
         themeOptions.forEach(option => {
             option.addEventListener('change', function() {
-                if (this.value === 'dark') {
-                    localStorage.setItem('theme', 'dark');
-                    applyTheme(true);
-                } else if (this.value === 'light') {
-                    localStorage.setItem('theme', 'light');
-                    applyTheme(false);
-                }
+                const isDarkTheme = this.value === 'dark';
+                localStorage.setItem('theme', this.value);
+
+                // Dispatch a storage event so our theme-toggle.js can handle the theme change
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'theme',
+                    newValue: this.value
+                }));
             });
         });
     }

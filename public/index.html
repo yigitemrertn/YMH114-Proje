@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum - Ana Sayfa</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -13,38 +14,36 @@
 <body>
     <header>
         <nav>
-            <div class="profile-container" style="display: none;">
-                <img src="https://via.placeholder.com/40" alt="Profil Fotoğrafı" class="profile-photo">
+            <div class="logo-container">
+                <a href="../public/index.html" class="logo"><h1>ForumFU</h1></a>
             </div>
-            <div class="hamburger-container" style="margin-left: auto;">
-                <button class="hamburger-button" aria-label="Menüyü Aç">
-                    <span class="hamburger-icon"></span>
+            <div class="search-container">
+                <label for="search-input" class="visually-hidden">
+                    <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                </label>
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
                 </button>
-                <div class="hamburger-menu">
-                    <a href="login.html" class="menu-item">
-                        <i class="fas fa-user-plus"></i> Giriş Yap
-                    </a>
-                    <a href="registration.html" class="menu-item">
-                        <i class="fas fa-user"></i> Kaydol
-                    </a>
-                    <a href="../index.html" class="menu-item">
-                        <i class="fas fa-home"></i> Ana Sayfa
-                    </a>
-                    <a href="AboutUs.html" class="menu-item">
-                        <i class="fas fa-info-circle"></i> Hakkımızda
-                    </a>
-                    <a href="iletisim.html" class="menu-item">
-                        <i class="fas fa-envelope"></i> İletişim
-                    </a>
-                    <a href="profile.html" class="menu-item">
-                        <i class="fas fa-user-circle"></i> Profil
-                    </a>
-                    <a href="settings.html" class="menu-item">
-                        <i class="fas fa-cog"></i> Ayarlar
-                    </a>
-                    <a href="#" class="menu-item logout-button" style="display: none;">
-                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
-                    </a>
+            </div>
+            <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="hamburger-container">
+                    <button class="hamburger-button" aria-label="Menüyü Aç">
+                        <span class="hamburger-icon"></span>
+                    </button>
+                    <div class="hamburger-menu">
+                        <a href="../public/index.html" class="menu-item">Ana Sayfa</a>
+                        <a href="AboutUs.html" class="menu-item">Hakkımızda</a>
+                        <a href="iletisim.html" class="menu-item">İletişim</a>
+                        <a href="profile.html" class="menu-item">Profil</a>
+                        <a href="settings.html" class="menu-item">Ayarlar</a>
+                        <a href="registration.html" class="menu-item">Kaydol</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -278,49 +277,7 @@
             </aside>
         </div>
     </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const hamburgerButton = document.querySelector('.hamburger-button');
-            const hamburgerMenu = document.querySelector('.hamburger-menu');
-            const profileContainer = document.querySelector('.profile-container');
-            const logoutButton = document.querySelector('.logout-button');
-
-            // Hamburger menu toggle
-            hamburgerButton.addEventListener('click', function () {
-                hamburgerButton.classList.toggle('active');
-                hamburgerMenu.classList.toggle('active');
-            });
-
-            document.addEventListener('click', function (event) {
-                if (!hamburgerButton.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                    hamburgerButton.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                }
-            });
-
-            // Fetch login status
-            fetch('/status')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.isLoggedIn) {
-                        profileContainer.style.display = 'flex';
-                        logoutButton.style.display = 'block';
-                        document.querySelectorAll('.menu-item[href="login.html"], .menu-item[href="registration.html"]').forEach(item => {
-                            item.style.display = 'none';
-                        });
-                    }
-                })
-                .catch(err => console.error('Error fetching login status:', err));
-
-            // Logout functionality
-            logoutButton.addEventListener('click', function () {
-                fetch('/logout', { method: 'POST' })
-                    .then(() => {
-                        location.reload();
-                    })
-                    .catch(err => console.error('Error logging out:', err));
-            });
-        });
-    </script>
+    <script src="js/hamburger.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
