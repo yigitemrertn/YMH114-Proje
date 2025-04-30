@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForumFU - Konu Detayı</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/topic-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <a href="../public/index.html" class="logo"><h1>ForumFU</h1></a>
+        </div>
+        <div class="search-container">
+            <label for="search-input" class="visually-hidden"></label>
+            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="nav-controls">
+            <button class="search-button-mobile" aria-label="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="hamburger-container">
+                <button class="hamburger-button" aria-label="Menüyü Aç">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <div class="hamburger-menu">
+                    <a href="../public/index.html" class="menu-item">Ana Sayfa</a>
+                    <a href="about-us.html" class="menu-item">Hakkımızda</a>
+                    <a href="iletisim.html" class="menu-item">İletişim</a>
+                    <a href="profile.html" class="menu-item">Profil</a>
+                    <a href="settings.html" class="menu-item">Ayarlar</a>
+                    <a href="registration.html" class="menu-item">Kaydol</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-detail-container">
+        <div class="content-wrapper">
+            <article class="topic-content">
+                <header class="topic-header">
+                    <div class="topic-category">
+                        <i class="fas fa-folder"></i>
+                        <span>Programlama</span>
+                    </div>
+                    <h1 class="topic-title">Konu Başlığı</h1>
+                    <div class="topic-meta">
+                        <div class="author-info">
+                            <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="author-avatar">
+                            <div class="author-details">
+                                <span class="author-name">Konu Sahibi</span>
+                                <span class="author-role">Moderatör</span>
+                            </div>
+                        </div>
+                        <div class="topic-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>245</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-comments"></i>
+                                <span>12</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>2 gün önce</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="topic-body">
+                    <div class="topic-tags">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Frontend</span>
+                    </div>
+                    <div class="topic-description">
+                        <p>Konu açıklaması burada yer alacak. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+
+                <div class="topic-actions">
+                    <button class="action-button like">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>Beğen</span>
+                        <span class="count">24</span>
+                    </button>
+                    <button class="action-button share">
+                        <i class="fas fa-share"></i>
+                        <span>Paylaş</span>
+                    </button>
+                    <button class="action-button report">
+                        <i class="fas fa-flag"></i>
+                        <span>Rapor Et</span>
+                    </button>
+                </div>
+            </article>
+
+            <section class="comments-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-comments"></i> Yorumlar</h2>
+                    <div class="comment-count">12 Yorum</div>
+                </div>
+                
+                <div class="comment-form">
+                    <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="user-avatar">
+                    <form class="comment-input-container">
+                        <textarea placeholder="Yorumunuzu yazın..." class="comment-input"></textarea>
+                        <div class="comment-actions">
+                            <button type="submit" class="submit-comment">
+                                <i class="fas fa-paper-plane"></i>
+                                Yorum Yap
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="comments-list">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="comment-avatar">
+                                <div class="author-details">
+                                    <span class="author-name">Kullanıcı Adı</span>
+                                    <span class="author-role">Üye</span>
+                                </div>
+                            </div>
+                            <div class="comment-meta">
+                                <span class="comment-date">1 saat önce</span>
+                                <button class="mark-solution">
+                                    <i class="fas fa-check"></i>
+                                    Çözüm Olarak İşaretle
+                                </button>
+                            </div>
+                        </div>
+                        <div class="comment-body">
+                            <p>Bu bir yorum örneğidir. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="action-button like">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>Beğen</span>
+                                <span class="count">5</span>
+                            </button>
+                            <button class="action-button reply">
+                                <i class="fas fa-reply"></i>
+                                <span>Yanıtla</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="comment solution">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="comment-avatar">
+                                <div class="author-details">
+                                    <span class="author-name">Kullanıcı Adı</span>
+                                    <span class="author-role">Moderatör</span>
+                                </div>
+                            </div>
+                            <div class="comment-meta">
+                                <span class="comment-date">3 saat önce</span>
+                                <span class="solution-badge">
+                                    <i class="fas fa-check"></i>
+                                    Çözüm
+                                </span>
+                            </div>
+                        </div>
+                        <div class="comment-body">
+                            <p>Bu yorum çözüm olarak işaretlenmiştir. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="action-button like">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>Beğen</span>
+                                <span class="count">15</span>
+                            </button>
+                            <button class="action-button reply">
+                                <i class="fas fa-reply"></i>
+                                <span>Yanıtla</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="featured-topics">
+            <div class="featured-header">
+                <h2><i class="fas fa-star"></i> Öne Çıkan Konular</h2>
+            </div>
+            <div class="featured-list">
+                <a href="#" class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yapay Zeka ile İnsan Beyni Arasındaki Bağlantı</h3>
+                        <p>Son yorum: 2 saat önce</p>
+                    </div>
+                </a>
+                <a href="#" class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </a>
+                <a href="#" class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </a>
+                <a href="#" class="featured-item">
+                    <div class="featured-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
+                        <p>Son yorum: 5 saat önce</p>
+                    </div>
+                </a>
+            </div>
+        </aside>
+    </main>
+
+    <script src="js/theme-toggle.js" defer></script>
+    <script src="js/hamburger.js" defer></script>
+    <script src="js/search.js" defer></script>
+</body>
+</html> 
