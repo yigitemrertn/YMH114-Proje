@@ -26,10 +26,6 @@
             </button>
         </div>
         <div class="nav-controls">
-            <a href="login.html" class="register-button login-button">
-                <i class="fas fa-user-plus"></i>
-                Giriş Yap
-            </a>
             <button class="search-button-mobile" aria-label="Ara">
                 <i class="fas fa-search"></i>
             </button>
@@ -42,8 +38,6 @@
                 </button>
                 <div class="hamburger-menu">
                     <a href="index.html" class="menu-item">Ana Sayfa</a>
-                    <a href="about-us.html" class="menu-item">Hakkımızda</a>
-                    <a href="iletisim.html" class="menu-item">İletişim</a>
                     <a href="profile.html" class="menu-item">Profil</a>
                     <a href="settings.html" class="menu-item">Ayarlar</a>
                     <a href="registration.html" class="menu-item">Kaydol</a>
@@ -384,57 +378,8 @@
 
     <script src="js/avatar.js"></script>
     <script src="js/search.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hamburger Menu Functionality
-            const hamburgerButton = document.querySelector('.hamburger-button');
-            const hamburgerMenu = document.querySelector('.hamburger-menu');
-
-            hamburgerButton.addEventListener('click', function() {
-                hamburgerButton.classList.toggle('active');
-                hamburgerMenu.classList.toggle('active');
-            });
-
-            document.addEventListener('click', function(event) {
-                if (!hamburgerButton.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                    hamburgerButton.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
-                }
-            });
-
-            // Dark Mode Toggle
-            const themeToggle = document.querySelector('.theme-toggle');
-            const icon = themeToggle.querySelector('i');
-
-            // Function to apply theme
-            function applyTheme(isDark) {
-                if (isDark) {
-                    document.body.classList.add('dark-mode');
-                    icon.classList.replace('fa-moon', 'fa-sun');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    icon.classList.replace('fa-sun', 'fa-moon');
-                }
-            }
-
-            // Check for saved theme preference
-            if (localStorage.getItem('theme') === 'dark') {
-                applyTheme(true);
-            }
-
-            // Listen for theme changes from other tabs/windows
-            window.addEventListener('storage', function(e) {
-                if (e.key === 'theme') {
-                    applyTheme(e.newValue === 'dark');
-                }
-            });
-
-            themeToggle.addEventListener('click', function() {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                applyTheme(isDark);
-            });
-        });
-    </script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/hamburger.js"></script>
+    <script src="js/profile.js"></script>
 </body>
 </html>

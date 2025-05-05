@@ -38,8 +38,6 @@
                 </button>
                 <div class="hamburger-menu">
                     <a href="index.html" class="menu-item">Ana Sayfa</a>
-                    <a href="about-us.html" class="menu-item">Hakkımızda</a>
-                    <a href="iletisim.html" class="menu-item">İletişim</a>
                     <a href="profile.html" class="menu-item">Profil</a>
                     <a href="settings.html" class="menu-item">Ayarlar</a>
                     <a href="registration.html" class="menu-item">Kaydol</a>
@@ -78,6 +76,11 @@
                     <input type="password" id="password" name="password" required aria-label="Şifreniz" placeholder="Şifrenizi giriniz">
                 </div>
                 <div class="error-message"></div>
+                <div></div>
+                <button type="submit" class="register-button" id="login-button" style="outline: none; display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px;">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Giriş Yap</span>
+                </button>
                 <div class="register-container" style="display: flex; justify-content: center; margin-top: 20px;">
                     <button type="button" class="register-button" id="register-now-button" onclick="window.location.href='registration.html'" style="display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; outline: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px; width: auto;">
                         <i class="fas fa-user-plus"></i>
@@ -85,10 +88,6 @@
                     </button>
                 </div>
             </div>
-            <button type="submit" class="register-button" id="login-button" style="outline: none; display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px;">
-                <i class="fas fa-sign-in-alt"></i>
-                <span>Giriş Yap</span>
-            </button>
         </div>
     </main>
     <script src="js/login.js"></script>
@@ -112,5 +111,7 @@
             });
         });
     </script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/hamburger.js"></script>
 </body>
 </html>

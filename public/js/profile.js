@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Post Interaction Functionality
     const postActions = document.querySelectorAll('.post-action');
-    
+
     postActions.forEach(action => {
         action.addEventListener('click', function() {
             const icon = this.querySelector('i');
             const countSpan = this.querySelector('span');
-            
+
             // Handle like action
             if (icon.classList.contains('fa-heart')) {
                 if (icon.classList.contains('far')) {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-            
+
             // Handle retweet action
             if (icon.classList.contains('fa-retweet')) {
                 if (!icon.style.color || icon.style.color === '') {
@@ -95,16 +95,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (newPostForm && postButton && postsContainer) {
         postButton.addEventListener('click', function() {
             const postText = newPostTextarea.value.trim();
-            
+
             if (postText) {
                 // Create new post element
                 const newPost = document.createElement('div');
                 newPost.className = 'post-item';
-                
+
                 // Get current date and time
                 const now = new Date();
                 const timeString = 'şimdi';
-                
+
                 // Create post HTML
                 newPost.innerHTML = `
                     <div class="post-avatar">
@@ -138,20 +138,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                 `;
-                
+
                 // Add the new post to the beginning of the posts container
                 postsContainer.insertBefore(newPost, postsContainer.firstChild);
-                
+
                 // Clear the textarea
                 newPostTextarea.value = '';
-                
+
                 // Add event listeners to the new post's action buttons
                 const newPostActions = newPost.querySelectorAll('.post-action');
                 newPostActions.forEach(action => {
                     action.addEventListener('click', function() {
                         const icon = this.querySelector('i');
                         const countSpan = this.querySelector('span');
-                        
+
                         // Handle like action
                         if (icon.classList.contains('fa-heart')) {
                             if (icon.classList.contains('far')) {
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             }
                         }
-                        
+
                         // Handle retweet action
                         if (icon.classList.contains('fa-retweet')) {
                             if (!icon.style.color || icon.style.color === '') {
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Follow Button Functionality
     const followButtons = document.querySelectorAll('.follow-button');
-    
+
     followButtons.forEach(button => {
         button.addEventListener('click', function() {
             if (this.textContent === 'Takip Et') {
@@ -212,3 +212,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
