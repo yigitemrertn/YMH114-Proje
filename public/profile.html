@@ -32,19 +32,27 @@
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
-            <div class="hamburger-container">
+            <div class="hamburger-container" id="hamburgerContainer" style="display: block;">
                 <button class="hamburger-button" aria-label="Menüyü Aç">
                     <span class="hamburger-icon"></span>
                 </button>
                 <div class="hamburger-menu">
-                    <a href="index.html" class="menu-item">Ana Sayfa</a>
-                    <a href="profile.html" class="menu-item">Profil</a>
-                    <a href="settings.html" class="menu-item">Ayarlar</a>
-                    <a href="registration.html" class="menu-item">Kaydol</a>
-                    <a href="#" class="menu-item logout-button" style="display: none;">
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        Ana Sayfa
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        Profil
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        Ayarlar
+                    </a>
+                    <button id="logoutButton" class="menu-item">
                         <i class="fas fa-sign-out-alt"></i>
                         Çıkış Yap
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -378,8 +386,38 @@
 
     <script src="js/avatar.js"></script>
     <script src="js/search.js"></script>
-    <script src="js/theme-toggle.js"></script>
     <script src="js/hamburger.js"></script>
-    <script src="js/profile.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        // Sayfa yüklendiğinde çıkış butonunu ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+            setupLogoutButton();
+        });
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Çıkış başarılı olduğunda ana sayfaya yönlendir
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+    </script>
 </body>
 </html>

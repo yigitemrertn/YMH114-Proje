@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ForumFU - Giriş Yap</title>
+    <title>Giriş Yap</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/login-register.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,17 +32,7 @@
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
-            <div class="hamburger-container">
-                <button class="hamburger-button" aria-label="Menüyü Aç">
-                    <span class="hamburger-icon"></span>
-                </button>
-                <div class="hamburger-menu">
-                    <a href="index.html" class="menu-item">Ana Sayfa</a>
-                    <a href="profile.html" class="menu-item">Profil</a>
-                    <a href="settings.html" class="menu-item">Ayarlar</a>
-                    <a href="registration.html" class="menu-item">Kaydol</a>
-                </div>
-            </div>
+            
         </div>
     </nav>
 
@@ -77,6 +67,12 @@
                 </div>
                 <div class="error-message"></div>
                 <div></div>
+                <div class="remember-me-container" style="margin-bottom: 15px;">
+                    <label class="remember-me-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" name="rememberMe" style="width: 16px; height: 16px;">
+                        <span style="font-size: 14px; color: #666;">Beni Hatırla</span>
+                    </label>
+                </div>
                 <button type="submit" class="register-button" id="login-button" style="outline: none; display: flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 16px; cursor: pointer; text-align: center; border: none; background-color: #007BFF; color: white; border-radius: 50px; gap: 8px;">
                     <i class="fas fa-sign-in-alt"></i>
                     <span>Giriş Yap</span>

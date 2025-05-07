@@ -20,29 +20,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Registration form submission
     const registerButton = document.getElementById('register-login-button');
+    const emailInput = document.getElementById('email-input-box');
+    const usernameInput = document.getElementById('username-input-box');
+    const nameInput = document.getElementById('name-input-box');
+    const surnameInput = document.getElementById('surname-input-box');
 
     if (registerButton) {
-        registerButton.addEventListener('click', async (e) => {
+        registerButton.addEventListener('click', function(e) {
             e.preventDefault();
 
-            const name = document.getElementById('name-input-box').value;
-            const surname = document.getElementById('surname-input-box').value;
-            const username = document.getElementById('username-input-box').value;
-            const email = document.getElementById('email-input-box').value;
-            const password = document.getElementById('password-input-box').value;
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const username = usernameInput.value;
+            const name = nameInput.value;
+            const surname = surnameInput.value;
 
-            const response = await fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, surname, username, email, password })
-            });
-
-            if (response.ok) {
-                alert('Kayıt başarılı!');
-                window.location.href = 'login.html';
-            } else {
-                alert('Kayıt başarısız!');
+            // Form validation
+            if (!email || !password || !username || !name || !surname) {
+                alert('Lütfen tüm alanları doldurun.');
+                return;
             }
+
+            fetch('/register.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    username: username,
+                    name: name,
+                    surname: surname
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                if (data.success) {
+                    localStorage.setItem('loggedIn', 'true');
+                    window.location.href = 'index.html';
+                }
+            })
+            .catch(error => {
+                alert(error.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+            });
         });
     }
 });

@@ -1,29 +1,37 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Form Validation and Submission
-    const loginForm = document.querySelector('.input-container');
+document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.getElementById('login-button');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
-    const loginButton = document.getElementById('login-button');
+    const rememberMeCheckbox = document.getElementById('rememberMe');
 
-    if (loginButton) {
-        loginButton.addEventListener('click', async (e) => {
-            e.preventDefault();
+    loginButton.addEventListener('click', function(e) {
+        e.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        const rememberMe = rememberMeCheckbox.checked;
 
-            const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-
-            if (response.ok) {
-                alert('Giriş başarılı!');
-                window.location.href = 'index.html';
-            } else {
-                alert('Giriş başarısız!');
+        fetch('/login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                rememberMe: rememberMe
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
             }
+            localStorage.setItem('loggedIn', 'true');
+            window.location.href = 'index.html';
+        })
+        .catch(error => {
+            alert(error.message);
         });
-    }
+    });
 });

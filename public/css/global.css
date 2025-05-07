@@ -3350,3 +3350,62 @@ body.dark-mode .empty-state {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }
 }
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.auth-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-button {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.login-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.register-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.register-button:hover {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+}
+
+/* Dark mode styles for auth buttons */
+[data-theme="dark"] .login-button {
+    border-color: var(--primary-color-light);
+    color: var(--primary-color-light);
+}
+
+[data-theme="dark"] .login-button:hover {
+    background-color: var(--primary-color-light);
+    color: var(--dark-bg);
+}
+
+[data-theme="dark"] .register-button {
+    background-color: var(--primary-color-light);
+    border-color: var(--primary-color-light);
+    color: var(--dark-bg);
+}
+
+[data-theme="dark"] .register-button:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--dark-bg);
+}
