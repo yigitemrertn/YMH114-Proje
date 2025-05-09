@@ -1,28 +1,105 @@
-# [YEMA Forum]
+# Forum Application
 
-## 📌 Proje Açıklaması
-Bu proje, kullanıcıların problemlerine çözüm arayabileceği ve başarılarını paylaşabileceği bir platform sunmayı amaçlamaktadır. Kullanıcılar, sorunlarını paylaşabilir, diğer kullanıcıların çözümlerinden faydalanabilir ve başarılarını duyurabilir.
+A PHP-based forum application with user authentication and database management.
 
-## 👥 Proje Ekibi
-- **Frontend:** Enes Aydoğan, Ahmet Ali Yılmaz
-- **Backend:** Mehmet Efe Gözalan , Yiğit Emre Erten
-- **Veritabanı:** Yiğit Emre Erten
+## Requirements
 
-## 🚀 Kullanılan Teknolojiler
-- **Frontend:** HTML , CSS, JavaScript
-- **Backend:** Node.js
-- **Veritabanı:** MySql
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- Composer
 
-## 🔥 Kullanım
-- Siteye giriş yapın veya yeni bir hesap oluşturun.
-- Problem paylaşarak topluluktan yardım alın.
-- Diğer kullanıcıların çözümlerine göz atın ve kendi çözümlerinizi sunun.
-- Başarılarınızı paylaşın ve topluluktan geri bildirim alın.
+## Installation
 
-## 🧾 Özellikler
-- Giriş yapma ve kayıt olma sayfası
-- Güncel haberleri takip edebileceğiniz duyurular bölümü
-- Filtreleyerek ya da arayarak keşfedebileceğiniz forumlar ve gönderiler
-- Kendi forumunuzu ya da gönderinizi oluşturma
-- Diğer kullanıcıların gönderilerine yorum yapma veya forumlarına çözüm sunma
-- Diğer kullanıcılar ile takipleşip sosyalleşme
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd forum-application
+```
+
+2. Install dependencies:
+```bash
+composer install
+```
+
+3. Create a `.env` file in the root directory with the following content:
+```
+DB_HOST=localhost
+DB_NAME=forum
+DB_USER=your_database_user
+DB_PASS=your_database_password
+
+APP_ENV=development
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+SESSION_LIFETIME=120
+REMEMBER_TOKEN_LIFETIME=43200
+```
+
+4. Create the database:
+```bash
+mysql -u root -p
+CREATE DATABASE forum;
+```
+
+5. Run the migrations:
+```bash
+php migrate.php
+```
+
+## Project Structure
+
+```
+├── src/
+│   ├── Auth/
+│   │   └── Auth.php
+│   ├── Config/
+│   │   ├── Config.php
+│   │   └── Logger.php
+│   ├── Database/
+│   │   ├── Migration.php
+│   │   └── Migrations/
+│   └── Security/
+│       └── Security.php
+├── logs/
+├── public/
+│   ├── index.php
+│   ├── login.php
+│   ├── register.php
+│   └── logout.php
+├── bootstrap.php
+├── composer.json
+├── migrate.php
+└── README.md
+```
+
+## Features
+
+- User authentication (login, register, logout)
+- Remember me functionality
+- CSRF protection
+- Input validation and sanitization
+- Secure password hashing
+- Database migrations
+- Logging system
+- Error handling
+
+## Security
+
+- Passwords are hashed using PHP's password_hash()
+- CSRF tokens are used for form submissions
+- Input is validated and sanitized
+- Prepared statements are used for database queries
+- Session management with secure settings
+- Remember me tokens are securely stored
+
+## Development
+
+To start the development server:
+```bash
+php -S localhost:8000 -t public
+```
+
+## License
+
+MIT

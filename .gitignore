@@ -77,3 +77,51 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+# VS Code
+.vscode/
+
+### PHP specific
+# Composer
+/vendor/
+composer.lock
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+/logs/*
+!logs/.gitkeep
+
+# Cache
+/cache/*
+!cache/.gitkeep
+
+# PHPUnit
+/phpunit.xml
+/phpunit.xml.dist
+/coverage/
+
+# IDE specific files
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+.classpath
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Application specific
+public/php_errors.log
+*.log

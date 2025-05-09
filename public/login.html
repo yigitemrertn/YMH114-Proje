@@ -16,7 +16,7 @@
 <body>
     <nav>
         <div class="logo-container">
-            <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+            <a href="index.html" class="logo"><h1 style="font-size: 1.5rem; margin: 0;">ForumFU</h1></a>
         </div>
         <div class="search-container">
             <label for="search-input" class="visually-hidden"></label>
@@ -32,7 +32,7 @@
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
-            
+
         </div>
     </nav>
 
@@ -96,15 +96,19 @@
             const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
             const logoutButton = document.querySelector('.logout-button');
 
-            if (isLoggedIn) {
+            if (isLoggedIn && loginButtons.length > 0) {
                 loginButtons.forEach(button => button.style.display = 'none');
-                logoutButton.style.display = 'block';
+                if (logoutButton) {
+                    logoutButton.style.display = 'block';
+                }
             }
 
-            logoutButton.addEventListener('click', function() {
-                localStorage.setItem('loggedIn', 'false');
-                location.reload();
-            });
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function() {
+                    localStorage.setItem('loggedIn', 'false');
+                    location.reload();
+                });
+            }
         });
     </script>
     <script src="js/theme-toggle.js"></script>

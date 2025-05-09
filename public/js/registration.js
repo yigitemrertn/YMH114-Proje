@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            fetch('/register.php', {
+            fetch('register.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     throw new Error(data.error);
                 }
                 if (data.success) {
-                    localStorage.setItem('loggedIn', 'true');
                     window.location.href = 'index.html';
                 }
             })

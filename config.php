@@ -8,7 +8,7 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    die();
+    error_log("Database connection failed: " . $e->getMessage());
+    throw new Exception("Database connection failed");
 }
 ?> 

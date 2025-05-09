@@ -4,6 +4,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const rememberMeCheckbox = document.getElementById('rememberMe');
 
+    // Check login status on page load
+    fetch('status.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON response:', text);
+                    throw new Error('Invalid JSON response from server');
+                }
+            });
+        })
+        .then(data => {
+            if (data.loggedIn) {
+                window.location.href = 'index.html';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking login status:', error);
+        });
+
     loginButton.addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -11,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = passwordInput.value;
         const rememberMe = rememberMeCheckbox.checked;
 
-        fetch('/login.php', {
+        fetch('login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +46,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 rememberMe: rememberMe
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON response:', text);
+                    throw new Error('Invalid JSON response from server');
+                }
+            });
+        })
         .then(data => {
             if (data.error) {
                 throw new Error(data.error);
