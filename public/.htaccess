@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /
+
+# PHP dosyalarına doğrudan erişime izin ver
+<FilesMatch "\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Dizin listelemeyi kapat
+Options -Indexes
+
+# PHP hata raporlamayı aç
+php_flag display_errors on
+php_value error_reporting E_ALL 
