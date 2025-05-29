@@ -10,7 +10,7 @@ Bu proje, kullanıcıların problemlerine çözüm arayabileceği ve başarılar
 
 ## 🚀 Kullanılan Teknolojiler
 - **Frontend:** HTML , CSS, JavaScript
-- **Backend:** Node.js
+- **Backend:** PHP
 - **Veritabanı:** MySql
 
 ## 🔥 Kullanım
