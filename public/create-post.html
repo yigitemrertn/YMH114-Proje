@@ -10,6 +10,187 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        .create-post-form {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem auto;
+            max-width: 1000px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .create-post-form {
+            background: rgba(26, 26, 46, 0.9);
+        }
+
+        .form-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .form-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-header h3 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        body.dark-mode .form-header h3 {
+            color: #f5f5f5;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .form-group label {
+            width: 120px;
+            padding-top: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        body.dark-mode .form-group label {
+            color: #f5f5f5;
+        }
+
+        .form-control {
+            flex: 1;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        body.dark-mode .form-group input[type="text"],
+        body.dark-mode .form-group select {
+            background: rgba(22, 33, 62, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f5f5f5;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .ql-container {
+            height: 400px;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .ql-container {
+            background: rgba(22, 33, 62, 0.8);
+        }
+
+        body.dark-mode .ql-toolbar {
+            background: rgba(22, 33, 62, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .ql-toolbar button {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .ql-toolbar button:hover {
+            color: #3498db;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+        }
+
+        body.dark-mode .form-footer {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-info {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        body.dark-mode .form-info {
+            color: #aaa;
+        }
+
+        .submit-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-button:hover {
+            background: #2980b9;
+        }
+
+        body.dark-mode .submit-button {
+            background: #3498db;
+        }
+
+        body.dark-mode .submit-button:hover {
+            background: #2980b9;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        body.dark-mode .error-message {
+            color: #ff6b6b;
+        }
+
+        .form-group .form-text {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        body.dark-mode .form-group .form-text {
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+            }
+
+            .form-group label {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -76,26 +257,95 @@
                 </button>
             </div>
         </div>
-        <!-- Create Post Content will go here -->
         <div class="main-content">
             <main class="forum-container">
                 <div class="forum-header">
                     <h2>Konu Oluştur</h2>
                 </div>
-                <!-- Post creation form will be added here -->
                 <div class="create-post-form">
-                    <!-- Form content will be added as needed -->
+                    <form id="createPostForm">
+                        <div class="form-header">
+                            <h3>Yeni Konu</h3>
+                        </div>
+                        <div class="form-group">
+                            <label for="postTitle">Başlık</label>
+                            <div class="form-control">
+                                <input type="text" id="postTitle" name="postTitle" required placeholder="Konu başlığını girin">
+                                <div class="error-message" id="titleError"></div>
+                                <div class="form-text">Konunuzu en iyi şekilde açıklayan kısa ve öz bir başlık yazın.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="postCategory">Kategori</label>
+                            <div class="form-control">
+                                <select id="postCategory" name="postCategory" required>
+                                    <option value="">Kategori seçin</option>
+                                    <option value="general">Genel</option>
+                                    <option value="technology">Teknoloji</option>
+                                    <option value="science">Bilim</option>
+                                    <option value="arts">Sanat</option>
+                                    <option value="sports">Spor</option>
+                                    <option value="other">Diğer</option>
+                                </select>
+                                <div class="error-message" id="categoryError"></div>
+                                <div class="form-text">Konunuzun hangi kategoriye ait olduğunu seçin.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="postContent">İçerik</label>
+                            <div class="form-control">
+                                <div id="editor"></div>
+                                <div class="error-message" id="contentError"></div>
+                                <div class="form-text">Konunuzu detaylı bir şekilde açıklayın. Gerekirse resim ekleyebilirsiniz.</div>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <div class="form-info">
+                                <i class="fas fa-info-circle"></i>
+                                Konunuzu oluşturmadan önce forum kurallarını okuduğunuzdan emin olun.
+                            </div>
+                            <button type="submit" class="submit-button">
+                                <i class="fas fa-paper-plane"></i>
+                                Konuyu Oluştur
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </main>
         </div>
     </main>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
     <script>
+        // Initialize Quill editor
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['clean'],
+                    ['link', 'image']
+                ]
+            }
+        });
+
         // Sayfa yüklendiğinde giriş durumunu kontrol et
         document.addEventListener('DOMContentLoaded', function() {
             checkLoginStatus();
             setupLogoutButton();
+            setupFormValidation();
         });
 
         // Giriş durumunu kontrol eden fonksiyon
@@ -114,6 +364,8 @@
                         // Kullanıcı giriş yapmamışsa
                         authButtons.style.display = 'flex';
                         hamburgerContainer.style.display = 'none';
+                        // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                        window.location.href = 'login.html';
                     }
                 })
                 .catch(error => {
@@ -127,13 +379,12 @@
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    e.stopPropagation();
                     
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Çıkış başarılı olduğunda sayfayı yenile
                                 window.location.href = 'index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
@@ -144,6 +395,81 @@
                         });
                 });
             }
+        }
+
+        // Form doğrulama ve gönderme işlemleri
+        function setupFormValidation() {
+            const form = document.getElementById('createPostForm');
+            const titleInput = document.getElementById('postTitle');
+            const categorySelect = document.getElementById('postCategory');
+            const titleError = document.getElementById('titleError');
+            const categoryError = document.getElementById('categoryError');
+            const contentError = document.getElementById('contentError');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+
+                // Başlık kontrolü
+                if (!titleInput.value.trim()) {
+                    titleError.textContent = 'Başlık alanı zorunludur';
+                    titleError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    titleError.style.display = 'none';
+                }
+
+                // Kategori kontrolü
+                if (!categorySelect.value) {
+                    categoryError.textContent = 'Lütfen bir kategori seçin';
+                    categoryError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    categoryError.style.display = 'none';
+                }
+
+                // İçerik kontrolü
+                if (!quill.getText().trim()) {
+                    contentError.textContent = 'İçerik alanı zorunludur';
+                    contentError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    contentError.style.display = 'none';
+                }
+
+                if (isValid) {
+                    // Form verilerini hazırla
+                    const formData = {
+                        title: titleInput.value.trim(),
+                        category: categorySelect.value,
+                        content: quill.root.innerHTML,
+                        plainText: quill.getText().trim()
+                    };
+
+                    // Form verilerini sunucuya gönder
+                    fetch('/create-post.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Başarılı olursa ana sayfaya yönlendir
+                            window.location.href = 'index.html';
+                        } else {
+                            // Hata mesajını göster
+                            alert(data.message || 'Konu oluşturulurken bir hata oluştu');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Konu oluşturulurken hata:', error);
+                        alert('Konu oluşturulurken bir hata oluştu');
+                    });
+                }
+            });
         }
     </script>
 </body>
