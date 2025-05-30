@@ -1,15 +1,22 @@
 RewriteEngine On
 RewriteBase /
 
-# PHP dosyalarına doğrudan erişime izin ver
-<FilesMatch "\.php$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
+# Enable PHP handling
+AddType application/x-httpd-php .php
 
-# Dizin listelemeyi kapat
+# Disable directory listing
 Options -Indexes
 
-# PHP hata raporlamayı aç
-php_flag display_errors on
-php_value error_reporting E_ALL 
+# Enable CORS
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type"
+
+# Handle OPTIONS requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# Redirect to index.html for non-existent files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.html [L] 
