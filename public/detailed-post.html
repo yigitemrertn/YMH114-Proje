@@ -3,244 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForumFU - Konu Detayı</title>
+    <title>Forum - Detaylı Gönderi</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/detailed-post.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-        <div class="logo-container">
-            <a href="../public/index.html" class="logo"><h1>ForumFU</h1></a>
-        </div>
-        <div class="search-container">
-            <label for="search-input" class="visually-hidden"></label>
-            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-        <div class="nav-controls">
-            <button class="search-button-mobile" aria-label="Ara">
-                <i class="fas fa-search"></i>
-            </button>
-            <button class="theme-toggle" aria-label="Toggle Dark Mode">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="hamburger-container">
-                <button class="hamburger-button" aria-label="Menüyü Aç">
-                    <span class="hamburger-icon"></span>
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
                 </button>
-                <div class="hamburger-menu">
-                    <a href="../public/index.html" class="menu-item">Ana Sayfa</a>
-                    <a href="profile.html" class="menu-item">Profil</a>
-                    <a href="settings.html" class="menu-item">Ayarlar</a>
-                    <a href="registration.html" class="menu-item">Kaydol</a>
+            </div>
+            <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
+                    <button class="hamburger-button" aria-label="Menüyü Aç">
+                        <span class="hamburger-icon"></span> 
+                    </button>
+                    <div class="hamburger-menu">
+                        <a href="index.html" class="menu-item">
+                            <i class="fas fa-home"></i>
+                            Ana Sayfa
+                        </a>
+                        <a href="profile.html" class="menu-item">
+                            <i class="fas fa-user"></i>
+                            Profil
+                        </a>
+                        <a href="settings.html" class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            Ayarlar
+                        </a>
+                        <button id="logoutButton" class="menu-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Çıkış Yap
+                        </button>
+                    </div>
                 </div>
             </div>
+        </nav>
+    </header>
+    <main>
+        <div class="search-dropdown">
+            <div class="search-container">
+                <label for="search-input-mobile" class="visually-hidden">Forumda ara</label>
+                <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
-    </nav>
-
-    <main class="topic-detail-container">
-        <div class="content-wrapper">
-            <article class="topic-content">
-                <header class="topic-header">
-                    <div class="topic-category">
-                        <i class="fas fa-folder"></i>
-                        <span>Programlama</span>
+        <div class="main-content">
+            
+            <main class="forum-container">
+                <!-- Post Header -->
+                <div class="post-header-section">
+                    <h1 class="page-title">Konu Başlığı</h1>
+                    <div class="post-date">
+                        <span class="date-text">15/01/2025</span>
                     </div>
-                    <h1 class="topic-title">Konu Başlığı</h1>
-                    <div class="topic-meta">
-                        <div class="author-info">
-                            <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="author-avatar">
-                            <div class="author-details">
-                                <span class="author-name">Konu Sahibi</span>
-                                <span class="author-role">Moderatör</span>
-                            </div>
-                        </div>
-                        <div class="topic-stats">
-                            <div class="stat-item">
-                                <i class="fas fa-eye"></i>
-                                <span>245</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-comments"></i>
-                                <span>12</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-clock"></i>
-                                <span>2 gün önce</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <div class="topic-body">
-                    <div class="topic-tags">
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">React</span>
-                        <span class="tag">Frontend</span>
-                    </div>
-                    <div class="topic-description">
-                        <p>Konu açıklaması burada yer alacak. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-
-                <div class="topic-actions">
-                    <button class="action-button like">
-                        <i class="fas fa-thumbs-up"></i>
-                        <span>Beğen</span>
-                        <span class="count">24</span>
-                    </button>
-                    <button class="action-button share">
-                        <i class="fas fa-share"></i>
-                        <span>Paylaş</span>
-                    </button>
-                    <button class="action-button report">
-                        <i class="fas fa-flag"></i>
-                        <span>Rapor Et</span>
-                    </button>
-                </div>
-            </article>
-
-            <section class="comments-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-comments"></i> Yorumlar</h2>
-                    <div class="comment-count">12 Yorum</div>
                 </div>
                 
-                <div class="comment-form">
-                    <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="user-avatar">
-                    <form class="comment-input-container">
-                        <label>
-                            <textarea placeholder="Yorumunuzu yazın..." class="comment-input"></textarea>
-                        </label>
-                        <div class="comment-actions">
-                            <button type="submit" class="submit-comment">
-                                <i class="fas fa-paper-plane"></i>
-                                Yorum Yap
-                            </button>
+                <div class="detailed-post">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="profile-picture">
+                                <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
+                            </div>
+                            <div class="user-details">
+                                <span class="username">@username</span>
+                            </div>
                         </div>
-                    </form>
+                        <div class="post-menu">
+                            <button class="menu-button" aria-label="Post Menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-edit"></i>
+                                    Düzenle
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-share"></i>
+                                    Paylaş
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-flag"></i>
+                                    Şikayet Et
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa consectetur et. Sed risus enim, bibendum vel sem id, lobortis ultrices nunc. Ut id elementum justo, a egestas quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ultricies, velit eget imperdiet malesuada, dolor lorem molestie leo, non auctor est mauris ac purus. Vivamus porta sapien sed fermentum condimentum.</p>
+                        
+                        <p>Etiam ullamcorper aliquet diam vel fermentum. Nam imperdiet, libero ut tempor ornare, eros risus auctor augue, in interdum erat erat id eros. Cras ac ante nec nunc vulputate dapibus at nec elit. Mauris ac metus ac purus bibendum dapibus sit amet sed dui. In sodales feugiat enim, in ultricies ligula ut mollis tincidunt. Proin imperdiet lacinia ipsum, ut rutrum arcu bibendum nec. Pellentesque ipsum nunc, posuere quis pretium eget, vulputate in magna. Nulla nec arcu in lectus viverra hendrerit sit amet convallis eros. Sed ullamcorper sem ac bibendum condimentum. Morbi ac odio vestibulum, varius ante ut, sagittis purus. Nam tristique libero quis diam feugiat venenatis.</p>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <button class="action-button like-button">
+                            <i class="fas fa-thumbs-up"></i>
+                            Beğen
+                        </button>
+                        <button class="action-button comment-button">
+                            <i class="fas fa-comment"></i>
+                            Yorum Yap
+                        </button>
+                    </div>
                 </div>
-
-                <div class="comments-list">
+                
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <div class="section-header">
+                        <h3>Yorumlar</h3>
+                    </div>
+                    
                     <div class="comment">
                         <div class="comment-header">
-                            <div class="comment-author">
-                                <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="comment-avatar">
-                                <div class="author-details">
-                                    <span class="author-name">Kullanıcı Adı</span>
-                                    <span class="author-role">Üye</span>
+                            <div class="comment-user-info">
+                                <div class="profile-picture">
+                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
+                                </div>
+                                <div class="user-details">
+                                    <h4 class="comment-author">Adı - Soyadı</h4>
+                                    <span class="username">@username</span>
                                 </div>
                             </div>
-                            <div class="comment-meta">
-                                <span class="comment-date">1 saat önce</span>
-                                <button class="mark-solution">
-                                    <i class="fas fa-check"></i>
-                                    Çözüm Olarak İşaretle
+                            <div class="comment-menu">
+                                <button class="menu-button" aria-label="Comment Menu">
+                                    <i class="fas fa-ellipsis-h"></i>
                                 </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-edit"></i>
+                                        Düzenle
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-share"></i>
+                                        Paylaş
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-flag"></i>
+                                        Şikayet Et
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="comment-body">
-                            <p>Bu bir yorum örneğidir. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                        <div class="comment-actions">
-                            <button class="action-button like">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span>Beğen</span>
-                                <span class="count">5</span>
-                            </button>
-                            <button class="action-button reply">
-                                <i class="fas fa-reply"></i>
-                                <span>Yanıtla</span>
-                            </button>
+                        
+                        <div class="comment-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
                         </div>
                     </div>
 
-                    <div class="comment solution">
+                    <div class="comment">
                         <div class="comment-header">
-                            <div class="comment-author">
-                                <img src="images/default-avatar.png" alt="Kullanıcı Avatarı" class="comment-avatar">
-                                <div class="author-details">
-                                    <span class="author-name">Kullanıcı Adı</span>
-                                    <span class="author-role">Moderatör</span>
+                            <div class="comment-user-info">
+                                <div class="profile-picture">
+                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
+                                </div>
+                                <div class="user-details">
+                                    <h4 class="comment-author">Adı - Soyadı</h4>
+                                    <span class="username">@username</span>
                                 </div>
                             </div>
-                            <div class="comment-meta">
-                                <span class="comment-date">3 saat önce</span>
-                                <span class="solution-badge">
-                                    <i class="fas fa-check"></i>
-                                    Çözüm
-                                </span>
+                            <div class="comment-menu">
+                                <button class="menu-button" aria-label="Comment Menu">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-edit"></i>
+                                        Düzenle
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-share"></i>
+                                        Paylaş
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-flag"></i>
+                                        Şikayet Et
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="comment-body">
-                            <p>Bu yorum çözüm olarak işaretlenmiştir. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        
+                        <div class="comment-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
                         </div>
-                        <div class="comment-actions">
-                            <button class="action-button like">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span>Beğen</span>
-                                <span class="count">15</span>
-                            </button>
-                            <button class="action-button reply">
-                                <i class="fas fa-reply"></i>
-                                <span>Yanıtla</span>
-                            </button>
+                    </div>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-user-info">
+                                <div class="profile-picture">
+                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
+                                </div>
+                                <div class="user-details">
+                                    <h4 class="comment-author">Adı - Soyadı</h4>
+                                    <span class="username">@username</span>
+                                </div>
+                            </div>
+                            <div class="comment-menu">
+                                <button class="menu-button" aria-label="Comment Menu">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-edit"></i>
+                                        Düzenle
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-share"></i>
+                                        Paylaş
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-flag"></i>
+                                        Şikayet Et
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </main>
+            <aside class="featured-topics">
+                <div class="featured-header">
+                    <h2>Öne Çıkan Konular</h2>
+                </div>
+                <div class="featured-list">
+                    <!-- Featured topics will be loaded here -->
+                </div>
+            </aside>
         </div>
-
-        <aside class="featured-topics">
-            <div class="featured-header">
-                <h2><i class="fas fa-star"></i> Öne Çıkan Konular</h2>
-            </div>
-            <div class="featured-list">
-                <a href="#" class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yapay Zeka ile İnsan Beyni Arasındaki Bağlantı</h3>
-                        <p>Son yorum: 2 saat önce</p>
-                    </div>
-                </a>
-                <a href="#" class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </a>
-                <a href="#" class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </a>
-                <a href="#" class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </a>
-            </div>
-        </aside>
     </main>
+    
+    <script src="js/hamburger.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        // Sayfa yüklendiğinde giriş durumunu kontrol et
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            setupLogoutButton();
+            setupDropdownMenus();
+        });
 
-    <script src="js/theme-toggle.js" defer></script>
-    <script src="js/hamburger.js" defer></script>
-    <script src="js/search.js" defer></script>
+        // Dropdown menu functionality
+        function setupDropdownMenus() {
+            const menuButtons = document.querySelectorAll('.menu-button');
+            
+            menuButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdown = this.nextElementSibling;
+                    const isVisible = dropdown.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                    
+                    // Toggle current dropdown
+                    if (!isVisible) {
+                        dropdown.classList.add('show');
+                    }
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.post-menu') && !e.target.closest('.comment-menu')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+            
+            // Prevent dropdown from closing when clicking inside
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        }
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Çıkış başarılı olduğunda sayfayı yenile
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+    </script>
 </body>
-</html> 
+</html>
