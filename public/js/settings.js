@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to switch active setting section
     function switchSettingsSection(targetId) {
-        // Hide all sections
+        // Hide all sections with fade out effect
         settingsSections.forEach(section => {
-            section.classList.remove('active');
+            section.style.opacity = '0';
+            setTimeout(() => {
+                section.classList.remove('active');
+            }, 150);
         });
 
         // Remove active class from all menu items
@@ -15,17 +18,20 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.remove('active');
         });
 
-        // Show the target section
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-            targetSection.classList.add('active');
-        }
+        // Show the target section with fade in effect
+        setTimeout(() => {
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.style.opacity = '1';
+            }
 
-        // Add active class to the clicked menu item
-        const activeMenuItem = document.querySelector(`.settings-nav-item[data-target="${targetId}"]`);
-        if (activeMenuItem) {
-            activeMenuItem.classList.add('active');
-        }
+            // Add active class to the clicked menu item
+            const activeMenuItem = document.querySelector(`.settings-nav-item[data-target="${targetId}"]`);
+            if (activeMenuItem) {
+                activeMenuItem.classList.add('active');
+            }
+        }, 150);
     }
 
     // Add click event to menu items
@@ -35,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
             switchSettingsSection(targetId);
         });
     });
+
+    // Show the first section by default
+    const firstSection = settingsSections[0];
+    const firstMenuItem = settingsMenuItems[0];
+    if (firstSection && firstMenuItem) {
+        firstSection.classList.add('active');
+        firstMenuItem.classList.add('active');
+    }
 
     // Profile Image Upload Preview
     const profileAvatarInput = document.getElementById('profile-avatar');
