@@ -18,6 +18,11 @@ body {
     transition: background 0.5s ease, color 0.5s ease;
 }
 
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #f5f5f5;
+}
+
 @keyframes gradientBG {
     0% { background-position: 0  50%; }
     50% { background-position: 100% 50%; }
@@ -29,7 +34,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 2rem;
+    padding: 1rem;
     background-color: rgba(245, 248, 252, 0.8);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     width: 100%;
@@ -41,6 +46,11 @@ nav {
     z-index: 9999;
     height: 50px;
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+body.dark-mode nav {
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
@@ -72,6 +82,156 @@ nav {
     font-weight: 600;
 }
 
+body.dark-mode .logo-container .logo {
+    color: #f5f5f5;
+}
+
+/* Dark mode for hamburger menu */
+body.dark-mode .hamburger-menu {
+    background-color: #1a1a2e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .hamburger-menu .menu-item {
+    color: #f5f5f5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .hamburger-menu .menu-item:hover {
+    background-color: #16213e;
+}
+
+body.dark-mode .hamburger-icon,
+body.dark-mode .hamburger-icon::before,
+body.dark-mode .hamburger-icon::after {
+    background-color: #f5f5f5;
+}
+
+/* Dark mode for featured-topics and forum-container */
+body.dark-mode .featured-topics {
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .featured-header h2,
+body.dark-mode .forum-header h2 {
+    color: #f5f5f5;
+}
+
+body.dark-mode .featured-item {
+    background-color: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .featured-content h3,
+body.dark-mode .featured-content p {
+    color: #f5f5f5;
+}
+
+body.dark-mode .featured-icon i {
+    color: #3498db;
+}
+
+body.dark-mode .forum-container {
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .forum-topic {
+    background-color: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .topic-content h3,
+body.dark-mode .topic-content p,
+body.dark-mode .topic-stats span {
+    color: #f5f5f5;
+}
+
+body.dark-mode .topic-icon i {
+    color: #3498db;
+}
+
+/* Dark mode for profile-header */
+body.dark-mode .profile-header {
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .profile-name,
+body.dark-mode .profile-username,
+body.dark-mode .profile-bio {
+    color: #f5f5f5;
+}
+
+body.dark-mode .profile-stats .stat-item {
+    color: #f5f5f5;
+}
+
+body.dark-mode .profile-stats .stat-value {
+    color: #3498db;
+}
+
+body.dark-mode .follow-button {
+    background-color: #3498db;
+    color: #f5f5f5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .follow-button:hover {
+    background-color: #2980b9;
+}
+
+/* Dark mode for profile-menu and profile-content */
+body.dark-mode .profile-menu {
+    background-color: rgba(26, 26, 46, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .profile-menu-item {
+    color: #f5f5f5;
+}
+
+body.dark-mode .profile-menu-item.active {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+}
+
+body.dark-mode .profile-menu-item:hover {
+    color: #3498db;
+}
+
+body.dark-mode .profile-content {
+    background-color: rgba(26, 26, 46, 0.8);
+}
+
+body.dark-mode .profile-section {
+    color: #f5f5f5;
+}
+
+/* Dark mode for cards in detailed-topic.html */
+body.dark-mode .card {
+    background-color: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .card-content h2,
+body.dark-mode .card-content p {
+    color: #f5f5f5;
+}
+
+body.dark-mode .pagination button {
+    background-color: rgba(22, 33, 62, 0.8);
+    color: #f5f5f5;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .pagination button:hover {
+    background-color: #3498db;
+}
+
 .logo-container .logo::after {
     content: '';
     position: absolute;
@@ -86,6 +246,13 @@ nav {
 .logo-container .logo:hover::after {
     width: 100%;
 }
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 
 /* Updated Hamburger Menu Styles */
 .hamburger-button {
@@ -333,9 +500,7 @@ body.light-mode #about-us-header {
 
 .input-container input:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    background-color: #f5f8fc;
+    box-shadow: none;
 }
 
 .input-container input:focus + .input-icon {
@@ -795,17 +960,17 @@ body.dark-mode .register-button:hover {
     align-items: center;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 25px;
-    padding: 0.25rem 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 0.25rem 3rem 0.25rem 1rem; /* Increased right padding for fixed button */
     width: 40%;
     max-width: 500px;
     transition: background-color 0.5s ease, box-shadow 0.5s ease, transform 0.3s ease;
     height: 35px;
     position: relative;
+    box-sizing: border-box;
 }
 
 .search-container:focus-within {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    outline: none;
     transform: translateY(-1px);
 }
 
@@ -813,12 +978,12 @@ body.dark-mode .register-button:hover {
     flex: 1;
     border: none;
     background: transparent;
-    padding: 0.25rem;
+    padding: 0.25rem 0;
     font-size: 0.9rem;
     color: #2c3e50;
     outline: none;
     transition: color 0.5s ease;
-    width: 100%;
+    margin-right: 2.5rem; /* Create space for the absolutely positioned button */
 }
 
 .search-input::placeholder {
@@ -834,13 +999,45 @@ body.dark-mode .register-button:hover {
     padding: 0.25rem;
     transition: all 0.3s ease;
     position: absolute;
-    right: 0.5rem;
+    right: 1rem; /* Fixed position from right edge */
     top: 50%;
     transform: translateY(-50%);
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-button:hover {
     transform: translateY(-50%) scale(1.1);
+    color: #2980b9;
+}
+
+/* Dark mode styles for search container */
+body.dark-mode .search-container {
+    background-color: rgba(22, 33, 62, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .search-container:focus-within {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .search-input {
+    color: #f5f5f5;
+}
+
+body.dark-mode .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode .search-button {
+    color: #3498db;
+}
+
+body.dark-mode .search-button:hover {
     color: #2980b9;
 }
 
@@ -1920,13 +2117,9 @@ body.dark-mode .trending-item:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-body.dark-mode .new-post-input textarea {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #f5f5f5;
-}
-
-body.dark-mode .new-post-input textarea:focus {
-    background-color: rgba(255, 255, 255, 0.15);
+body.dark-mode .search-input::focus {
+    outline: none;
+    box-shadow: none;
 }
 
 body.dark-mode .empty-state {
@@ -2062,4 +2255,25 @@ body.dark-mode .empty-state {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     color: var(--dark-bg);
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: rgba(22, 33, 62, 0.8);
+    color: #f5f5f5;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    background-color: rgba(26, 26, 46, 0.9);
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
