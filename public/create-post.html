@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Konu Oluştur</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
+                    <button class="hamburger-button" aria-label="Menüyü Aç">
+                        <span class="hamburger-icon"></span>
+                    </button>
+                    <div class="hamburger-menu">
+                        <a href="index.html" class="menu-item">
+                            <i class="fas fa-home"></i>
+                            Ana Sayfa
+                        </a>
+                        <a href="profile.html" class="menu-item">
+                            <i class="fas fa-user"></i>
+                            Profil
+                        </a>
+                        <a href="settings.html" class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            Ayarlar
+                        </a>
+                        <button id="logoutButton" class="menu-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Çıkış Yap
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="search-dropdown">
+            <div class="search-container">
+                <label for="search-input-mobile" class="visually-hidden">Forumda ara</label>
+                <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Create Post Content will go here -->
+        <div class="main-content">
+            <main class="forum-container">
+                <div class="forum-header">
+                    <h2>Konu Oluştur</h2>
+                </div>
+                <!-- Post creation form will be added here -->
+                <div class="create-post-form">
+                    <!-- Form content will be added as needed -->
+                </div>
+            </main>
+        </div>
+    </main>
+    <script src="js/hamburger.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script>
+        // Sayfa yüklendiğinde giriş durumunu kontrol et
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            setupLogoutButton();
+        });
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Çıkış başarılı olduğunda sayfayı yenile
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+    </script>
+</body>
+</html>
