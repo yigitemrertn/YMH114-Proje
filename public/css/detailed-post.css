@@ -203,6 +203,15 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 .comment-input-container {
@@ -214,42 +223,73 @@
 
 .comment-input {
     width: 100%;
-    min-height: 120px;
+    min-height: 100px;
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: var(--input-bg);
-    color: var(--text-primary);
     resize: vertical;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
     font-size: 1rem;
-    line-height: 1.6;
-    transition: all 0.2s ease;
+    line-height: 1.5;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .comment-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .submit-comment {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: var(--button-bg);
-    color: var(--button-text);
+    background: var(--primary-color);
+    color: white;
     border: none;
     border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
+    transition: all 0.3s ease;
     align-self: flex-end;
 }
 
 .submit-comment:hover {
-    background: var(--button-hover);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--primary-color-dark);
+    transform: translateY(-2px);
+}
+
+.submit-comment i {
+    font-size: 1.1rem;
+}
+
+/* Solution comment styles */
+.comment.solution {
+    background: linear-gradient(to right, rgba(46, 204, 113, 0.1), transparent);
+    border-left: 4px solid var(--success-color);
+}
+
+.comment.solution .comment-header {
+    margin-bottom: 1rem;
+}
+
+.comment.solution .solution-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--success-color);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.comment.solution .solution-badge i {
+    font-size: 1rem;
 }
 
 /* Comments List Styles */
@@ -271,11 +311,6 @@
 .comment:hover {
     border-color: var(--primary-color);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.comment.solution {
-    border: 2px solid var(--success-color);
-    background: var(--success-color-light);
 }
 
 .comment-header {
