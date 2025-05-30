@@ -636,10 +636,16 @@ body.dark-mode .register-button:hover {
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
 }
 
+.forum-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
 .forum-header h2 {
     color: #2c3e50;
     font-size: 1.8rem;
-    margin-bottom: 1.5rem;
     position: relative;
     display: inline-block;
     transition: color 0.5s ease;
@@ -2276,4 +2282,33 @@ body.dark-mode select:focus {
 body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
     color: rgba(255, 255, 255, 0.5);
+}
+
+.create-topic-button {
+    margin-left: auto;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    display: inline-block;
+}
+.create-topic-button:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.15);
+    transform: translateY(-2px) scale(1.03);
+}
+body.dark-mode .create-topic-button {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+body.dark-mode .create-topic-button:hover {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
