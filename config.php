@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = 'ForumDB';
-$username = 'root';
-$password = '';
+$dbname = 'u805253064_forumdb';
+$username = 'u805253064_yemauser';
+$password = 'YeMa6455';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
