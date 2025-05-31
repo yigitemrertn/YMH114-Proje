@@ -37,6 +37,21 @@ function formatContent(content) {
         .trim();
 }
 
+// Function to format post content
+function formatPostContent(content) {
+    // HTML etiketlerini temizle
+    content = content.replace(/<[^>]*>/g, '');
+    
+    // URL'leri tespit et ve link haline getir
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    content = content.replace(urlRegex, url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    
+    // Satır sonlarını <br> ile değiştir
+    content = content.replace(/\n/g, '<br>');
+    
+    return content;
+}
+
 // Function to update posts
 async function updatePosts() {
     try {
@@ -58,7 +73,7 @@ async function updatePosts() {
                     postElement.className = 'post-card';
                     
                     // Format the content
-                    const formattedContent = formatContent(post.content);
+                    const formattedContent = formatPostContent(post.content);
                     const truncatedContent = truncateText(formattedContent);
                     
                     postElement.innerHTML = `
@@ -179,11 +194,11 @@ function createPostElement(post) {
         </div>
         
         <h2 class="post-title">
-            <a href="../detailed-post.html?id=${post.id}">${post.title}</a>
+            <a href="../detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
         </h2>
         
         <div class="post-content">
-            ${formatContent(post.content)}
+            ${formatPostContent(post.content)}
         </div>
         <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
             <!-- Like butonu ve like-count kaldırıldı -->
