@@ -138,7 +138,7 @@
 
         // Çıkış yapma butonunu ayarla
         function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
