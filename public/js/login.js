@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(data.error);
             }
             localStorage.setItem('loggedIn', 'true');
-            window.location.href = 'index.html';
+            window.location.href = '/';
         })
         .catch(error => {
             alert(error.message);

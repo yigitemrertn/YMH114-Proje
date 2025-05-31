@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 if (data.success) {
                     localStorage.setItem('loggedIn', 'true');
-                    window.location.href = '../index.html';
+                    window.location.href = '/';
                 }
             })
             .catch(error => {

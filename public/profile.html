@@ -15,7 +15,7 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="../index.html" class="logo"><h1>ForumFU</h1></a>
+                <a href="/" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
@@ -45,7 +45,7 @@
                         <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
-                        <a href="../index.html" class="menu-item">
+                        <a href="/" class="menu-item">
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
@@ -307,7 +307,7 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = '../index.html';
+                                window.location.href = '/';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }

@@ -164,7 +164,7 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="../index.html" class="logo"><h1>ForumFU</h1></a>
+                <a href="/" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input" autocomplete="off">
@@ -194,7 +194,7 @@
                         <span class="hamburger-icon"></span>
                     </button>
                     <div class="hamburger-menu">
-                        <a href="../index.html" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+                        <a href="/" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
                         <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profil</a>
                         <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Ayarlar</a>
                         <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
@@ -291,7 +291,7 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = 'index.html';
+                                window.location.href = '/';
                             }
                         });
                 });
