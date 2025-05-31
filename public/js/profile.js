@@ -193,6 +193,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Initialize profile menu functionality
+    initializeProfileMenu();
+    setupProfileInteractions();
+    loadProfileData();
+    initializePageHandlers();
 });
 
 function loadProfile(userId) {
@@ -364,5 +370,342 @@ function showSuccess(message) {
     successDiv.textContent = message;
     document.body.appendChild(successDiv);
     setTimeout(() => successDiv.remove(), 3000);
+}
+
+// Initialize profile menu functionality
+function initializeProfileMenu() {
+    const menuItems = document.querySelectorAll('.profile-menu-item');
+    const sections = document.querySelectorAll('.profile-section');
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-section');
+            
+            // Remove active class from all menu items and sections
+            menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Add active class to clicked menu item
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const targetSectionElement = document.getElementById(targetSection + '-section');
+            if (targetSectionElement) {
+                targetSectionElement.classList.add('active');
+            }
+        });
+    });
+}
+
+// Setup profile interactions
+function setupProfileInteractions() {
+    // Follow button functionality
+    const followButton = document.getElementById('followButton');
+    if (followButton) {
+        followButton.addEventListener('click', function() {
+            const isFollowing = this.classList.contains('following');
+            
+            if (isFollowing) {
+                this.innerHTML = '<i class="fas fa-user-plus"></i> Takip Et';
+                this.classList.remove('following');
+                this.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                
+                // Update follower count
+                const followerCount = document.getElementById('followerCount');
+                if (followerCount) {
+                    const currentCount = parseInt(followerCount.textContent);
+                    followerCount.textContent = currentCount - 1;
+                }
+            } else {
+                this.innerHTML = '<i class="fas fa-user-check"></i> Takip Ediliyor';
+                this.classList.add('following');
+                this.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+                
+                // Update follower count
+                const followerCount = document.getElementById('followerCount');
+                if (followerCount) {
+                    const currentCount = parseInt(followerCount.textContent);
+                    followerCount.textContent = currentCount + 1;
+                }
+            }
+        });
+    }
+
+    // Post action buttons
+    setupPostActions();
+}
+
+// Setup post action functionality
+function setupPostActions() {
+    const postActions = document.querySelectorAll('.post-action');
+    
+    postActions.forEach(action => {
+        action.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('span');
+            
+            if (icon.classList.contains('fa-heart')) {
+                // Like functionality
+                if (icon.style.color === 'rgb(231, 76, 60)') {
+                    // Unlike
+                    icon.style.color = '';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount - 1;
+                    }
+                } else {
+                    // Like
+                    icon.style.color = '#e74c3c';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount + 1;
+                    }
+                }
+            } else if (icon.classList.contains('fa-comment')) {
+                // Comment functionality - could open a modal or navigate to post detail
+                console.log('Comment clicked');
+            } else if (icon.classList.contains('fa-share')) {
+                // Share functionality
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Forum Gönderisi',
+                        text: 'Bu gönderiyi kontrol et!',
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        showNotification('Bağlantı panoya kopyalandı!');
+                    });
+                }
+            }
+        });
+    });
+}
+
+// Load profile data (this would typically come from an API)
+function loadProfileData() {
+    // Simulate loading profile data
+    // In a real application, this would fetch data from a server
+    
+    const profileData = {
+        name: 'Kullanıcı Adı',
+        username: '@kullanici',
+        bio: 'Bu kullanıcının henüz bir biyografisi bulunmuyor.',
+        postCount: 42,
+        followerCount: 128,
+        followingCount: 89,
+        avatar: 'images/default-avatar.png',
+        joinDate: 'Ocak 2024',
+        location: 'İstanbul, Türkiye',
+        website: 'example.com'
+    };
+
+    // Update profile elements with data
+    updateProfileDisplay(profileData);
+    
+    // Load posts
+    loadUserPosts();
+}
+
+// Update profile display with data
+function updateProfileDisplay(data) {
+    const elements = {
+        profileName: document.getElementById('profileName'),
+        profileUsername: document.getElementById('profileUsername'),
+        profileBio: document.getElementById('profileBio'),
+        postCount: document.getElementById('postCount'),
+        followerCount: document.getElementById('followerCount'),
+        followingCount: document.getElementById('followingCount'),
+        avatarImage: document.getElementById('avatarImage')
+    };
+
+    // Update elements if they exist
+    Object.keys(elements).forEach(key => {
+        const element = elements[key];
+        const dataKey = key.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toLowerCase()).replace(/ /g, '');
+        if (element && data[dataKey]) {
+            if (key === 'avatarImage') {
+                element.src = data.avatar;
+            } else {
+                element.textContent = data[dataKey];
+            }
+        }
+    });
+}
+
+// Load user posts (simulated)
+function loadUserPosts() {
+    const postsContainer = document.querySelector('.posts-container');
+    if (!postsContainer) return;
+
+    // Sample posts data
+    const posts = [
+        {
+            id: 2,
+            content: 'Forum platformlarında kullanıcı deneyimi çok önemli. İyi bir arayüz tasarımı kullanıcıların platformda daha çok zaman geçirmesini sağlar.',
+            likes: 25,
+            comments: 8,
+            time: '1s',
+            avatar: 'images/default-avatar.png'
+        },
+        {
+            id: 3,
+            content: 'JavaScript ile dinamik web sayfaları oluşturmak gerçekten eğlenceli! Özellikle modern framework\'lerle birlikte.',
+            likes: 18,
+            comments: 5,
+            time: '3s',
+            avatar: 'images/default-avatar.png'
+        }
+    ];
+
+    // Add new posts to existing container
+    posts.forEach(post => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+    });
+}
+
+// Create post element
+function createPostElement(post) {
+    const postDiv = document.createElement('div');
+    postDiv.className = 'post-item';
+    postDiv.innerHTML = `
+        <div class="post-avatar">
+            <img src="${post.avatar}" alt="User Avatar">
+        </div>
+        <div class="post-content">
+            <div class="post-header">
+                <span class="post-name">Kullanıcı Adı</span>
+                <span class="post-username">@kullanici</span>
+                <span class="post-time">• ${post.time}</span>
+            </div>
+            <div class="post-text">
+                <p>${post.content}</p>
+            </div>
+            <div class="post-actions">
+                <button class="post-action">
+                    <i class="fas fa-heart"></i>
+                    <span>${post.likes}</span>
+                </button>
+                <button class="post-action">
+                    <i class="fas fa-comment"></i>
+                    <span>${post.comments}</span>
+                </button>
+                <button class="post-action">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Add event listeners to the new post actions
+    const postActions = postDiv.querySelectorAll('.post-action');
+    postActions.forEach(action => {
+        action.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('span');
+            
+            if (icon.classList.contains('fa-heart')) {
+                // Like functionality
+                if (icon.style.color === 'rgb(231, 76, 60)') {
+                    // Unlike
+                    icon.style.color = '';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount - 1;
+                    }
+                } else {
+                    // Like
+                    icon.style.color = '#e74c3c';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount + 1;
+                    }
+                }
+            }
+        });
+    });
+
+    return postDiv;
+}
+
+// Show notification (utility function)
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: #2ecc71;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 0.9rem;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        animation: slideInRight 0.3s ease;
+    `;
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.body.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Initialize page handlers
+function initializePageHandlers() {
+    // Add smooth scrolling for any anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add click handlers for profile posts
+    document.addEventListener('click', function(e) {
+        const postItem = e.target.closest('.post-item');
+        if (postItem && !e.target.closest('.post-action')) {
+            // Could navigate to detailed post view
+            console.log('Post clicked:', postItem);
+        }
+    });
 }
 

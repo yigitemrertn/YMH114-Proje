@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title>Forum - Profil</title>
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/profile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -16,9 +18,7 @@
                 <a href="index.html" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
-                <label for="search-input">
-                    <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
-                </label>
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
                 <button class="search-button" aria-label="Ara">
                     <i class="fas fa-search"></i>
                 </button>
@@ -30,10 +30,19 @@
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
-              
-                <div class="hamburger-container" id="hamburgerContainer">
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
-                        <span class="hamburger-icon"></span>
+                        <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
                         <a href="index.html" class="menu-item">
@@ -48,78 +57,241 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <a href="logout.php" class="menu-item">
+                        <button id="logoutButton" class="menu-item">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <div class="profile-container">
-            <!-- Profil Başlığı -->
-            <div class="profile-header">
-                <img id="profile-avatar" src="images/default-avatar.png" alt="Profil Resmi" class="profile-avatar">
-                <div class="profile-info">
-                    <h1 id="profile-name" class="profile-name">Yükleniyor...</h1>
-                    <p id="profile-username" class="profile-username">@kullanici</p>
-                    <p id="profile-bio" class="profile-bio">Yükleniyor...</p>
-                    
-                    <!-- Profil İstatistikleri -->
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <span id="post-count" class="stat-value">0</span>
-                            <span class="stat-label">Gönderi</span>
-                        </div>
-                        <div class="stat-item">
-                            <span id="comment-count" class="stat-value">0</span>
-                            <span class="stat-label">Yorum</span>
-                        </div>
-                        <div class="stat-item">
-                            <span id="following-count" class="stat-value">0</span>
-                            <span class="stat-label">Takip</span>
-                        </div>
-                        <div class="stat-item">
-                            <span id="followers-count" class="stat-value">0</span>
-                            <span class="stat-label">Takipçi</span>
-                        </div>
-                    </div>
-
-                    <!-- Takip Butonu -->
-                    <button id="follow-button" class="follow-button">Takip Et</button>
-                </div>
-            </div>
-
-            <!-- Profil Menüsü -->
-            <div class="profile-menu">
-                <div class="profile-menu-item active" data-target="posts-section">Gönderiler</div>
-                <div class="profile-menu-item" data-target="comments-section">Yorumlar</div>
-            </div>
-
-            <!-- Profil İçeriği -->
-            <div class="profile-content">
-                <!-- Sol Taraf: Gönderiler -->
-                <div id="posts-section" class="profile-section active">
-                    <div id="recent-posts">
-                        <!-- Gönderiler JavaScript ile doldurulacak -->
-                    </div>
-                </div>
-
-                <!-- Sağ Taraf: Yorumlar -->
-                <div id="comments-section" class="profile-section">
-                    <div id="recent-comments">
-                        <!-- Yorumlar JavaScript ile doldurulacak -->
-                    </div>
-                </div>
+    <main>
+        <div class="search-dropdown">
+            <div class="search-container">
+                <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
-    </div>
+        <div class="main-content">
+            
+            <main class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="images/default-avatar.png" alt="Profile Avatar" id="avatarImage">
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name" id="profileName">Kullanıcı Adı</h1>
+                        <p class="profile-username" id="profileUsername">@kullanici</p>
+                        <p class="profile-bio" id="profileBio">Bu kullanıcının henüz bir biyografisi bulunmuyor.</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="postCount">42</span>
+                                <span class="stat-label">Gönderi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <script src="js/profile.js"></script>
-    <script src="js/global.js"></script>
+                <!-- Profile Menu -->
+                <div class="profile-menu">
+                    <button class="profile-menu-item active" data-section="posts">
+                        <i class="fas fa-clipboard-list"></i>
+                        Gönderiler
+                    </button>
+                    <button class="profile-menu-item" data-section="about">
+                        <i class="fas fa-info-circle"></i>
+                        Hakkında
+                    </button>
+                    <button class="profile-menu-item" data-section="activity">
+                        <i class="fas fa-chart-line"></i>
+                        Aktivite
+                    </button>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Posts Section -->
+                    <div class="profile-section active" id="posts-section">
+                        <div class="posts-container">
+                            <!-- Sample Post -->
+                            <div class="post-item">
+                                <div class="post-avatar">
+                                    <img src="images/default-avatar.png" alt="User Avatar">
+                                </div>
+                                <div class="post-content">
+                                    <div class="post-header">
+                                        <span class="post-name">Kullanıcı Adı</span>
+                                        <span class="post-username">@kullanici</span>
+                                        <span class="post-time">• 2s</span>
+                                    </div>
+                                    <div class="post-text">
+                                        <p>Bu bir örnek gönderidir. Kullanıcının profil sayfasında gönderilerini burada görebilirsiniz.</p>
+                                    </div>
+                                    <div class="post-actions">
+                                        <button class="post-action">
+                                            <i class="fas fa-heart"></i>
+                                            <span>12</span>
+                                        </button>
+                                        <button class="post-action">
+                                            <i class="fas fa-comment"></i>
+                                            <span>3</span>
+                                        </button>
+                                        <button class="post-action">
+                                            <i class="fas fa-share"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More posts will be loaded here dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="profile-section" id="about-section">
+                        <div class="about-content">
+                            <h3>Hakkında</h3>
+                            <div class="about-info">
+                                <div class="info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Katılım: Ocak 2024</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Konum: İstanbul, Türkiye</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>Website: example.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Section -->
+                    <div class="profile-section" id="activity-section">
+                        <div class="activity-content">
+                            <h3>Son Aktiviteler</h3>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <i class="fas fa-heart activity-icon like"></i>
+                                    <span>Bir gönderiyi beğendi</span>
+                                    <span class="activity-time">2 dakika önce</span>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-comment activity-icon comment"></i>
+                                    <span>Bir gönderiye yorum yaptı</span>
+                                    <span class="activity-time">5 dakika önce</span>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-plus activity-icon follow"></i>
+                                    <span>Yeni bir kullanıcıyı takip etti</span>
+                                    <span class="activity-time">1 saat önce</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="featured-topics">
+                <div class="featured-header">
+                    <h2>Benzer Profiller</h2>
+                </div>
+                <div class="featured-list">
+                    <div class="featured-item">
+                        <div class="featured-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="featured-content">
+                            <h3>Ahmet Yılmaz</h3>
+                            <p>@ahmet_y • 256 takipçi</p>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <div class="featured-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="featured-content">
+                            <h3>Zeynep Kaya</h3>
+                            <p>@zeynep_k • 189 takipçi</p>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <div class="featured-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="featured-content">
+                            <h3>Mehmet Özkan</h3>
+                            <p>@mehmet_oz • 342 takipçi</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/news.js"></script>
+    <script src="/public/js/posts.js"></script>
+    <script src="/public/js/search.js"></script>
+        // Sayfa yüklendiğinde giriş durumunu kontrol et
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            setupLogoutButton();
+        });
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Çıkış başarılı olduğunda sayfayı yenile
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+    </script>
 </body>
 </html>
