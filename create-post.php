@@ -26,12 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // JSON body'den verileri al
 $data = json_decode(file_get_contents('php://input'), true);
 $title = trim($data['title'] ?? '');
-$category = trim($data['category'] ?? '');
+// $category = trim($data['category'] ?? ''); // Kategori artık kullanılmıyor
 // Tüm HTML etiketlerini kaldır, sadece düz metin kalsın
 $content = trim($data['content'] ?? '');
 $content = trim(html_entity_decode(strip_tags($content)));
 
-if (empty($title) || empty($category) || empty($content)) {
+if (empty($title) /*|| empty($category)*/ || empty($content)) {
     echo json_encode([
         'success' => false,
         'message' => 'Tüm alanlar zorunludur'
@@ -40,8 +40,8 @@ if (empty($title) || empty($category) || empty($content)) {
 }
 
 try {
-    $stmt = $pdo->prepare("INSERT INTO posts (user_id, title, content, category, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())");
-    $stmt->execute([$_SESSION['user_id'], $title, $content, $category]);
+    $stmt = $pdo->prepare("INSERT INTO posts (user_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+    $stmt->execute([$_SESSION['user_id'], $title, $content]);
 
     echo json_encode([
         'success' => true,
