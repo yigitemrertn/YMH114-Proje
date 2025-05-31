@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+session_start();
+
 try {
     // Check if config file exists
     $configFile = __DIR__ . '/../config.php';
@@ -24,8 +26,8 @@ try {
 
     require_once $configFile;
 
-    // Check if database connection exists
-    if (!isset($conn) || !($conn instanceof PDO)) {
+    // PDO bağlantı kontrolü
+    if (!isset($pdo) || !($pdo instanceof PDO)) {
         throw new Exception('Database connection not established');
     }
 
@@ -41,7 +43,7 @@ try {
               JOIN users u ON p.user_id = u.id 
               WHERE p.id = :post_id";
     
-    $stmt = $conn->prepare($query);
+    $stmt = $pdo->prepare($query);
     $stmt->execute(['post_id' => $postId]);
     $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -56,7 +58,7 @@ try {
                      WHERE c.post_id = :post_id 
                      ORDER BY c.created_at DESC";
     
-    $stmt = $conn->prepare($commentsQuery);
+    $stmt = $pdo->prepare($commentsQuery);
     $stmt->execute(['post_id' => $postId]);
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -64,7 +66,7 @@ try {
     $formattedPost = [
         'id' => $post['id'],
         'title' => $post['title'],
-        'content' => $post['content'],
+        'content' => strip_tags($post['content']), // HTML etiketlerini kaldır
         'created_at' => $post['created_at'],
         'author' => [
             'username' => $post['username'],
@@ -75,7 +77,7 @@ try {
     $formattedComments = array_map(function($comment) {
         return [
             'id' => $comment['id'],
-            'content' => $comment['content'],
+            'content' => strip_tags($comment['content']), // HTML etiketlerini kaldır
             'created_at' => $comment['created_at'],
             'author' => [
                 'username' => $comment['username'],
@@ -98,4 +100,4 @@ try {
         'error' => $e->getMessage()
     ]);
 }
-?> 
+?>

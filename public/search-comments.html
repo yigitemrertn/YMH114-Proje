@@ -39,6 +39,125 @@
         color: #f5f5f5;
         opacity: 0.85;
     }
+    .post-card {
+        background: var(--card-background, #fff);
+        border-radius: 14px;
+        box-shadow: 0 2px 12px rgba(52,152,219,0.08);
+        border: 1.5px solid #e0e0e0;
+        padding: 1.3rem 1.7rem 1.1rem 1.7rem;
+        min-width: 260px;
+        max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        margin-bottom: 1.2rem;
+        transition: box-shadow 0.2s, border 0.2s, transform 0.18s;
+        position: relative;
+    }
+    .post-card:hover {
+        box-shadow: 0 6px 24px rgba(52,152,219,0.16);
+        border: 2px solid #3498db;
+        transform: translateY(-2px) scale(1.01);
+    }
+    .post-card-title {
+        font-weight: 700;
+        font-size: 1.18em;
+        color: #3498db;
+        margin-bottom: 0.2em;
+        letter-spacing: 0.01em;
+        text-shadow: 0 1px 0 #f0f7ff;
+    }
+    .post-card-content {
+        color: #222;
+        font-size: 1.01em;
+        opacity: 0.93;
+        margin-bottom: 0.4em;
+        min-height: 2.2em;
+        line-height: 1.5;
+    }
+    .matched-comment {
+        margin-top: 0.7em;
+        padding: 0.8em 1.1em 0.8em 1.1em;
+        background: linear-gradient(90deg, #f6f8fa 80%, #eaf6ff 100%);
+        border-left: 4px solid #3498db;
+        border-radius: 7px;
+        box-shadow: 0 1px 6px rgba(52,152,219,0.06);
+        font-size: 0.98em;
+        margin-bottom: 0.3em;
+        transition: background 0.18s;
+    }
+    .matched-comment span {
+        font-size: 0.98em;
+        color: #3498db;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+    }
+    .matched-comment div {
+        margin-top: 0.18em;
+        color: #222;
+        font-size: 0.99em;
+        opacity: 0.95;
+        line-height: 1.5;
+    }
+    .post-card-link {
+        margin-top: 0.7em;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: 20px;
+        background: #f0f7ff;
+        padding: 0.4em 1em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        transition: background 0.18s, color 0.18s;
+        font-size: 1em;
+        box-shadow: 0 1px 4px rgba(52,152,219,0.04);
+    }
+    .post-card-link:hover {
+        background: #3498db;
+        color: #fff;
+    }
+    @media (max-width: 900px) {
+        .post-card {
+            max-width: 98vw;
+            min-width: 0;
+            padding: 1.1rem 0.8rem;
+        }
+    }
+    body.dark-mode .post-card {
+        background: #23243a;
+        border-color: #33364d;
+        color: #f5f5f5;
+    }
+    body.dark-mode .post-card-title {
+        color: #6cb6ff;
+        text-shadow: none;
+    }
+    body.dark-mode .post-card-content {
+        color: #f5f5f5;
+        opacity: 0.88;
+    }
+    body.dark-mode .matched-comment {
+        background: linear-gradient(90deg, #23243a 80%, #1e2a3a 100%);
+        border-left: 4px solid #6cb6ff;
+        color: #f5f5f5;
+    }
+    body.dark-mode .matched-comment span {
+        color: #6cb6ff;
+    }
+    body.dark-mode .matched-comment div {
+        color: #f5f5f5;
+        opacity: 0.92;
+    }
+    body.dark-mode .post-card-link {
+        background: #23243a;
+        color: #6cb6ff;
+    }
+    body.dark-mode .post-card-link:hover {
+        background: #6cb6ff;
+        color: #23243a;
+    }
     </style>
 </head>
 <body>
@@ -60,7 +179,17 @@
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
-                <div class="hamburger-container" id="hamburgerContainer" style="display: block;">
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
                         <span class="hamburger-icon"></span>
                     </button>
@@ -99,12 +228,34 @@
         .then(res => res.json())
         .then(data => {
             const resultsDiv = document.getElementById('search-results');
+            function stripTags(html) {
+                var div = document.createElement('div');
+                div.innerHTML = html;
+                return div.textContent || div.innerText || '';
+            }
             if (data.results && data.results.length > 0) {
-                resultsDiv.innerHTML = data.results.map(c => `
-                    <div class="comment-card">
-                        <div class="comment-card-content">${(c.content || '').substring(0, 120)}${(c.content && c.content.length > 120) ? '...' : ''}</div>
-                    </div>
-                `).join('');
+                resultsDiv.innerHTML = data.results.map(p => {
+                    let commentHtml = '';
+                    if (p.matched_comment) {
+                        commentHtml = `
+                            <div class="matched-comment">
+                                <span><i class="fas fa-comment-dots"></i> Eşleşen Yorum:</span>
+                                <div>${stripTags(p.matched_comment.content).substring(0, 120)}${p.matched_comment.content.length > 120 ? '...' : ''}</div>
+                            </div>
+                        `;
+                    }
+                    let commentAnchor = p.matched_comment ? `&comment=${p.matched_comment.comment_id}` : '';
+                    return `
+                        <div class="post-card" onclick="window.location.href='detailed-post.html?id=${p.id}${commentAnchor}'">
+                            <div class="post-card-title">${p.title}</div>
+                            <div class="post-card-content">${stripTags((p.content || '')).substring(0, 120)}${(p.content && p.content.length > 120) ? '...' : ''}</div>
+                            ${commentHtml}
+                            <a href="detailed-post.html?id=${p.id}${commentAnchor}" class="post-card-link">
+                                <i class="fas fa-arrow-right"></i> Detay
+                            </a>
+                        </div>
+                    `;
+                }).join('');
             } else {
                 resultsDiv.innerHTML = '<p>Aradığınız özelliklere sahip yorum bulunamadı.</p>';
             }
@@ -115,8 +266,23 @@
     <script src="js/theme-toggle.js"></script>
     <script src="js/hamburger.js"></script>
     <script>
-        function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    if (data.loggedIn) {
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                });
+            // Çıkış butonu için
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -130,8 +296,7 @@
                         });
                 });
             }
-        }
-        document.addEventListener('DOMContentLoaded', setupLogoutButton);
+        });
     </script>
 </body>
 </html>

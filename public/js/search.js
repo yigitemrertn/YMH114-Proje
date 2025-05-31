@@ -230,6 +230,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    /**
+     * Yorumlar ve diğer içeriklerde arama yapar.
+     * @param {string} query - Kullanıcının arama terimi
+     * @param {Array} posts - Forum gönderileri (her biri {title, content, comments: [{text, ...}], ...})
+     * @returns {Array} - Eşleşen gönderiler veya yorumlar
+     */
+    function searchForum(query, posts) {
+        const lowerQuery = query.trim().toLowerCase();
+        return posts.filter(post => {
+            // Başlık veya içerikte arama
+            const inTitle = post.title && post.title.toLowerCase().includes(lowerQuery);
+            const inContent = post.content && post.content.toLowerCase().includes(lowerQuery);
+
+            // Yorumlarda arama (herhangi bir yorumun içinde arama terimi geçiyorsa)
+            const inComments = Array.isArray(post.comments) && post.comments.some(comment =>
+                comment.text && comment.text.toLowerCase().includes(lowerQuery)
+            );
+
+            return inTitle || inContent || inComments;
+        });
+    }
+
     // Style for dropdown (animasyonlu ve modern)
     if (!document.getElementById('search-type-dropdown-style')) {
         const style = document.createElement('style');

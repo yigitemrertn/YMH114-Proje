@@ -26,7 +26,17 @@
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
-                <div class="hamburger-container" id="hamburgerContainer" style="display: block;">
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
                         <span class="hamburger-icon"></span>
                     </button>
@@ -89,8 +99,23 @@
     <script src="js/theme-toggle.js"></script>
     <script src="js/hamburger.js"></script>
     <script>
-        function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    if (data.loggedIn) {
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                });
+            // Çıkış butonu için
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -104,8 +129,7 @@
                         });
                 });
             }
-        }
-        document.addEventListener('DOMContentLoaded', setupLogoutButton);
+        });
     </script>
     <style>
     /* Kullanıcı kartı stilleri */
