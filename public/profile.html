@@ -15,7 +15,7 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+                <a href="../index.html" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
@@ -45,7 +45,7 @@
                         <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
-                        <a href="index.html" class="menu-item">
+                        <a href="../index.html" class="menu-item">
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
@@ -268,24 +268,54 @@
     
          setupLogoutButton();
         });
-    
-    function setupLogoutButton() {
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                fetch('/logout.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            window.location.href = 'index.html';
-                        } else {
-                            console.error('Çıkış yapılamadı');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Çıkış yapılırken hata oluştu:', error);
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                        // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                        window.location.href = 'login.html';
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+
+                    // Add the function body here or close it properly
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
                 });
             });
         }
