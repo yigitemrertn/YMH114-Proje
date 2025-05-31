@@ -279,18 +279,13 @@
 
         // Çıkış yapma butonunu ayarla
         function setupLogoutButton() {
-
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation(); // Hamburger menü kapanmasını engelle
 
-            const logoutButton = document.querySelector('a[href="logout.php"]');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); 
+                    // Add the function body here or close it properly
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
