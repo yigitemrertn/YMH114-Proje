@@ -259,7 +259,7 @@
                     authButtons.style.display = 'flex';
                     hamburgerContainer.style.display = 'none';
                     // Giriş yapılmamışsa login.html'e yönlendir
-                    window.location.href = 'login.html';
+                    window.location.href = '/index.html';
                 }
             })
             .catch(error => {
@@ -286,7 +286,7 @@
                         authButtons.style.display = 'flex';
                         hamburgerContainer.style.display = 'none';
                         // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
-                        window.location.href = 'login.html';
+                        window.location.href = '/index.html';
 
                     }
                 })
@@ -307,7 +307,7 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = '/';
+                                window.location.href = '/index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }
