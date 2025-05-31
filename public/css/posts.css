@@ -110,7 +110,7 @@
 
 /* Featured Topics (News) Styles */
 .featured-topics {
-    background: var(--card-bg);
+    background: rgba(245, 248, 252, 0.9);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -133,13 +133,18 @@
 }
 
 .featured-topic {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 1rem;
 }
 
 .featured-topic:last-child {
     border-bottom: none;
-    padding-bottom: 0;
+    padding-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .topic-link {
