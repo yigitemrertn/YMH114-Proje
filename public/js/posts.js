@@ -194,7 +194,7 @@ function createPostElement(post) {
         </div>
         
         <h2 class="post-title">
-            <a href="../detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
+            <a href="detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
         </h2>
         
         <div class="post-content">
@@ -204,7 +204,6 @@ function createPostElement(post) {
             <!-- Like butonu ve like-count kaldırıldı -->
         </div>
     `;
-    // Like butonuna event ekleme kaldırıldı
     return postCard;
 }
 
@@ -247,7 +246,7 @@ function showNewsError(message) {
 }
 
 function sharePost(postId) {
-    const postUrl = `${window.location.origin}/../detailed-post.html?id=${postId}`;
+    const postUrl = `${window.location.origin}/detailed-post.html?id=${postId}`;
     navigator.clipboard.writeText(postUrl)
         .then(() => {
             showSuccessMessage('Gönderi bağlantısı kopyalandı!');
@@ -263,7 +262,7 @@ function reportPost(postId) {
 }
 
 function focusCommentInput(postId) {
-    window.location.href = `../detailed-post.html?id=${postId}#comment-input`;
+    window.location.href = `detailed-post.html?id=${postId}#comment-input`;
 }
 
 function showSuccessMessage(message) {
