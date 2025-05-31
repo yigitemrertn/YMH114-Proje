@@ -303,12 +303,11 @@
                     e.preventDefault();
                     e.stopPropagation(); // Hamburger menü kapanmasını engelle
 
-                    // Add the function body here or close it properly
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = 'index.html';
+                                window.location.href = '../index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }
@@ -317,9 +316,8 @@
                             console.error('Çıkış yapılırken hata oluştu:', error);
                         });
                 });
-            });
+            }
         }
-    }
     </script>
         
 </body>
