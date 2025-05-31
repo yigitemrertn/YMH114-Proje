@@ -104,9 +104,8 @@
     <script src="public/js/hamburger.js"></script>
     <script src="public/js/theme-toggle.js"></script>
     <script src="public/js/news.js"></script>
-    <script src="/js/posts.js"></script>
-    <script src="public/js/search.js"></script>
     <script src="public/js/posts.js"></script>
+    <script src="public/js/search.js"></script>
     <script>
         // Sayfa yüklendiğinde giriş durumunu kontrol et
         document.addEventListener('DOMContentLoaded', function() {
@@ -116,7 +115,7 @@
 
         // Giriş durumunu kontrol eden fonksiyon
         function checkLoginStatus() {
-            fetch('/status.php')
+            fetch('status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
@@ -145,11 +144,11 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    fetch('/logout.php')
+                    fetch('logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = '/index.html';
+                                window.location.href = 'index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }

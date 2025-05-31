@@ -40,7 +40,7 @@ function formatContent(content) {
 // Function to update posts
 async function updatePosts() {
     try {
-        const response = await fetch('/public/api/posts.php');
+        const response = await fetch('../api/posts.php');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,7 +73,7 @@ async function updatePosts() {
                                 <span class="post-card-stat"><i class="fas fa-heart"></i> ${post.stats.likes}</span>
                                 <span class="post-card-stat"><i class="fas fa-comment"></i> ${post.stats.comments}</span>
                             </div>
-                            <a href="/public/detailed-post.html?id=${post.id}" class="post-card-readmore">
+                            <a href="../detailed-post.html?id=${post.id}" class="post-card-readmore">
                                 <i class="fas fa-arrow-right"></i> Devamını gör
                             </a>
                         </div>
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 setInterval(updatePosts, 5 * 60 * 1000);
 
 function loadPosts() {
-    fetch('/public/api/posts.php')
+    fetch('../api/posts.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -139,7 +139,7 @@ function loadPosts() {
 }
 
 function loadNews() {
-    fetch('/public/api/news.php')
+    fetch('../api/news.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -168,7 +168,7 @@ function createPostElement(post) {
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="/public/images/${post.author.avatar || 'default-avatar.png'}" alt="${post.author.username}'s avatar">
+                <img src="images/${post.author.avatar || 'default-avatar.png'}" alt="${post.author.username}'s avatar">
             </div>
             <div class="user-details">
                 <span class="username">@${post.author.username}</span>
@@ -179,7 +179,7 @@ function createPostElement(post) {
         </div>
         
         <h2 class="post-title">
-            <a href="detailed-post.html?id=${post.id}">${post.title}</a>
+            <a href="../detailed-post.html?id=${post.id}">${post.title}</a>
         </h2>
         
         <div class="post-content">
@@ -232,7 +232,7 @@ function showNewsError(message) {
 }
 
 function sharePost(postId) {
-    const postUrl = `${window.location.origin}/detailed-post.html?id=${postId}`;
+    const postUrl = `${window.location.origin}/../detailed-post.html?id=${postId}`;
     navigator.clipboard.writeText(postUrl)
         .then(() => {
             showSuccessMessage('Gönderi bağlantısı kopyalandı!');
@@ -248,7 +248,7 @@ function reportPost(postId) {
 }
 
 function focusCommentInput(postId) {
-    window.location.href = `detailed-post.html?id=${postId}#comment-input`;
+    window.location.href = `../detailed-post.html?id=${postId}#comment-input`;
 }
 
 function showSuccessMessage(message) {

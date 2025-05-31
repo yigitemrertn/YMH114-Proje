@@ -140,15 +140,15 @@
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">
+                                <a href="javascript:void(0)" class="dropdown-item" onclick="editPost()">
                                     <i class="fas fa-edit"></i>
                                     Düzenle
                                 </a>
-                                <a href="#" class="dropdown-item">
+                                <a href="javascript:void(0)" class="dropdown-item" onclick="sharePost()">
                                     <i class="fas fa-share"></i>
                                     Paylaş
                                 </a>
-                                <a href="#" class="dropdown-item">
+                                <a href="javascript:void(0)" class="dropdown-item" onclick="reportPost()">
                                     <i class="fas fa-flag"></i>
                                     Şikayet Et
                                 </a>
@@ -236,7 +236,7 @@
                     // Post id'yi al
                     const urlParams = new URLSearchParams(window.location.search);
                     const postId = urlParams.get('id');
-                    fetch('/public/api/add-comment.php', {
+                    fetch('api/add-comment.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ post_id: postId, content: content })
@@ -302,7 +302,7 @@
 
         // Giriş durumunu kontrol eden fonksiyon
         function checkLoginStatus() {
-            fetch('/status.php')
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
@@ -325,18 +325,18 @@
 
         // Çıkış yapma butonunu ayarla
         function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation(); // Hamburger menü kapanmasını engelle
                     
-                    fetch('/logout.php')
+                    fetch('../logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
                                 // Çıkış başarılı olduğunda sayfayı yenile
-                                window.location.href = '/index.html';
+                                window.location.href = '../index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }
@@ -395,7 +395,7 @@
                 // Post id'yi al
                 const urlParams = new URLSearchParams(window.location.search);
                 const postId = urlParams.get('id');
-                fetch('/public/api/add-comment.php', {
+                fetch('api/add-comment.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ post_id: postId, content: content })
@@ -426,7 +426,7 @@
                 alert('Post ID is required');
                 return;
             }
-            fetch(`/public/api/post-details.php?id=${postId}`)
+            fetch(`api/post-details.php?id=${postId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -506,6 +506,43 @@
             }
             setInterval(updateAllTimes, 60000); // Her dakika güncelle
             updateAllTimes();
+        }
+
+        // Dropdown menu işlevleri
+        function editPost() {
+            // Düzenleme işlevi burada implemente edilecek
+            console.log('Post düzenleme özelliği henüz implement edilmedi');
+            // Örnek: window.location.href = 'edit-post.html?id=' + getPostId();
+        }
+
+        function sharePost() {
+            // Paylaşım işlevi
+            const postUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ForumFU Post',
+                    url: postUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(postUrl).then(() => {
+                    alert('Link kopyalandı!');
+                });
+            }
+        }
+
+        function reportPost() {
+            // Şikayet işlevi
+            if (confirm('Bu postu şikayet etmek istediğinizden emin misiniz?')) {
+                // Şikayet API'si burada çağrılacak
+                console.log('Şikayet özelliği henüz implement edilmedi');
+                // Örnek: submitReport(getPostId());
+            }
+        }
+
+        function getPostId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
         }
     </script>
 </body>

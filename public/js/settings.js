@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (prompt('Bu işlemi onaylamak için "SİL" yazın:') === 'SİL') {
                     alert('Hesabınız silindi. Yönlendiriliyorsunuz...');
                     setTimeout(() => {
-                        window.location.href = '/';
+                        window.location.href = '../index.html';
                     }, 2000);
                 }
             }

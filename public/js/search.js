@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createDropdownMenu(query, onTypeSelect, onHistorySelect, onHistoryDelete) {
         const types = [
-            { type: 'users', label: `“${query}” kullanıcılar arasında ara` },
-            { type: 'posts', label: `“${query}” gönderiler arasında ara` },
-            { type: 'comments', label: `“${query}” yorumlar arasında ara` }
+            { type: 'users', label: `"${query}" kullanıcılar arasında ara` },
+            { type: 'posts', label: `"${query}" gönderiler arasında ara` },
+            { type: 'comments', label: `"${query}" yorumlar arasında ara` }
         ];
         const container = document.createElement('div');
         container.className = 'search-type-dropdown';
@@ -222,11 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // Yönlendirmeyi doğrudan yap (fetch ile bekleme)
         if (type === 'users') {
-            window.location.href = `/public/search-users.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `../search-users.html?q=${encodeURIComponent(query)}`;
         } else if (type === 'posts') {
-            window.location.href = `/public/search-posts.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `../search-posts.html?q=${encodeURIComponent(query)}`;
         } else if (type === 'comments') {
-            window.location.href = `/public/search-comments.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `../search-comments.html?q=${encodeURIComponent(query)}`;
         }
     }
 

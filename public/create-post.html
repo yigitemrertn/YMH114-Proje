@@ -354,7 +354,7 @@
 
         // Giriş durumunu kontrol eden fonksiyon
         function checkLoginStatus() {
-            fetch('/status.php')
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
@@ -385,11 +385,11 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    fetch('/logout.php')
+                    fetch('../logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = '/index.html';
+                                window.location.href = '../index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');
                             }
@@ -450,7 +450,7 @@
                     };
 
                     // Form verilerini sunucuya gönder
-                    fetch('/create-post.php', {
+                    fetch('../create-post.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -461,7 +461,7 @@
                     .then(data => {
                         if (data.success) {
                             // Başarılı olursa ana sayfaya yönlendir
-                            window.location.href = '/index.html';
+                            window.location.href = '../index.html';
                         } else {
                             // Hata mesajını göster
                             alert(data.message || 'Konu oluşturulurken bir hata oluştu');

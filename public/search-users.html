@@ -67,7 +67,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);
         const query = params.get('q') || '';
-        fetch('/search.php', {
+        fetch('../search.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query, type: 'users' })
@@ -101,7 +101,7 @@
     <script>
         // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('/status.php')
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
@@ -115,16 +115,16 @@
                     }
                 });
             // Çıkış butonu için
-            const logoutButton = document.querySelector('a[href="logout.php"]');
+            const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    fetch('/logout.php')
+                    fetch('../logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = '/index.html';
+                                window.location.href = '../index.html';
                             }
                         });
                 });

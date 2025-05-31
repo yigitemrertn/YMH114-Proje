@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = passwordInput.value;
         const rememberMe = rememberMeCheckbox.checked;
 
-        fetch('/login.php', {
+        fetch('../../login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,11 +24,27 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                throw new Error(data.error);
+            if (data.success) {
+                // Başarılı giriş
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                // Avatar ayarlama
+                if (data.avatar) {
+                    localStorage.setItem('userAvatar', data.avatar);
+                } else {
+                    setDefaultAvatar(data.username);
+                }
+                
+                if(data.redirect) {
+                    window.location.href = data.redirect;
+                } else {
+                    window.location.href = '../index.html';
+                }
+            } else {
+                // Hata mesajını göster
+                alert(data.message || 'Giriş başarısız');
             }
-            localStorage.setItem('loggedIn', 'true');
-            window.location.href = 'forumfu.com';
         })
         .catch(error => {
             alert(error.message);

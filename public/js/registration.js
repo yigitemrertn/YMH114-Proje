@@ -41,27 +41,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            fetch('/register.php', {
+            fetch('../../register.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    username: username,
                     name: name,
-                    surname: surname
+                    surname: surname,
+                    username: username,
+                    email: email,
+                    password: password
                 })
             })
             .then(response => response.json())
             .then(data => {
-                if (data.error) {
-                    throw new Error(data.error);
-                }
                 if (data.success) {
-                    localStorage.setItem('loggedIn', 'true');
-                    window.location.href = '/';
+                    alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');
+                    window.location.href = '../index.html';
+                } else {
+                    alert(data.message || 'Kayıt başarısız');
                 }
             })
             .catch(error => {

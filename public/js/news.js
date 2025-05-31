@@ -47,7 +47,7 @@ function showErrorMessage(error, debug = null) {
 // Function to update featured news
 async function updateFeaturedNews() {
     try {
-        const response = await fetch('/public/api/news.php');
+        const response = await fetch('../api/news.php');
         
         if (!response.ok) {
             const errorData = await response.json();
