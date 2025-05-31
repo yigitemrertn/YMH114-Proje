@@ -1,38 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Settings Menu Functionality
-    const settingsMenuItems = document.querySelectorAll('.settings-nav-item');
-    const settingsSections = document.querySelectorAll('.settings-section');
+    // Get all navigation items and sections
+    const navItems = document.querySelectorAll('.settings-nav-item');
+    const sections = document.querySelectorAll('.settings-section');
 
-    // Function to switch active setting section
-    function switchSettingsSection(targetId) {
-        // Hide all sections
-        settingsSections.forEach(section => {
-            section.classList.remove('active');
-        });
-
-        // Remove active class from all menu items
-        settingsMenuItems.forEach(item => {
-            item.classList.remove('active');
-        });
-
-        // Show the target section
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-            targetSection.classList.add('active');
-        }
-
-        // Add active class to the clicked menu item
-        const activeMenuItem = document.querySelector(`.settings-nav-item[data-target="${targetId}"]`);
-        if (activeMenuItem) {
-            activeMenuItem.classList.add('active');
-        }
-    }
-
-    // Add click event to menu items
-    settingsMenuItems.forEach(item => {
+    // Add click event listener to each navigation item
+    navItems.forEach(item => {
         item.addEventListener('click', function() {
+            // Remove active class from all nav items
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            
+            // Add active class to clicked nav item
+            this.classList.add('active');
+
+            // Get the target section id from data-target attribute
             const targetId = this.getAttribute('data-target');
-            switchSettingsSection(targetId);
+
+            // Hide all sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the target section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
         });
     });
 
