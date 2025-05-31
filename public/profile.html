@@ -61,7 +61,7 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <a href="logout.php" class="menu-item">
+                        <a href="logout.php" class="menu-item" id="logoutButton">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
                         </a>
@@ -245,48 +245,52 @@
     <script src="/public/js/search.js"></script>
     <script src="js/search.js"></script>
     <script>
-        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/status.php')
-                .then(response => response.json())
-                .then(data => {
-                    const authButtons = document.getElementById('authButtons');
-                    const hamburgerContainer = document.getElementById('hamburgerContainer');
-                    if (data.loggedIn) {
-                        authButtons.style.display = 'none';
-                        hamburgerContainer.style.display = 'block';
-                    } else {
-                        authButtons.style.display = 'flex';
-                        hamburgerContainer.style.display = 'none';
-                        // Giriş yapılmamışsa login.html'e yönlendir
-                        window.location.href = 'login.html';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking login status:', error);
-                });
-
-            // Çıkış butonu için
-            const logoutButton = document.querySelector('a[href="logout.php"]');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    fetch('/logout.php')
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                window.location.href = 'index.html';
-                            } else {
-                                console.error('Çıkış yapılamadı');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Çıkış yapılırken hata oluştu:', error);
-                        });
-                });
-            }
+    // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
+     document.addEventListener('DOMContentLoaded', function() {
+        fetch('/status.php')
+            .then(response => response.json())
+            .then(data => {
+                const authButtons = document.getElementById('authButtons');
+                const hamburgerContainer = document.getElementById('hamburgerContainer');
+                if (data.loggedIn) {
+                    authButtons.style.display = 'none';
+                    hamburgerContainer.style.display = 'block';
+                } else {
+                    authButtons.style.display = 'flex';
+                    hamburgerContainer.style.display = 'none';
+                    // Giriş yapılmamışsa login.html'e yönlendir
+                    window.location.href = 'login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    
+         setupLogoutButton();
         });
+    
+    function setupLogoutButton() {
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fetch('/logout.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'index.html';
+                        } else {
+                            console.error('Çıkış yapılamadı');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Çıkış yapılırken hata oluştu:', error);
+                });
+            });
+        }
+    }
     </script>
+        
 </body>
 </html>
