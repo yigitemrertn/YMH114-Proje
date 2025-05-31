@@ -5,7 +5,7 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
-        const response = await fetch(`/get_post.php?id=${postId}`);
+        const response = await fetch(`/posts.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
@@ -82,7 +82,7 @@ async function submitComment() {
     }
     
     try {
-        const response = await fetch('/add_comment.php', {
+        const response = await fetch('/get_comments.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
