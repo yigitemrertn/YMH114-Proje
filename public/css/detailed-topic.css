@@ -43,30 +43,47 @@ nav {
 
 .detailed-topic-container {
     display: flex;
+    max-width: 1800px;
     width: 100%;
-    max-width: 100%;
-    padding: 20px;
-    margin: auto;
+    margin: 0 auto;
+    gap: 40px;
+    padding: 20px 10px;
+    justify-content: space-between;
 }
 
 .content-wrapper {
-    flex: 0 0 80%;
-    width: 80%;
+    flex: 1;
+    width: auto;
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    margin-top: 60px;
+    max-width: 950px;
 }
 
 .container {
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 700px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
     width: 100%;
+    margin-bottom: 20px;
+    max-width: none;
+}
+
+.featured-header h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 29px;
+    color: var(--text-primary);
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 3px solid var(--accent-color);
+    display: inline-block;
 }
 
 h1 {
@@ -97,6 +114,8 @@ body.dark-mode .card-link:hover .card {
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
@@ -176,12 +195,12 @@ body.dark-mode .card-link:hover .card {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    flex: 0 0 20%;
-    width: 20%;
-    height: 100%;
+    flex: 0 0 460px;
+    width: 460px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
-    margin: 0;
+    margin: 60px 0 0 0;
 }
 
 .featured-header h2 {
@@ -254,26 +273,44 @@ body.dark-mode .featured-content p {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-    }
-
-    .featured-topics {
-        width: 100%;
-        margin-top: 20px;
-    }
-
     .detailed-topic-container {
+        padding: 20px;
+        max-width: 100%;
         flex-direction: column;
+        gap: 20px;
     }
 
-    .content-wrapper, .featured-topics {
+    .content-wrapper {
         width: 100%;
-        flex: 0 0 100%;
+        margin-top: 20px;
+        align-items: center;
+        margin-left: 0;
+        max-width: 100%;
     }
 
     .featured-topics {
+        width: 100%;
         margin-top: 20px;
+        margin-right: 0;
+        flex: 0 0 auto;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .featured-header h1 {
+        font-size: 24px;
+        padding-bottom: 3px;
+        border-bottom-width: 2px;
+    }
+
+    .topic-cards-container {
+        /* No specific mobile styles needed unless different from default card styles */
+    }
+
+    .card {
+        padding: 10px;
     }
 }
 
@@ -286,8 +323,9 @@ body.dark-mode .container {
 }
 
 body.dark-mode .card {
-    border-color: #333;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .card-content p {
@@ -306,4 +344,9 @@ body.dark-mode .pagination button:hover {
 
 body.dark-mode .pagination .dots {
     color: #f5f5f5;
+}
+
+/* Adjust the style for the topic cards within the content wrapper if needed */
+.topic-cards-container {
+    width: 100%;
 }
