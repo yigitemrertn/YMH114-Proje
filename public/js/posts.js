@@ -40,7 +40,7 @@ function formatContent(content) {
 // Function to update posts
 async function updatePosts() {
     try {
-        const response = await fetch('../api/posts.php');
+        const response = await fetch('/posts.php');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 setInterval(updatePosts, 5 * 60 * 1000);
 
 function loadPosts() {
-    fetch('../api/posts.php')
+    fetch('/posts.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -139,7 +139,7 @@ function loadPosts() {
 }
 
 function loadNews() {
-    fetch('../api/news.php')
+    fetch('/news.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
