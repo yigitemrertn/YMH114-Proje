@@ -30,9 +30,7 @@ try {
     }
 
     // Get posts with user information
-    $query = "SELECT p.*, u.username, u.avatar, 
-              (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count,
-              (SELECT COUNT(*) FROM likes WHERE post_id = p.id) as like_count
+    $query = "SELECT p.*, u.username, u.avatar 
               FROM posts p 
               JOIN users u ON p.user_id = u.id 
               ORDER BY p.created_at DESC";
