@@ -49,6 +49,10 @@
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
+                        <a href="create-post.html" class="menu-item">
+                            <i class="fas fa-plus-circle"></i>
+                            Konu Oluştur
+                        </a>
                         <a href="profile.html" class="menu-item">
                             <i class="fas fa-user"></i>
                             Profil
@@ -239,6 +243,8 @@
     <script src="js/news.js"></script>
     <script src="/public/js/posts.js"></script>
     <script src="/public/js/search.js"></script>
+    <script src="js/search.js"></script>
+    <script>
         // Sayfa yüklendiğinde giriş durumunu kontrol et
         document.addEventListener('DOMContentLoaded', function() {
             checkLoginStatus();
@@ -261,6 +267,9 @@
                         // Kullanıcı giriş yapmamışsa
                         authButtons.style.display = 'flex';
                         hamburgerContainer.style.display = 'none';
+                        // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                        window.location.href = 'login.html';
+
                     }
                 })
                 .catch(error => {
@@ -270,17 +279,22 @@
 
         // Çıkış yapma butonunu ayarla
         function setupLogoutButton() {
+
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation(); // Hamburger menü kapanmasını engelle
-                    
+
+            const logoutButton = document.querySelector('a[href="logout.php"]');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); 
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Çıkış başarılı olduğunda sayfayı yenile
                                 window.location.href = 'index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');

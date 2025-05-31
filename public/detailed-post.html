@@ -49,6 +49,10 @@
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
+                        <a href="create-post.html" class="menu-item">
+                            <i class="fas fa-plus-circle"></i>
+                            Konu Oluştur
+                        </a>
                         <a href="profile.html" class="menu-item">
                             <i class="fas fa-user"></i>
                             Profil
@@ -57,10 +61,10 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <button id="logoutButton" class="menu-item">
+                        <a href="logout.php" class="menu-item">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -76,13 +80,12 @@
             </div>
         </div>
         <div class="main-content">
-            
             <main class="forum-container">
                 <!-- Post Header -->
                 <div class="post-header-section">
-                    <h1 class="page-title">Konu Başlığı</h1>
+                    <h1 class="page-title" id="postTitle">Loading...</h1>
                     <div class="post-date">
-                        <span class="date-text">15/01/2025</span>
+                        <span class="date-text" id="postDate">Loading...</span>
                     </div>
                 </div>
                 
@@ -90,10 +93,10 @@
                     <div class="post-header">
                         <div class="post-user-info">
                             <div class="profile-picture">
-                                <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
+                                <img src="images/default-avatar.png" alt="User Avatar" class="avatar" id="authorAvatar">
                             </div>
                             <div class="user-details">
-                                <span class="username">@username</span>
+                                <span class="username" id="postAuthor">Loading...</span>
                             </div>
                         </div>
                         <div class="post-menu">
@@ -117,10 +120,8 @@
                         </div>
                     </div>
                     
-                    <div class="post-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa consectetur et. Sed risus enim, bibendum vel sem id, lobortis ultrices nunc. Ut id elementum justo, a egestas quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum ultricies, velit eget imperdiet malesuada, dolor lorem molestie leo, non auctor est mauris ac purus. Vivamus porta sapien sed fermentum condimentum.</p>
-                        
-                        <p>Etiam ullamcorper aliquet diam vel fermentum. Nam imperdiet, libero ut tempor ornare, eros risus auctor augue, in interdum erat erat id eros. Cras ac ante nec nunc vulputate dapibus at nec elit. Mauris ac metus ac purus bibendum dapibus sit amet sed dui. In sodales feugiat enim, in ultricies ligula ut mollis tincidunt. Proin imperdiet lacinia ipsum, ut rutrum arcu bibendum nec. Pellentesque ipsum nunc, posuere quis pretium eget, vulputate in magna. Nulla nec arcu in lectus viverra hendrerit sit amet convallis eros. Sed ullamcorper sem ac bibendum condimentum. Morbi ac odio vestibulum, varius ante ut, sagittis purus. Nam tristique libero quis diam feugiat venenatis.</p>
+                    <div class="post-content" id="postContent">
+                        Loading...
                     </div>
                     
                     <div class="post-actions">
@@ -134,122 +135,14 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Comments Section -->
                 <div class="comments-section">
                     <div class="section-header">
                         <h3>Yorumlar</h3>
                     </div>
-                    
-                    <div class="comment">
-                        <div class="comment-header">
-                            <div class="comment-user-info">
-                                <div class="profile-picture">
-                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
-                                </div>
-                                <div class="user-details">
-                                    <h4 class="comment-author">Adı - Soyadı</h4>
-                                    <span class="username">@username</span>
-                                </div>
-                            </div>
-                            <div class="comment-menu">
-                                <button class="menu-button" aria-label="Comment Menu">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Düzenle
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-share"></i>
-                                        Paylaş
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-flag"></i>
-                                        Şikayet Et
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="comment-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
-                        </div>
-                    </div>
-
-                    <div class="comment">
-                        <div class="comment-header">
-                            <div class="comment-user-info">
-                                <div class="profile-picture">
-                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
-                                </div>
-                                <div class="user-details">
-                                    <h4 class="comment-author">Adı - Soyadı</h4>
-                                    <span class="username">@username</span>
-                                </div>
-                            </div>
-                            <div class="comment-menu">
-                                <button class="menu-button" aria-label="Comment Menu">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Düzenle
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-share"></i>
-                                        Paylaş
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-flag"></i>
-                                        Şikayet Et
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="comment-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
-                        </div>
-                    </div>
-
-                    <div class="comment">
-                        <div class="comment-header">
-                            <div class="comment-user-info">
-                                <div class="profile-picture">
-                                    <img src="images/default-avatar.png" alt="User Avatar" class="avatar">
-                                </div>
-                                <div class="user-details">
-                                    <h4 class="comment-author">Adı - Soyadı</h4>
-                                    <span class="username">@username</span>
-                                </div>
-                            </div>
-                            <div class="comment-menu">
-                                <button class="menu-button" aria-label="Comment Menu">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Düzenle
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-share"></i>
-                                        Paylaş
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fas fa-flag"></i>
-                                        Şikayet Et
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="comment-content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus ante lacus, a rutrum tellus imperdiet id. Quisque faucibus mauris nibh, nec tristique massa</p>
-                        </div>
+                    <div id="commentsList">
+                        <!-- Comments will be loaded here -->
                     </div>
                 </div>
             </main>
@@ -273,6 +166,7 @@
             checkLoginStatus();
             setupLogoutButton();
             setupDropdownMenus();
+            loadPostDetails();
         });
 
         // Dropdown menu functionality
@@ -362,6 +256,87 @@
                         });
                 });
             }
+        }
+
+        // Post detaylarını yükle
+        function loadPostDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            if (!postId) {
+                alert('Post ID is required');
+                return;
+            }
+
+            fetch(`/public/api/post-details.php?id=${postId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update post details
+                        document.getElementById('postTitle').textContent = data.post.title;
+                        document.getElementById('postAuthor').textContent = `@${data.post.author.username}`;
+                        document.getElementById('postDate').textContent = new Date(data.post.created_at).toLocaleDateString();
+                        document.getElementById('postContent').textContent = data.post.content;
+                        
+                        // Update author avatar
+                        const avatarImg = document.getElementById('authorAvatar');
+                        avatarImg.src = data.post.author.avatar.startsWith('http') 
+                            ? data.post.author.avatar 
+                            : `/public/images/${data.post.author.avatar}`;
+
+                        // Display comments
+                        const commentsList = document.getElementById('commentsList');
+                        if (data.comments.length === 0) {
+                            commentsList.innerHTML = '<p class="no-comments">Henüz yorum yapılmamış.</p>';
+                        } else {
+                            commentsList.innerHTML = data.comments.map(comment => `
+                                <div class="comment">
+                                    <div class="comment-header">
+                                        <div class="comment-user-info">
+                                            <div class="profile-picture">
+                                                <img src="${comment.author.avatar.startsWith('http') 
+                                                    ? comment.author.avatar 
+                                                    : `/public/images/${comment.author.avatar}`}" 
+                                                    alt="User Avatar" class="avatar">
+                                            </div>
+                                            <div class="user-details">
+                                                <span class="username">@${comment.author.username}</span>
+                                            </div>
+                                        </div>
+                                        <div class="comment-menu">
+                                            <button class="menu-button" aria-label="Comment Menu">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item">
+                                                    <i class="fas fa-edit"></i>
+                                                    Düzenle
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i class="fas fa-share"></i>
+                                                    Paylaş
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    <i class="fas fa-flag"></i>
+                                                    Şikayet Et
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-content">
+                                        <p>${comment.content}</p>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    } else {
+                        alert('Error loading post: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading post details');
+                });
         }
     </script>
 </body>
