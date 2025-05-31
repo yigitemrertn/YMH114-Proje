@@ -169,20 +169,6 @@ body.dark-mode .profile-stats .stat-item {
     color: #f5f5f5;
 }
 
-body.dark-mode .profile-stats .stat-value {
-    color: #3498db;
-}
-
-body.dark-mode .follow-button {
-    background-color: #3498db;
-    color: #f5f5f5;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-body.dark-mode .follow-button:hover {
-    background-color: #2980b9;
-}
-
 /* Dark mode for profile-menu and profile-content */
 body.dark-mode .profile-menu {
     background-color: rgba(26, 26, 46, 0.8);
@@ -967,6 +953,7 @@ body.dark-mode .register-button:hover {
 .search-container {
     display: flex;
     align-items: center;
+    justify-content: center; /* Ensure horizontal centering */
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 25px;
     padding: 0.25rem 3rem 0.25rem 1rem; /* Increased right padding for fixed button */
@@ -976,6 +963,7 @@ body.dark-mode .register-button:hover {
     height: 35px;
     position: relative;
     box-sizing: border-box;
+    margin: 0 auto; /* Center the container itself */
 }
 
 .search-container:focus-within {
@@ -993,6 +981,7 @@ body.dark-mode .register-button:hover {
     outline: none;
     transition: color 0.5s ease;
     margin-right: 2.5rem; /* Create space for the absolutely positioned button */
+    text-align: left; /* Ensure input text starts from left */
 }
 
 .search-input::placeholder {
@@ -1063,9 +1052,15 @@ body.dark-mode .search-button:hover {
     z-index: 9998;
     backdrop-filter: blur(10px);
     transition: background-color 0.5s ease;
+    /* Perfect centering for mobile dropdown */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-
+.search-dropdown:not(.active) {
+    display: none;
+}
 
 @media (max-width: 768px) {
     .search-dropdown {
@@ -1120,8 +1115,13 @@ body.dark-mode .search-dropdown {
 
     .search-dropdown .search-container {
         display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 300px; /* Even smaller for very small screens */
+        padding: 0.2rem 2rem 0.2rem 0.5rem; /* Adjusted padding for very small screens */
+        height: 30px;
     }
 }
 
@@ -1149,8 +1149,13 @@ body.dark-mode .search-dropdown {
 
     .search-dropdown .search-container {
         display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 300px; /* Even smaller for very small screens */
+        padding: 0.2rem 2rem 0.2rem 0.5rem; /* Adjusted padding for very small screens */
+        height: 30px;
     }
 }
 
@@ -1186,8 +1191,13 @@ body.dark-mode .search-dropdown {
 
     .search-dropdown .search-container {
         display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 300px; /* Even smaller for very small screens */
+        padding: 0.2rem 2rem 0.2rem 0.5rem; /* Adjusted padding for very small screens */
+        height: 30px;
     }
 }
 
@@ -1223,8 +1233,13 @@ body.dark-mode .search-dropdown {
 
     .search-dropdown .search-container {
         display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 300px; /* Even smaller for very small screens */
+        padding: 0.2rem 2rem 0.2rem 0.5rem; /* Adjusted padding for very small screens */
+        height: 30px;
     }
 
     /* Container styles for phones in landscape mode */
@@ -2015,23 +2030,6 @@ body.dark-mode ::-webkit-scrollbar-thumb:hover {
 .suggestion-username {
     color: #7f8c8d;
     font-size: 0.8rem;
-}
-
-.follow-button {
-    padding: 0.4rem 0.8rem;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.follow-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .trending-item {
