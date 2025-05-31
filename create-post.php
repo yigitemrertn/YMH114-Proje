@@ -40,7 +40,7 @@ if (empty($title) || empty($category) || empty($content)) {
 }
 
 try {
-    $stmt = $conn->prepare("INSERT INTO posts (user_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+    $stmt = $pdo->prepare("INSERT INTO posts (user_id, title, content, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
     $stmt->execute([$_SESSION['user_id'], $title, $content]);
 
     echo json_encode([
