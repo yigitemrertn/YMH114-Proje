@@ -95,15 +95,41 @@
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
-                <div class="hamburger-container" id="hamburgerContainer" style="display: block;">
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
                         <span class="hamburger-icon"></span>
                     </button>
                     <div class="hamburger-menu">
-                        <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
-                        <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profil</a>
-                        <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Ayarlar</a>
-                        <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+                        <a href="index.html" class="menu-item">
+                            <i class="fas fa-home"></i>
+                            Ana Sayfa
+                        </a>
+                        <a href="create-post.html" class="menu-item">
+                            <i class="fas fa-plus-circle"></i>
+                            Konu Oluştur
+                        </a>
+                        <a href="profile.html" class="menu-item">
+                            <i class="fas fa-user"></i>
+                            Profil
+                        </a>
+                        <a href="settings.html" class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            Ayarlar
+                        </a>
+                        <a href="logout.php" class="menu-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Çıkış Yap
+                        </a>
                     </div>
                 </div>
             </div>
@@ -134,11 +160,16 @@
         .then(res => res.json())
         .then(data => {
             const resultsDiv = document.getElementById('search-results');
+            function stripTags(html) {
+                var div = document.createElement('div');
+                div.innerHTML = html;
+                return div.textContent || div.innerText || '';
+            }
             if (data.results && data.results.length > 0) {
                 resultsDiv.innerHTML = data.results.map(p => `
                     <div class="post-card">
                         <div class="post-card-title">${p.title}</div>
-                        <div class="post-card-content">${(p.content || '').substring(0, 120)}${(p.content && p.content.length > 120) ? '...' : ''}</div>
+                        <div class="post-card-content">${stripTags((p.content || '')).substring(0, 120)}${(p.content && p.content.length > 120) ? '...' : ''}</div>
                         <a href="detailed-post.html?id=${p.id}" class="post-card-link">
                             <i class="fas fa-arrow-right"></i> Detay
                         </a>
@@ -154,8 +185,23 @@
     <script src="js/theme-toggle.js"></script>
     <script src="js/hamburger.js"></script>
     <script>
-        function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    if (data.loggedIn) {
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                });
+            // Çıkış butonu için
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -169,8 +215,7 @@
                         });
                 });
             }
-        }
-        document.addEventListener('DOMContentLoaded', setupLogoutButton);
+        });
     </script>
 </body>
 </html>

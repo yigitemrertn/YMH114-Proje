@@ -29,7 +29,9 @@ function truncateText(text, maxLength = 200) {
 
 // Function to format content with line breaks
 function formatContent(content) {
+    // Tüm HTML etiketlerini kaldır, sadece düz metin kalsın
     return content
+        .replace(/<[^>]*>/g, '') // HTML etiketlerini sil
         .replace(/\n/g, '<br>')
         .replace(/\s{2,}/g, ' ')
         .trim();
@@ -162,7 +164,7 @@ function loadNews() {
 function createPostElement(post) {
     const postCard = document.createElement('article');
     postCard.className = 'post-card';
-    
+
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
@@ -171,6 +173,9 @@ function createPostElement(post) {
             <div class="user-details">
                 <span class="username">@${post.author.username}</span>
             </div>
+            <div class="post-date" style="margin-left:auto;font-size:0.97em;color:#888;">
+                ${formatDate(post.created_at)}
+            </div>
         </div>
         
         <h2 class="post-title">
@@ -178,10 +183,13 @@ function createPostElement(post) {
         </h2>
         
         <div class="post-content">
-            ${post.content}
+            ${formatContent(post.content)}
+        </div>
+        <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
+            <!-- Like butonu ve like-count kaldırıldı -->
         </div>
     `;
-
+    // Like butonuna event ekleme kaldırıldı
     return postCard;
 }
 
@@ -223,28 +231,6 @@ function showNewsError(message) {
     `;
 }
 
-function likePost(postId) {
-    fetch('/like_post.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ post_id: postId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            loadPosts(); // Refresh posts to update like count
-        } else {
-            showErrorMessage('Beğeni işlemi başarısız oldu.');
-        }
-    })
-    .catch(error => {
-        console.error('Error liking post:', error);
-        showErrorMessage('Beğeni işlemi sırasında bir hata oluştu.');
-    });
-}
-
 function sharePost(postId) {
     const postUrl = `${window.location.origin}/detailed-post.html?id=${postId}`;
     navigator.clipboard.writeText(postUrl)
@@ -268,4 +254,4 @@ function focusCommentInput(postId) {
 function showSuccessMessage(message) {
     // Implement success message display
     console.log(message);
-} 
+}

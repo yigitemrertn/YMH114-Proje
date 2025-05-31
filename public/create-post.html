@@ -446,8 +446,7 @@
                     const formData = {
                         title: titleInput.value.trim(),
                         category: categorySelect.value,
-                        content: quill.root.innerHTML,
-                        plainText: quill.getText().trim()
+                        content: quill.getText().trim() // Sadece düz metin gönder
                     };
 
                     // Form verilerini sunucuya gönder

@@ -49,10 +49,43 @@ try {
         $stmt = $pdo->prepare("SELECT id, title, content FROM posts WHERE (title LIKE ? OR content LIKE ?) LIMIT 20");
         $stmt->execute(["%$query%", "%$query%"]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } else { // comments
-        $stmt = $pdo->prepare("SELECT id, comment as content FROM comments WHERE comment LIKE ? LIMIT 20");
+    } else { // comments => ilgili postu getir
+        // Yorumlarda arama yap, eşleşen yorumların post_id'lerini ve ilk eşleşen yorumu bul
+        $stmt = $pdo->prepare("SELECT post_id, content, id FROM comments WHERE content LIKE ? ORDER BY post_id, id");
         $stmt->execute(["%$query%"]);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allMatches = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // post_id => ilk eşleşen yorum
+        $firstComments = [];
+        foreach ($allMatches as $row) {
+            $pid = $row['post_id'];
+            if (!isset($firstComments[$pid])) {
+                $firstComments[$pid] = [
+                    'comment_id' => $row['id'],
+                    'content' => $row['content']
+                ];
+            }
+        }
+        $postIds = array_keys($firstComments);
+
+        $results = [];
+        if (!empty($postIds)) {
+            $inQuery = implode(',', array_fill(0, count($postIds), '?'));
+            $stmt = $pdo->prepare("SELECT id, title, content FROM posts WHERE id IN ($inQuery)");
+            $stmt->execute($postIds);
+            $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Her postun altına ilk eşleşen yorumu ekle
+            foreach ($posts as $post) {
+                $pid = $post['id'];
+                $results[] = [
+                    'id' => $post['id'],
+                    'title' => $post['title'],
+                    'content' => $post['content'],
+                    'matched_comment' => isset($firstComments[$pid]) ? $firstComments[$pid] : null
+                ];
+            }
+        }
     }
 
     echo json_encode([

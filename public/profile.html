@@ -61,10 +61,10 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <button id="logoutButton" class="menu-item">
+                        <a href="logout.php" class="menu-item">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -245,52 +245,33 @@
     <script src="/public/js/search.js"></script>
     <script src="js/search.js"></script>
     <script>
-        // Sayfa yüklendiğinde giriş durumunu kontrol et
+        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
         document.addEventListener('DOMContentLoaded', function() {
-            checkLoginStatus();
-            setupLogoutButton();
-        });
-
-        // Giriş durumunu kontrol eden fonksiyon
-        function checkLoginStatus() {
             fetch('/status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
                     const hamburgerContainer = document.getElementById('hamburgerContainer');
-                    
                     if (data.loggedIn) {
-                        // Kullanıcı giriş yapmışsa
                         authButtons.style.display = 'none';
                         hamburgerContainer.style.display = 'block';
                     } else {
-                        // Kullanıcı giriş yapmamışsa
                         authButtons.style.display = 'flex';
                         hamburgerContainer.style.display = 'none';
-                        // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                        // Giriş yapılmamışsa login.html'e yönlendir
                         window.location.href = 'login.html';
-
                     }
                 })
                 .catch(error => {
                     console.error('Error checking login status:', error);
                 });
-        }
 
-        // Çıkış yapma butonunu ayarla
-        function setupLogoutButton() {
-
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
-
+            // Çıkış butonu için
             const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
@@ -305,7 +286,7 @@
                         });
                 });
             }
-        }
+        });
     </script>
 </body>
 </html>
