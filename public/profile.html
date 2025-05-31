@@ -40,6 +40,10 @@
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
+                        <a href="create-post.html" class="menu-item">
+                            <i class="fas fa-plus-circle"></i>
+                            Konu Oluştur
+                        </a>
                         <a href="profile.html" class="menu-item">
                             <i class="fas fa-user"></i>
                             Profil
@@ -122,5 +126,61 @@
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
     <script src="js/search.js"></script>
+    <script>
+        // Sayfa yüklendiğinde giriş durumunu kontrol et
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            setupLogoutButton();
+        });
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('/status.php')
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                        // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.querySelector('a[href="logout.php"]');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+    </script>
 </body>
 </html>

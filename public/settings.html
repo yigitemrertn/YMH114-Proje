@@ -40,6 +40,10 @@
                         <i class="fas fa-home"></i>
                         Ana Sayfa
                     </a>
+                    <a href="create-post.html" class="menu-item">
+                        <i class="fas fa-plus-circle"></i>
+                        Konu Oluştur
+                    </a>
                     <a href="profile.html" class="menu-item">
                         <i class="fas fa-user"></i>
                         Profil
@@ -48,10 +52,10 @@
                         <i class="fas fa-cog"></i>
                         Ayarlar
                     </a>
-                    <button id="logoutButton" class="menu-item">
+                    <a href="logout.php" class="menu-item">
                         <i class="fas fa-sign-out-alt"></i>
                         Çıkış Yap
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -324,17 +328,16 @@
 
         // Çıkış yapma butonunu ayarla
         function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
+            const logoutButton = document.querySelector('a[href="logout.php"]');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    e.stopPropagation();
                     
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Çıkış başarılı olduğunda ana sayfaya yönlendir
                                 window.location.href = 'index.html';
                             } else {
                                 console.error('Çıkış yapılamadı');

@@ -631,8 +631,8 @@ body.dark-mode .register-button:hover {
     padding: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(10px);
-    margin: 0 2rem 0 0; /* Reduced right margin for better spacing */
-    width: calc(70% - 2rem); /* Adjusted width for better layout */
+    margin: 2rem 1rem 2rem 2rem; /* Updated to match detailed-post.css */
+    width: calc(65% - 1rem); /* Adjust width for laptops */
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
 }
 
@@ -678,6 +678,7 @@ body.dark-mode .register-button:hover {
     z-index: 100;
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
     align-self: flex-start; /* Align to top of container */
+    margin: 2rem 2rem 2rem 1rem; /* Updated to match detailed-post.css */
 }
 
 .featured-header h2 {
@@ -795,7 +796,7 @@ body.dark-mode .register-button:hover {
     .forum-container {
         flex: 1;
         min-width: 0;
-        margin: 0 1rem 0 0; /* Reduce right margin */
+        margin: 2rem 1rem 2rem 2rem; /* Updated to match detailed-post.css */
         width: calc(65% - 1rem); /* Adjust width for laptops */
     }
 
@@ -803,7 +804,7 @@ body.dark-mode .register-button:hover {
         position: static;
         width: 35%; /* Adjust width for laptops */
         min-width: 300px; /* Ensure minimum width */
-        margin: 0;
+        margin: 2rem 2rem 2rem 1rem; /* Updated to match detailed-post.css */
     }
 }
 
@@ -815,13 +816,15 @@ body.dark-mode .register-button:hover {
 
     .forum-container {
         width: 100%;
-        margin: 0 0 1rem 0;
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         padding: 1.5rem;
     }
 
     .featured-topics {
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         width: 100%;
-        padding: 1.5rem;
+        max-width: 100%;
+        padding: 1rem;
     }
 }
 
@@ -839,7 +842,7 @@ body.dark-mode .register-button:hover {
     }
 
     .featured-topics {
-        margin: 1rem auto 0;
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         width: 100%;
         max-width: 100%;
         padding: 1rem;
@@ -860,7 +863,7 @@ body.dark-mode .register-button:hover {
     }
 
     .featured-topics {
-        margin: 1rem auto 0;
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         width: 100%;
         max-width: 100%;
         padding: 1rem;
@@ -881,7 +884,7 @@ body.dark-mode .register-button:hover {
     }
 
     .featured-topics {
-        margin: 1rem auto 0;
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         width: 100%;
         max-width: 100%;
         padding: 1rem;
@@ -1237,7 +1240,7 @@ body.dark-mode .search-dropdown {
     }
 
     .featured-topics {
-        margin: 1rem auto 0;
+        margin: 1rem; /* Updated to match detailed-post.css mobile style */
         width: 100%;
         max-width: 100%;
         padding: 1rem;
