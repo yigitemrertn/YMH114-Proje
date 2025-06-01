@@ -59,7 +59,7 @@
         padding: 8px 0;
         border-radius: 20px;
         border: none;
-        background: #3498db;
+        background: #3498db; /* Forumun ana mavisi */
         color: #fff;
         font-weight: 600;
         cursor: pointer;
@@ -460,6 +460,60 @@ document.addEventListener('DOMContentLoaded', function() {
                     profileMenuLink.href = 'login.html';
                 }
             });
+    }
+
+    // Takip Et / Takipten Çık butonu işlevi
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+    const followButton = document.getElementById('follow-button');
+    if (followButton && userId) {
+        fetch('../status.php')
+            .then(res => res.json())
+            .then(status => {
+                if (status.loggedIn && String(status.userId) === String(userId)) {
+                    followButton.style.display = 'none';
+                } else {
+                    followButton.style.display = 'block';
+                    // Takip durumu kontrolü
+                    fetch('api/user/check-follow-status.php?user_id=' + encodeURIComponent(userId))
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.is_following) {
+                                followButton.textContent = 'Takipten Çık';
+                                followButton.classList.add('following');
+                            } else {
+                                followButton.textContent = 'Takip Et';
+                                followButton.classList.remove('following');
+                            }
+                        });
+                }
+            });
+
+        followButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const formData = new FormData();
+            formData.append('userId', userId);
+            fetch('api/user/toggle-follow.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .the(data => {
+                if (data.success) {
+                    // Durumu güncelle
+                    if (followButton.classList.contains('following')) {
+                        followButton.textContent = 'Takip Et';
+                        followButton.classList.remove('following');
+                    } else {
+                        followButton.textContent = 'Takipten Çık';
+                        followButton.classList.add('following');
+                    }
+                } else {
+                    alert(data.message || 'İşlem başarısız');
+                }
+            });
+        });
     }
 
     // Avatar modal aç/kapat
