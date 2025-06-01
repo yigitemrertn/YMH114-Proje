@@ -31,7 +31,14 @@
             <button class="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
-            
+            <button class="login-button" onclick="window.location.href='login.html'">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Giriş Yap</span>
+            </button>
+            <button class="logout-button" style="display: none;">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Çıkış Yap</span>
+            </button>
         </div>
     </nav>
 
@@ -94,15 +101,19 @@
             const loginButtons = document.querySelectorAll('.login-button, .login-button-mobile');
             const logoutButton = document.querySelector('.logout-button');
 
-            if (isLoggedIn) {
-                loginButtons.forEach(button => button.style.display = 'none');
+            if (isLoggedIn && logoutButton) {
+                loginButtons.forEach(button => {
+                    if (button) button.style.display = 'none';
+                });
                 logoutButton.style.display = 'block';
             }
 
-            logoutButton.addEventListener('click', function() {
-                localStorage.setItem('loggedIn', 'false');
-                location.reload();
-            });
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function() {
+                    localStorage.setItem('loggedIn', 'false');
+                    location.reload();
+                });
+            }
         });
     </script>
     <script src="js/theme-toggle.js"></script>

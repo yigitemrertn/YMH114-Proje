@@ -183,10 +183,10 @@ function createPostElement(post) {
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="images/${post.author.avatar || 'default-avatar.png'}" alt="${post.author.username}'s avatar">
+                <img src="images/default-avatar.png" alt="${post.username}'s avatar">
             </div>
             <div class="user-details">
-                <span class="username">@${post.author.username}</span>
+                <span class="username">@${post.username}</span>
             </div>
             <div class="post-date" style="margin-left:auto;font-size:0.97em;color:#888;">
                 ${formatDate(post.created_at)}
@@ -201,7 +201,7 @@ function createPostElement(post) {
             ${formatPostContent(post.content)}
         </div>
         <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
-            <!-- Like butonu ve like-count kaldırıldı -->
+            <span class="post-stat"><i class="fas fa-comment"></i> ${post.comment_count || 0}</span>
         </div>
     `;
     return postCard;
@@ -212,14 +212,16 @@ function createNewsElement(news) {
     newsElement.className = 'featured-topic';
     
     newsElement.innerHTML = `
-        <a href="${news.url}" target="_blank" class="topic-link">
-            <h3 class="topic-title">${news.title}</h3>
-            <div class="topic-meta">
+        <div class="topic-content">
+            <div class="topic-header">
                 <span class="topic-source">${news.source}</span>
                 <span class="topic-date">${formatDate(news.publishedAt)}</span>
             </div>
-            <p class="topic-description">${news.description}</p>
-        </a>
+            <h3 class="topic-title">
+                <a href="${news.url}" target="_blank" rel="noopener noreferrer">${news.title}</a>
+            </h3>
+            <p class="topic-description">${truncateText(news.description, 100)}</p>
+        </div>
     `;
     
     return newsElement;
