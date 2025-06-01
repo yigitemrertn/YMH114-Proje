@@ -30,23 +30,17 @@ try {
         exit;
     }
 
-    // Eğer giriş yapmış kullanıcı varsa, takip durumunu kontrol et
-    if ($currentUserId) {
+    // Takip durumu
+    $user['is_following'] = false;
+    if ($currentUserId && $currentUserId != $userId) {
         $stmt = $pdo->prepare("SELECT COUNT(*) as is_following FROM follows WHERE follower_id = ? AND following_id = ?");
         $stmt->execute([$currentUserId, $userId]);
         $followStatus = $stmt->fetch(PDO::FETCH_ASSOC);
         $user['is_following'] = $followStatus['is_following'] > 0;
-    } else {
-        $user['is_following'] = false;
     }
 
-    echo json_encode([
-        'success' => true,
-        'profile' => $user
-    ]);
+    echo json_encode(['success' => true, 'profile' => $user]);
 } catch (PDOException $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Profil bilgileri alınırken bir hata oluştu'
-    ]);
-} 
+    echo json_encode(['success' => false, 'message' => 'Profil bilgileri alınırken bir hata oluştu']);
+}
+?>
