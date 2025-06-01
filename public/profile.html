@@ -290,7 +290,12 @@
 
         // Load profile data
         fetch(`../api/user/get-user-profile.php?id=${userId}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Profil bilgileri alınamadı');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     // Update profile information
@@ -310,7 +315,12 @@
                     throw new Error(data.message || 'Profil yüklenemedi');
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gönderiler alınamadı');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     const postsContainer = document.getElementById('userPostsContainer');
@@ -339,7 +349,12 @@
                     return fetch(`../api/user/get-user-comments.php?id=${userId}`);
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Yorumlar alınamadı');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     const commentsContainer = document.getElementById('userCommentsContainer');
@@ -370,7 +385,12 @@
 
         // Check login status
         fetch('../status.php')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Giriş durumu kontrol edilemedi');
+                }
+                return response.json();
+            })
             .then(data => {
                 const authButtons = document.getElementById('authButtons');
                 const hamburgerContainer = document.getElementById('hamburgerContainer');
@@ -396,7 +416,14 @@
                     window.location.href = 'login.html';
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response) {
+                    if (!response.ok) {
+                        throw new Error('Takip durumu kontrol edilemedi');
+                    }
+                    return response.json();
+                }
+            })
             .then(data => {
                 if (data && data.is_following) {
                     const followButton = document.getElementById('follow-button');
@@ -415,11 +442,19 @@
                 e.preventDefault();
                 e.stopPropagation();
                 fetch('../logout.php')
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Çıkış yapılamadı');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             window.location.href = '../index.html';
                         }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
             });
         }
@@ -441,7 +476,12 @@
                     },
                     body: JSON.stringify({ user_id: userId })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('İşlem başarısız');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.success) {
                         if (isFollowing) {
@@ -456,6 +496,9 @@
                         const currentCount = parseInt(followersCount.textContent);
                         followersCount.textContent = isFollowing ? currentCount - 1 : currentCount + 1;
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
             });
         }
