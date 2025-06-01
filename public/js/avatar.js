@@ -39,9 +39,8 @@ function generateAvatar(initials, size = 150) {
 // Profil resmi için avatar oluşturma fonksiyonu
 function setDefaultAvatar(username) {
     const avatarElements = document.querySelectorAll('.profile-avatar img, .post-avatar img, .suggestion-avatar img');
-    
     avatarElements.forEach(img => {
-        if (!img.src || img.src.includes('placeholder.com')) {
+        if (!img.src || img.src.includes('placeholder.com') || img.src.includes('default-avatar.png')) {
             // Kullanıcı adı yoksa veya geçersizse soru işareti kullan
             const displayInitial = username && username.length > 0 ? username.charAt(0).toUpperCase() : '?';
             img.src = generateAvatar(displayInitial);
@@ -54,4 +53,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Kullanıcı adını localStorage'dan al
     const username = localStorage.getItem('username');
     setDefaultAvatar(username);
-}); 
+});

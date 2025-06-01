@@ -14,24 +14,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Profile Menu Tab Switching
+    // Menü tab switching güncellendi
     const profileMenuItems = document.querySelectorAll('.profile-menu-item');
     const profileSections = document.querySelectorAll('.profile-section');
-
     profileMenuItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Remove active class from all menu items and sections
             profileMenuItems.forEach(i => i.classList.remove('active'));
             profileSections.forEach(s => s.classList.remove('active'));
-
-            // Add active class to clicked menu item
             this.classList.add('active');
-
-            // Show corresponding section
-            const targetId = this.getAttribute('data-target');
+            const targetId = this.getAttribute('data-section') + '-section';
             document.getElementById(targetId).classList.add('active');
         });
     });
+
+    // Profil verilerini yükle
+    fetch('api/user/get-profile.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('profileName').textContent = data.profile.name + ' ' + data.profile.surname;
+                document.getElementById('profileUsername').textContent = '@' + data.profile.username;
+                document.getElementById('profileBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                document.getElementById('aboutBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                document.getElementById('avatarImage').src = data.profile.avatar ? data.profile.avatar : 'images/default-avatar.png';
+                document.getElementById('postCount').textContent = data.profile.post_count || 0;
+                document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
+                document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
+                // Takip et/bırak butonu
+                const followBtn = document.getElementById('follow-button');
+                if (followBtn && typeof data.profile.is_following !== "undefined") {
+                    if (data.profile.is_following == 1 || data.profile.is_following === true) {
+                        followBtn.textContent = 'Takipten Çık';
+                        followBtn.classList.add('following');
+                    } else {
+                        followBtn.textContent = 'Takip Et';
+                        followBtn.classList.remove('following');
+                    }
+                    followBtn.onclick = function() {
+                        const userId = data.profile.id;
+                        fetch('api/user/toggle-follow.php', {
+                            method: 'POST',
+                            body: new URLSearchParams({ userId })
+                        })
+                        .then(res => res.json())
+                        .then(resp => {
+                            if (resp.success) {
+                                location.reload();
+                            } else {
+                                alert(resp.message || 'Takip işlemi başarısız');
+                            }
+                        });
+                    };
+                }
+            }
+        });
 
     // Post Interaction Functionality
     const postActions = document.querySelectorAll('.post-action');
@@ -201,6 +237,50 @@ document.addEventListener('DOMContentLoaded', function() {
     initializePageHandlers();
 });
 
+// Kullanıcının gönderilerini arama sayfasındaki gibi göster
+function renderUserPosts(posts) {
+    const container = document.getElementById('userPostsContainer');
+    if (!container) return;
+    if (!posts.length) {
+        container.innerHTML = '<p>Henüz gönderi yok.</p>';
+        return;
+    }
+    container.innerHTML = posts.map(post => `
+        <div class="post-card">
+            <div class="post-card-title">${post.title}</div>
+            <div class="post-card-content">${stripTags(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${post.id}" class="post-card-link">
+                <i class="fas fa-arrow-right"></i> Detay
+            </a>
+        </div>
+    `).join('');
+}
+
+// Kullanıcının yorumlarını search-comments.html'deki gibi göster
+function renderUserComments(comments) {
+    const container = document.getElementById('userCommentsContainer');
+    if (!container) return;
+    if (!comments.length) {
+        container.innerHTML = '<p>Henüz yorum yok.</p>';
+        return;
+    }
+    container.innerHTML = comments.map(comment => `
+        <div class="comment-card">
+            <div class="comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="post-card-link">
+                <i class="fas fa-arrow-right"></i> Gönderiye Git
+            </a>
+        </div>
+    `).join('');
+}
+
+// HTML etiketlerini kaldırmak için yardımcı fonksiyon
+function stripTags(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+}
+
 function loadProfile(userId) {
     const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
 
@@ -225,26 +305,22 @@ function loadProfile(userId) {
 }
 
 function updateProfileUI(data) {
-    const { profile, recentPosts, recentComments } = data;
-
-    // Update profile header
+    const { profile } = data;
     document.getElementById('profile-username').textContent = '@' + profile.username;
     document.getElementById('profile-name').textContent = profile.full_name || profile.username;
     document.getElementById('profile-bio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
-
-    // Update profile stats
-    document.getElementById('post-count').textContent = profile.post_count;
-    document.getElementById('comment-count').textContent = profile.comment_count;
-    document.getElementById('following-count').textContent = profile.following_count;
-    document.getElementById('followers-count').textContent = profile.followers_count;
-
-    // Update avatar
     const avatar = document.getElementById('profile-avatar');
     if (profile.avatar) {
         avatar.src = profile.avatar;
     } else {
         avatar.src = 'images/default-avatar.png';
     }
+
+    // Update profile stats
+    document.getElementById('post-count').textContent = profile.post_count;
+    document.getElementById('comment-count').textContent = profile.comment_count;
+    document.getElementById('following-count').textContent = profile.following_count;
+    document.getElementById('followers-count').textContent = profile.followers_count;
 
     // Update follow button
     const followButton = document.getElementById('follow-button');

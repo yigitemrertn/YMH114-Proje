@@ -27,14 +27,16 @@ try {
             u.surname,
             u.bio,
             u.avatar,
+            u.created_at,
             (SELECT COUNT(*) FROM posts WHERE user_id = u.id) as post_count,
             (SELECT COUNT(*) FROM comments WHERE user_id = u.id) as comment_count,
             (SELECT COUNT(*) FROM follows WHERE follower_id = u.id) as following_count,
-            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count
+            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count,
+            EXISTS(SELECT 1 FROM follows WHERE follower_id = ? AND following_id = u.id) as is_following
         FROM users u
         WHERE u.id = ?
     ");
-    $stmt->execute([$userId]);
+    $stmt->execute([$userId, $userId]);
     $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$profile) {
@@ -82,10 +84,12 @@ try {
             'surname' => $profile['surname'],
             'bio' => $profile['bio'],
             'avatar' => $profile['avatar'],
+            'created_at' => $profile['created_at'],
             'post_count' => $profile['post_count'],
             'comment_count' => $profile['comment_count'],
             'following_count' => $profile['following_count'],
-            'followers_count' => $profile['followers_count']
+            'followers_count' => $profile['followers_count'],
+            'is_following' => $profile['is_following']
         ],
         'recentPosts' => $recentPosts,
         'recentComments' => $recentComments
@@ -99,4 +103,4 @@ try {
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
     ]);
-} 
+}
