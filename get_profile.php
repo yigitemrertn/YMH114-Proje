@@ -4,6 +4,23 @@ require_once 'config.php';
 
 header('Content-Type: application/json');
 
+if (isset($_GET['random']) && $_GET['random'] == 1) {
+    // Rastgele 4 kullanıcı getir (giriş yapan hariç)
+    $excludeId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+    $stmt = $pdo->prepare("
+        SELECT id, username, name, surname, avatar, 
+        (SELECT COUNT(*) FROM follows WHERE following_id = users.id) as followers_count 
+        FROM users 
+        WHERE id != ? 
+        ORDER BY RAND() 
+        LIMIT 4
+    ");
+    $stmt->execute([$excludeId]);
+    $similar = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['success' => true, 'similar' => $similar]);
+    exit;
+}
+
 if (!isset($_GET['id'])) {
     echo json_encode(['success' => false, 'message' => 'Kullanıcı ID gerekli']);
     exit;
@@ -68,4 +85,4 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Veritabanı hatası']);
 }
-?> 
+?>
