@@ -205,7 +205,9 @@ function createPostElement(post) {
             ${formatPostContent(post.content)}
         </div>
         <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
-            <!-- Like butonu ve like-count kaldırıldı -->
+            <span class="post-stat">
+                <i class="fas fa-comment"></i> ${post.comment_count || 0} yorum
+            </span>
         </div>
     `;
     return postCard;
