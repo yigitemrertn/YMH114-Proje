@@ -8,7 +8,7 @@ try {
     // Eğer ID parametresi varsa, tek bir post getir
     if (isset($_GET['id'])) {
         $stmt = $pdo->prepare("
-            SELECT p.*, u.username, u.name, u.surname,
+            SELECT p.*, u.username, u.name, u.surname, u.avatar,
             (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
             FROM posts p
             JOIN users u ON p.user_id = u.id
@@ -27,7 +27,7 @@ try {
     // ID yoksa, tüm postları getir
     else {
         $stmt = $pdo->prepare("
-            SELECT p.*, u.username, u.name, u.surname,
+            SELECT p.*, u.username, u.name, u.surname, u.avatar,
             (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
             FROM posts p
             JOIN users u ON p.user_id = u.id
