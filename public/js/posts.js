@@ -181,7 +181,7 @@ function createPostElement(post) {
     postCard.className = 'post-card';
     postCard.style.cursor = 'pointer';
     postCard.addEventListener('click', function() {
-        window.location.href = `detailed-post.html?id=${post.id}`;
+        window.location.href = `/public/detailed-posting.html?id=${post.id}`;
     });
 
     postCard.innerHTML = `
