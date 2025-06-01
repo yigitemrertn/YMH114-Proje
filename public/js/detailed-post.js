@@ -5,7 +5,7 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
-        const response = await fetch(`/public/api/posts.php?id=${postId}`);
+        const response = await fetch(`../get_post.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
@@ -38,7 +38,7 @@ function displayPostDetails(post) {
 // Yorumları yükle
 async function loadComments(postId) {
     try {
-        const response = await fetch(`/public/api/get_comments.php?post_id=${postId}`);
+        const response = await fetch(`../get_comments.php?post_id=${postId}`);
         if (!response.ok) {
             throw new Error('Yorumlar yüklenirken bir hata oluştu');
         }
@@ -82,7 +82,7 @@ async function submitComment() {
     }
     
     try {
-        const response = await fetch('/public/api/get_comments.php', {
+        const response = await fetch('../create_comment.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -101,6 +101,7 @@ async function submitComment() {
         if (data.success) {
             commentInput.value = '';
             loadComments(postId);
+            showSuccess('Yorum başarıyla gönderildi');
         } else {
             showError(data.message || 'Yorum gönderilemedi');
         }
@@ -119,7 +120,7 @@ function sharePost() {
         }).catch(console.error);
     } else {
         navigator.clipboard.writeText(url).then(() => {
-            alert('Link kopyalandı!');
+            showSuccess('Link kopyalandı!');
         }).catch(console.error);
     }
 }
@@ -131,7 +132,20 @@ function reportPost() {
 
 // Hata mesajı göster
 function showError(message) {
-    alert(message);
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    setTimeout(() => errorDiv.remove(), 3000);
+}
+
+// Başarı mesajı göster
+function showSuccess(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    document.body.appendChild(successDiv);
+    setTimeout(() => successDiv.remove(), 3000);
 }
 
 // Sayfa yüklendiğinde post detaylarını çek
