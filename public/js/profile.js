@@ -80,21 +80,23 @@ function stripTags(html) {
 
 function loadProfile(userId) {
     // Eğer userId varsa başka kullanıcının profilini, yoksa kendi profilimizi yükle
-    const endpoint = userId ? `../../api/user/get-user-profile.php?id=${userId}` : '../../api/user/get-profile.php';
+    const endpoint = userId ? `../../get_profile.php?id=${userId}` : '../../get_profile.php';
     
     fetch(endpoint)
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                updateProfileUI(data.profile);
+                updateProfileUI(data.user);
+                renderUserPosts(data.posts);
+                renderUserComments(data.comments);
                 
                 // Takip butonunu sadece başka kullanıcının profilinde göster
                 const followButton = document.getElementById('follow-button');
                 if (followButton) {
                     if (userId) {
                         followButton.style.display = 'block';
-                        followButton.textContent = data.profile.is_following ? 'Takipten Çık' : 'Takip Et';
-                        followButton.classList.toggle('following', data.profile.is_following);
+                        followButton.textContent = data.is_following ? 'Takipten Çık' : 'Takip Et';
+                        followButton.classList.toggle('following', data.is_following);
                     } else {
                         followButton.style.display = 'none';
                     }
