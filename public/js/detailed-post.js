@@ -5,11 +5,13 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
-        const response = await fetch(`/public/api/posts.php?id=${postId}`);
+        console.log('Fetching post details for ID:', postId);
+        const response = await fetch(`../get_post.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
         const data = await response.json();
+        console.log('Post data:', data);
         
         if (data.success) {
             displayPostDetails(data.post);
@@ -18,17 +20,20 @@ async function fetchPostDetails() {
             showError('Post bulunamadı');
         }
     } catch (error) {
+        console.error('Error fetching post:', error);
         showError(error.message);
     }
 }
 
 // Post detaylarını göster
 function displayPostDetails(post) {
+    console.log('Displaying post details:', post);
     document.title = `${post.title} - ForumFU`;
 
     // Yazar bilgileri
     document.querySelector('.author-name').textContent = `${post.name} ${post.surname}`;
     document.querySelector('.post-date').textContent = formatDate(post.created_at);
+
 
     // Post içeriği
     document.querySelector('.post-title').textContent = post.title;
@@ -41,28 +46,33 @@ function displayPostDetails(post) {
     }
     const avatarImg = document.querySelector('.author-avatar');
     if (avatarImg) avatarImg.src = avatarSrc;
+
 }
 
 // Yorumları yükle
 async function loadComments(postId) {
     try {
-        const response = await fetch(`/public/api/get_comments.php?post_id=${postId}`);
+        console.log('Loading comments for post ID:', postId);
+        const response = await fetch(`../get_comments.php?post_id=${postId}`);
         if (!response.ok) {
             throw new Error('Yorumlar yüklenirken bir hata oluştu');
         }
         const data = await response.json();
+        console.log('Comments data:', data);
         
         if (data.success) {
             displayComments(data.comments);
         }
     } catch (error) {
-        console.error('Yorumlar yüklenirken hata:', error);
+        console.error('Error loading comments:', error);
     }
 }
 
 // Yorumları göster
 function displayComments(comments) {
+    console.log('Displaying comments:', comments);
     const commentsList = document.querySelector('.comments-list');
+
     commentsList.innerHTML = comments.map(comment => {
         let avatarSrc = comment.avatar || 'images/default-avatar.png';
         if (avatarSrc && !avatarSrc.startsWith('http') && !avatarSrc.startsWith('/')) {
@@ -82,6 +92,7 @@ function displayComments(comments) {
             <div class="comment-content" style="margin-top:0.5em;font-size:1.04em;line-height:1.6;color:#222;">
                 ${formatPostContent(comment.content)}
             </div>
+
         </div>
         `;
     }).join('');
@@ -98,7 +109,7 @@ async function submitComment() {
     }
     
     try {
-        const response = await fetch('/public/api/get_comments.php', {
+        const response = await fetch('../create_comment.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,10 +128,12 @@ async function submitComment() {
         if (data.success) {
             commentInput.value = '';
             loadComments(postId);
+            showSuccess('Yorum başarıyla gönderildi');
         } else {
             showError(data.message || 'Yorum gönderilemedi');
         }
     } catch (error) {
+        console.error('Error submitting comment:', error);
         showError(error.message);
     }
 }
@@ -135,7 +148,7 @@ function sharePost() {
         }).catch(console.error);
     } else {
         navigator.clipboard.writeText(url).then(() => {
-            alert('Link kopyalandı!');
+            showSuccess('Link kopyalandı!');
         }).catch(console.error);
     }
 }
@@ -147,7 +160,20 @@ function reportPost() {
 
 // Hata mesajı göster
 function showError(message) {
-    alert(message);
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    setTimeout(() => errorDiv.remove(), 3000);
+}
+
+// Başarı mesajı göster
+function showSuccess(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    document.body.appendChild(successDiv);
+    setTimeout(() => successDiv.remove(), 3000);
 }
 
 // Tarih formatı fonksiyonu güncellendi

@@ -42,7 +42,7 @@ $filteredHistory = array_values(array_filter($_SESSION[$searchKey], function($it
 
 try {
     if ($type === 'users') {
-        $stmt = $pdo->prepare("SELECT id, username, name, surname FROM users WHERE (username LIKE ? OR name LIKE ? OR surname LIKE ?) LIMIT 20");
+        $stmt = $pdo->prepare("SELECT id, username, name, surname, avatar FROM users WHERE (username LIKE ? OR name LIKE ? OR surname LIKE ?) LIMIT 20");
         $stmt->execute(["%$query%", "%$query%", "%$query%"]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } elseif ($type === 'posts') {

@@ -345,4 +345,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    function displaySearchResults(results) {
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
+
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '<p class="no-results">Sonuç bulunamadı</p>';
+            return;
+        }
+
+        results.forEach(user => {
+            const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+            userCard.innerHTML = `
+                <div class="user-info">
+                    <img src="${user.avatar || 'images/default-avatar.png'}" alt="${user.username}'s avatar" class="user-avatar">
+                    <div class="user-details">
+                        <h3 class="user-name">${user.name} ${user.surname}</h3>
+                        <p class="user-username">@${user.username}</p>
+                    </div>
+                </div>
+                <a href="profile.html?id=${user.id}" class="view-profile">Profili Görüntüle</a>
+            `;
+            resultsContainer.appendChild(userCard);
+        });
+    }
 });

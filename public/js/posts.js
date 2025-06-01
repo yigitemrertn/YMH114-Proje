@@ -187,24 +187,30 @@ function createPostElement(post) {
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
+
                 <img src="${avatarSrc}" alt="${post.username || post.author?.username}'s avatar" style="width:50px;height:50px;object-fit:cover;border-radius:50%;border:2px solid #e0e0e0;">
+
             </div>
             <div class="user-details">
                 <span class="username">@${post.username || post.author?.username}</span>
                 <span class="post-date" style="font-size:0.97em;color:#888;margin-top:2px;">${formatDate(post.created_at)}</span>
             </div>
         </div>
+
         <h2 class="post-title" style="margin:0.7em 0 0.3em 0;">
             <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link" style="color:var(--text-primary);text-decoration:none;">${post.title}</a>
+
         </h2>
         <div class="post-content" style="margin-bottom:0.7em;color:var(--text-secondary);font-size:1.05em;line-height:1.6;">
             ${formatPostContent(post.content)}
         </div>
+
         <div class="post-actions" style="display:flex;align-items:center;gap:1em;">
             <span style="color:#888;font-size:0.97em;"><i class="fas fa-comment"></i> ${post.comment_count || post.stats?.comments || 0}</span>
             <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link" style="margin-left:auto;color:#3498db;font-weight:500;text-decoration:none;">
                 <i class="fas fa-arrow-right"></i> Detay
             </a>
+
         </div>
     `;
     return postCard;
