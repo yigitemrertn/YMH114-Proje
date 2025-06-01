@@ -5,11 +5,13 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
+        console.log('Fetching post details for ID:', postId);
         const response = await fetch(`../get_post.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
         const data = await response.json();
+        console.log('Post data:', data);
         
         if (data.success) {
             displayPostDetails(data.post);
@@ -18,12 +20,14 @@ async function fetchPostDetails() {
             showError('Post bulunamadı');
         }
     } catch (error) {
+        console.error('Error fetching post:', error);
         showError(error.message);
     }
 }
 
 // Post detaylarını göster
 function displayPostDetails(post) {
+    console.log('Displaying post details:', post);
     document.title = `${post.title} - ForumFU`;
     
     // Yazar bilgileri
@@ -32,29 +36,37 @@ function displayPostDetails(post) {
     
     // Post içeriği
     document.querySelector('.post-title').textContent = post.title;
-    document.querySelector('.post-text').innerHTML = formatPostContent(post.content);
+    document.querySelector('.post-text').textContent = post.content;
 }
 
 // Yorumları yükle
 async function loadComments(postId) {
     try {
+        console.log('Loading comments for post ID:', postId);
         const response = await fetch(`../get_comments.php?post_id=${postId}`);
         if (!response.ok) {
             throw new Error('Yorumlar yüklenirken bir hata oluştu');
         }
         const data = await response.json();
+        console.log('Comments data:', data);
         
         if (data.success) {
             displayComments(data.comments);
         }
     } catch (error) {
-        console.error('Yorumlar yüklenirken hata:', error);
+        console.error('Error loading comments:', error);
     }
 }
 
 // Yorumları göster
 function displayComments(comments) {
+    console.log('Displaying comments:', comments);
     const commentsList = document.querySelector('.comments-list');
+    if (!comments || comments.length === 0) {
+        commentsList.innerHTML = '<p class="no-comments">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>';
+        return;
+    }
+    
     commentsList.innerHTML = comments.map(comment => `
         <div class="comment">
             <div class="comment-header">
@@ -66,7 +78,7 @@ function displayComments(comments) {
                     </div>
                 </div>
             </div>
-            <div class="comment-content">${formatPostContent(comment.content)}</div>
+            <div class="comment-content">${comment.content}</div>
         </div>
     `).join('');
 }
@@ -106,6 +118,7 @@ async function submitComment() {
             showError(data.message || 'Yorum gönderilemedi');
         }
     } catch (error) {
+        console.error('Error submitting comment:', error);
         showError(error.message);
     }
 }
