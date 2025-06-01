@@ -5,7 +5,7 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
-        const response = await fetch(`/posts.php?id=${postId}`);
+        const response = await fetch(`/api/posts.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
@@ -38,7 +38,7 @@ function displayPostDetails(post) {
 // Yorumları yükle
 async function loadComments(postId) {
     try {
-        const response = await fetch(`/get_comments.php?post_id=${postId}`);
+        const response = await fetch(`/api/get_comments.php?post_id=${postId}`);
         if (!response.ok) {
             throw new Error('Yorumlar yüklenirken bir hata oluştu');
         }
@@ -82,7 +82,7 @@ async function submitComment() {
     }
     
     try {
-        const response = await fetch('/get_comments.php', {
+        const response = await fetch('/api/get_comments.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
