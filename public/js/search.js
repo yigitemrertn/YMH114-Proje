@@ -222,11 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // Yönlendirmeyi doğrudan yap (fetch ile bekleme)
         if (type === 'users') {
-            window.location.href = `../search-users.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `/public/search-users.html?q=${encodeURIComponent(query)}`;
         } else if (type === 'posts') {
-            window.location.href = `../search-posts.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `/public/search-posts.html?q=${encodeURIComponent(query)}`;
         } else if (type === 'comments') {
-            window.location.href = `../search-comments.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `/public/search-comments.html?q=${encodeURIComponent(query)}`;
         }
     }
 

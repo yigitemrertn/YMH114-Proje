@@ -278,7 +278,14 @@
     </script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('api/user/get-profile.php')
+    // Get user ID from URL if viewing another user's profile
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+    
+    // Load profile data based on whether we're viewing our own profile or another user's
+    const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
+    
+    fetch(endpoint)
         .then(res => res.json())
         .then(data => {
             if (data.success) {
@@ -291,9 +298,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('postCount').textContent = data.profile.post_count || 0;
                 document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
                 document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
-                // Takip et/bırak butonu
+                
+                // Takip et/bırak butonu - sadece başka kullanıcının profilinde göster
                 const followBtn = document.getElementById('follow-button');
-                if (followBtn && typeof data.profile.is_following !== "undefined") {
+                if (followBtn && userId && typeof data.profile.is_following !== "undefined") {
+                    followBtn.style.display = 'block';
                     if (data.profile.is_following == 1 || data.profile.is_following === true) {
                         followBtn.textContent = 'Takipten Çık';
                         followBtn.classList.add('following');
@@ -301,6 +310,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         followBtn.textContent = 'Takip Et';
                         followBtn.classList.remove('following');
                     }
+                } else if (followBtn) {
+                    followBtn.style.display = 'none';
                 }
             }
         });

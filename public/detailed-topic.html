@@ -2,107 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ForumFU - **** Konu</title>
-    <!-- Add the necessary stylesheets -->
+    <title>ForumFU - Konu Detayı</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/detailed-topic.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-        <div class="logo-container">
-            <a href="/" class="logo"><h1>ForumFU</h1></a>
-        </div>
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="/" class="logo"><h1>ForumFU</h1></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="login.html" class="auth-button login-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Giriş Yap
+                    </a>
+                    <a href="registration.html" class="auth-button register-button">
+                        <i class="fas fa-user-plus"></i>
+                        Kayıt Ol
+                    </a>
+                </div>
+                <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
+                    <button class="hamburger-button" aria-label="Menüyü Aç">
+                        <span class="hamburger-icon"></span>
+                    </button>
+                    <div class="hamburger-menu">
+                        <a href="/" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+                        <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profil</a>
+                        <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Ayarlar</a>
+                        <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="search-dropdown">
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+            <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
             <button class="search-button">
                 <i class="fas fa-search"></i>
             </button>
         </div>
-        <div class="nav-controls">
-            <button class="search-button-mobile" aria-label="Ara">
-                <i class="fas fa-search"></i>
-            </button>
-            <button class="theme-toggle" aria-label="Toggle Dark Mode">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="auth-buttons" id="authButtons">
-                <a href="login.html" class="auth-button login-button">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Giriş Yap
-                </a>
-                <a href="registration.html" class="auth-button register-button">
-                    <i class="fas fa-user-plus"></i>
-                    Kayıt Ol
-                </a>
-            </div>
-            <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
-                <button class="hamburger-button" aria-label="Menüyü Aç">
-                    <span class="hamburger-icon"></span>
-                </button>
-                <div class="hamburger-menu">
-                    <a href="/" class="menu-item">Ana Sayfa</a>
-                    <a href="profile.html" class="menu-item">Profil</a>
-                    <a href="settings.html" class="menu-item">Ayarlar</a>
-                    <a href="registration.html" class="menu-item">Kaydol</a>
-                    <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <div class="detailed-topic-container">
+    </div>
 
+    <div class="detailed-topic-container">
         <div class="content-wrapper">
             <div class="container">
                 <div class="featured-header">
-                    <h1>Ana Konu Adı</h1>
+                    <h1 id="topicTitle">Yükleniyor...</h1>
                 </div>
-                <div class="topic-cards-container">
-                <a href="/public/detailed-post.html" class="card-link">
-                    <div class="card">
-                        <div class="icon">icon</div>
-                        <div class="card-content">
-                            <h2>Konu Başlığı</h2>
-                            <p>Konu içeriği...</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="/public/detailed-post.html" class="card-link">
-                    <div class="card">
-                        <div class="icon">icon</div>
-                        <div class="card-content">
-                            <h2>Konu Başlığı</h2>
-                            <p>Konu içeriği...</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="/public/detailed-post.html" class="card-link">
-                    <div class="card">
-                        <div class="icon">icon</div>
-                        <div class="card-content">
-                            <h2>Konu Başlığı</h2>
-                            <p>Konu içeriği...</p>
-                        </div>
-                    </div>
-                </a>
-                <a href="/public/detailed-post.html" class="card-link">
-                    <div class="card">
-                        <div class="icon">icon</div>
-                        <div class="card-content">
-                            <h2>Konu Başlığı</h2>
-                            <p>Konu içeriği...</p>
-                        </div>
-                    </div>
-                </a>
+                <div class="topic-cards-container" id="topicCards">
+                    <!-- Topic cards will be loaded here -->
                 </div>
             </div>
-            <div class="pagination">
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button class="dots">.........</button>
-                <button>316</button>
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded here -->
             </div>
         </div>
 
@@ -110,53 +79,104 @@
             <div class="featured-header">
                 <h2>Öne Çıkan Konular</h2>
             </div>
-            <div class="featured-list">
-                <div class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yapay Zeka ile İnsan Beyni Arasındaki Bağlantı</h3>
-                        <p>Son yorum: 2 saat önce</p>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="featured-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="featured-content">
-                        <h3>Yeni Nesil Programlama Dilleri ve Geleceği</h3>
-                        <p>Son yorum: 5 saat önce</p>
-                    </div>
-                </div>
+            <div class="featured-list" id="featuredList">
+                <!-- Featured topics will be loaded here -->
             </div>
         </aside>
-
     </div>
-    <script src="js/theme-toggle.js" defer></script>
-    <script src="js/hamburger.js" defer></script>
-    <script src="js/search.js" defer></script>
+
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/hamburger.js"></script>
+    <script src="js/search.js"></script>
     <script>
-        // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
         document.addEventListener('DOMContentLoaded', function() {
+            // Get topic ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const topicId = urlParams.get('id');
+
+            if (!topicId) {
+                window.location.href = '/';
+                return;
+            }
+
+            // Load topic data
+            fetch(`../get_post.php?id=${topicId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const post = data.post;
+                        document.title = `ForumFU - ${post.title}`;
+                        document.getElementById('topicTitle').textContent = post.title;
+                        
+                        // Load comments
+                        return fetch(`../get_comments.php?post_id=${topicId}`);
+                    } else {
+                        throw new Error(data.message || 'Konu yüklenemedi');
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const comments = data.comments;
+                        const topicCards = document.getElementById('topicCards');
+                        
+                        // Create main post card
+                        const mainPost = document.createElement('div');
+                        mainPost.className = 'card main-post';
+                        mainPost.innerHTML = `
+                            <div class="card-content">
+                                <div class="post-header">
+                                    <div class="post-author">
+                                        <img src="${post.avatar || 'images/default-avatar.png'}" alt="@${post.username}" class="author-avatar">
+                                        <div class="author-info">
+                                            <span class="author-name">${post.name} ${post.surname}</span>
+                                            <span class="author-username">@${post.username}</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-meta">
+                                        <span class="post-date">${new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    ${post.content}
+                                </div>
+                            </div>
+                        `;
+                        topicCards.appendChild(mainPost);
+
+                        // Add comments
+                        comments.forEach(comment => {
+                            const commentCard = document.createElement('div');
+                            commentCard.className = 'card comment-card';
+                            commentCard.innerHTML = `
+                                <div class="card-content">
+                                    <div class="post-header">
+                                        <div class="post-author">
+                                            <img src="${comment.avatar || 'images/default-avatar.png'}" alt="@${comment.username}" class="author-avatar">
+                                            <div class="author-info">
+                                                <span class="author-name">${comment.name} ${comment.surname}</span>
+                                                <span class="author-username">@${comment.username}</span>
+                                            </div>
+                                        </div>
+                                        <div class="post-meta">
+                                            <span class="post-date">${new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-content">
+                                        ${comment.content}
+                                    </div>
+                                </div>
+                            `;
+                            topicCards.appendChild(commentCard);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('topicTitle').textContent = 'Hata: ' + error.message;
+                });
+
+            // Check login status
             fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
@@ -170,7 +190,8 @@
                         hamburgerContainer.style.display = 'none';
                     }
                 });
-            // Çıkış butonu için
+
+            // Setup logout button
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function(e) {
@@ -187,5 +208,5 @@
             }
         });
     </script>
-    </body>
+</body>
 </html>
