@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/database.php';
+require_once '../../config.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -21,9 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
-    $db = new Database();
-    $conn = $db->getConnection();
-
+    $userId = $_SESSION['user_id'];
     $fullName = $_POST['fullName'] ?? '';
     $username = $_POST['username'] ?? '';
     $email = $_POST['email'] ?? '';
@@ -32,8 +30,8 @@ try {
 
     // Kullanıcı adı benzersiz mi?
     if ($username) {
-        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
-        $stmt->execute([$username, $_SESSION['user_id']]);
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
+        $stmt->execute([$username, $userId]);
         if ($stmt->fetch()) {
             echo json_encode([
                 'success' => false,
@@ -43,10 +41,10 @@ try {
         }
     }
 
-    // E-posta değişikliği için onay maili gönder
+    // E-posta benzersiz mi?
     if ($email) {
-        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-        $stmt->execute([$email, $_SESSION['user_id']]);
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+        $stmt->execute([$email, $userId]);
         if ($stmt->fetch()) {
             echo json_encode([
                 'success' => false,
@@ -54,32 +52,6 @@ try {
             ]);
             exit;
         }
-        // E-posta değişikliği için onay maili gönder (örnek)
-        // Gerçek uygulamada token ile onay mekanizması kurmalısınız!
-        $to = $email;
-        $subject = "ForumFU E-posta Değişikliği Onayı";
-        $message = "
-        <html>
-        <head>
-        <title>E-posta Değişikliği Onayı</title>
-        </head>
-        <body>
-        <h2>ForumFU E-posta Değişikliği</h2>
-        <p>Merhaba,</p>
-        <p>ForumFU hesabınız için bir e-posta değişikliği talebinde bulunuldu.</p>
-        <p>Eğer bu işlemi siz yaptıysanız <a href='#'>EVET</a> butonuna, yapmadıysanız <a href='#'>HAYIR</a> butonuna tıklayınız.</p>
-        <br>
-        <a href='#' style='padding:10px 20px;background:#3498db;color:#fff;border-radius:6px;text-decoration:none;'>EVET</a>
-        <a href='#' style='padding:10px 20px;background:#e74c3c;color:#fff;border-radius:6px;text-decoration:none;margin-left:10px;'>HAYIR</a>
-        <br><br>
-        <small>Bu e-posta bilgilendirme amaçlıdır.</small>
-        </body>
-        </html>
-        ";
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8\r\n";
-        $headers .= "From: ForumFU <no-reply@forumfu.com>\r\n";
-        // mail($to, $subject, $message, $headers); // Gerçek ortamda açın
     }
 
     // Avatar yükleme
@@ -132,9 +104,9 @@ try {
     if ($email) { $sql .= "email = ?, "; $params[] = $email; }
     $sql = rtrim($sql, ', ');
     $sql .= " WHERE id = ?";
-    $params[] = $_SESSION['user_id'];
+    $params[] = $userId;
 
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
     echo json_encode([
