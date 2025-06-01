@@ -10,16 +10,15 @@ if (!isset($_GET['id'])) {
 }
 
 $userId = $_GET['id'];
-$currentUserId = $_SESSION['user_id'] ?? null;
 
 try {
-    // Kullanıcı bilgilerini al
     $stmt = $pdo->prepare("
-        SELECT u.*, 
+        SELECT u.id, u.username, u.name, u.surname, u.email, u.created_at,
             (SELECT COUNT(*) FROM posts WHERE user_id = u.id) as post_count,
             (SELECT COUNT(*) FROM comments WHERE user_id = u.id) as comment_count,
-            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count
-        FROM users u 
+            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count,
+            (SELECT COUNT(*) FROM follows WHERE follower_id = u.id) as following_count
+        FROM users u
         WHERE u.id = ?
     ");
     $stmt->execute([$userId]);
@@ -28,15 +27,6 @@ try {
     if (!$user) {
         echo json_encode(['success' => false, 'message' => 'Kullanıcı bulunamadı']);
         exit;
-    }
-
-    // Takip durumu
-    $user['is_following'] = false;
-    if ($currentUserId && $currentUserId != $userId) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) as is_following FROM follows WHERE follower_id = ? AND following_id = ?");
-        $stmt->execute([$currentUserId, $userId]);
-        $followStatus = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user['is_following'] = $followStatus['is_following'] > 0;
     }
 
     echo json_encode(['success' => true, 'profile' => $user]);
