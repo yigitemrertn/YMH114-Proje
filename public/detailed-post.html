@@ -138,6 +138,29 @@
         </div>
     </main>
 
+    <script>
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) {
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            if (diffHours === 0) {
+                const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                return `${diffMinutes} dakika önce`;
+            }
+            return `${diffHours} saat önce`;
+        } else if (diffDays === 1) {
+            return 'Dün';
+        } else if (diffDays < 7) {
+            return `${diffDays} gün önce`;
+        } else {
+            return date.toLocaleDateString('tr-TR');
+        }
+    }
+    </script>
+
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
     <script src="js/detailed-post.js"></script>
