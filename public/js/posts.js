@@ -2,23 +2,17 @@
 function formatDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) {
-        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-        if (diffHours === 0) {
-            const diffMinutes = Math.floor(diffTime / (1000 * 60));
-            return `${diffMinutes} dakika önce`;
-        }
-        return `${diffHours} saat önce`;
-    } else if (diffDays === 1) {
-        return 'Dün';
-    } else if (diffDays < 7) {
-        return `${diffDays} gün önce`;
-    } else {
-        return date.toLocaleDateString('tr-TR');
-    }
+    const diffMs = now - date;
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'Şimdi';
+    if (diffMin < 60) return `${diffMin} dakika önce`;
+    const diffHour = Math.floor(diffMin / 60);
+    if (diffHour < 24) return `${diffHour} saat önce`;
+    const diffDay = Math.floor(diffHour / 24);
+    if (diffDay < 7) return `${diffDay} gün önce`;
+    return date.toLocaleDateString('tr-TR', {
+        year: 'numeric', month: 'short', day: 'numeric'
+    });
 }
 
 // Function to truncate text
@@ -184,28 +178,33 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
+    // Avatar yolu düzeltildi
+    let avatarSrc = post.avatar || post.author?.avatar || 'images/default-avatar.png';
+    if (avatarSrc && !avatarSrc.startsWith('http') && !avatarSrc.startsWith('/')) {
+        avatarSrc = '/public/' + avatarSrc;
+    }
+
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="images/default-avatar.png" alt="${post.username}'s avatar">
+                <img src="${avatarSrc}" alt="${post.username || post.author?.username}'s avatar" style="width:50px;height:50px;object-fit:cover;border-radius:50%;border:2px solid #e0e0e0;">
             </div>
             <div class="user-details">
-                <span class="username">@${post.username}</span>
-            </div>
-            <div class="post-date" style="margin-left:auto;font-size:0.97em;color:#888;">
-                ${formatDate(post.created_at)}
+                <span class="username">@${post.username || post.author?.username}</span>
+                <span class="post-date" style="font-size:0.97em;color:#888;margin-top:2px;">${formatDate(post.created_at)}</span>
             </div>
         </div>
-        
-        <h2 class="post-title">
-            <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
+        <h2 class="post-title" style="margin:0.7em 0 0.3em 0;">
+            <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link" style="color:var(--text-primary);text-decoration:none;">${post.title}</a>
         </h2>
-        
-        <div class="post-content">
+        <div class="post-content" style="margin-bottom:0.7em;color:var(--text-secondary);font-size:1.05em;line-height:1.6;">
             ${formatPostContent(post.content)}
         </div>
-        <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
-            <!-- Like butonu ve like-count kaldırıldı -->
+        <div class="post-actions" style="display:flex;align-items:center;gap:1em;">
+            <span style="color:#888;font-size:0.97em;"><i class="fas fa-comment"></i> ${post.comment_count || post.stats?.comments || 0}</span>
+            <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link" style="margin-left:auto;color:#3498db;font-weight:500;text-decoration:none;">
+                <i class="fas fa-arrow-right"></i> Detay
+            </a>
         </div>
     `;
     return postCard;
