@@ -187,7 +187,7 @@ function createPostElement(post) {
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="images/default-avatar.png" alt="${post.username}'s avatar">
+                <img src="${post.avatar || 'images/default-avatar.png'}" alt="${post.username}'s avatar">
             </div>
             <div class="user-details">
                 <span class="username">@${post.username}</span>
@@ -198,7 +198,7 @@ function createPostElement(post) {
         </div>
         
         <h2 class="post-title">
-            <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
+            ${post.title}
         </h2>
         
         <div class="post-content">
