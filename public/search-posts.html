@@ -154,7 +154,7 @@
                     <div class="post-card">
                         <div class="post-card-title">${p.title}</div>
                         <div class="post-card-content">${stripTags((p.content || '')).substring(0, 120)}${(p.content && p.content.length > 120) ? '...' : ''}</div>
-                        <a href="detailed-post.html?id=${p.id}" class="post-card-link">
+                        <a href="/public/detailed-post.html?id=${p.id}" class="post-card-link">
                             <i class="fas fa-arrow-right"></i> Detay
                         </a>
                     </div>

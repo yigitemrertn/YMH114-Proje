@@ -38,7 +38,7 @@ function displayPostDetails(post) {
 // Yorumları yükle
 async function loadComments(postId) {
     try {
-        const response = await fetch(`/api/get_comments.php?post_id=${postId}`);
+        const response = await fetch(`/public/api/get_comments.php?post_id=${postId}`);
         if (!response.ok) {
             throw new Error('Yorumlar yüklenirken bir hata oluştu');
         }
@@ -82,7 +82,7 @@ async function submitComment() {
     }
     
     try {
-        const response = await fetch('/api/get_comments.php', {
+        const response = await fetch('/public/api/get_comments.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
