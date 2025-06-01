@@ -79,6 +79,15 @@ try {
         }
         $fileName = uniqid() . '_' . basename($avatar['name']);
         $targetPath = $uploadDir . $fileName;
+
+        // Eski avatarı sil
+        $stmt = $pdo->prepare("SELECT avatar FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $oldAvatar = $stmt->fetchColumn();
+        if ($oldAvatar && file_exists('../../' . $oldAvatar)) {
+            @unlink('../../' . $oldAvatar);
+        }
+
         if (move_uploaded_file($avatar['tmp_name'], $targetPath)) {
             $avatarPath = 'uploads/avatars/' . $fileName;
         }
@@ -99,7 +108,7 @@ try {
     if ($name) { $sql .= "name = ?, "; $params[] = $name; }
     if ($surname) { $sql .= "surname = ?, "; $params[] = $surname; }
     if ($username) { $sql .= "username = ?, "; $params[] = $username; }
-    if ($bio !== null) { $sql .= "bio = ?, "; $params[] = $bio; }
+    if ($bio !== null && $bio !== '') { $sql .= "bio = ?, "; $params[] = $bio; }
     if ($avatarPath) { $sql .= "avatar = ?, "; $params[] = $avatarPath; }
     if ($email) { $sql .= "email = ?, "; $params[] = $email; }
     $sql = rtrim($sql, ', ');
@@ -117,5 +126,5 @@ try {
     echo json_encode([
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
-    ]);
+    ]);
 }

@@ -13,7 +13,7 @@ $postId = $_GET['id'];
 
 try {
     $stmt = $pdo->prepare("
-        SELECT p.*, u.username, u.name, u.surname,
+        SELECT p.*, u.username, u.name, u.surname, u.avatar,
         (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
         FROM posts p
         JOIN users u ON p.user_id = u.id

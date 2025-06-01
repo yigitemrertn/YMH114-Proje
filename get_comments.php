@@ -13,7 +13,7 @@ $postId = $_GET['post_id'];
 
 try {
     $stmt = $pdo->prepare("
-        SELECT c.*, u.username, u.name, u.surname
+        SELECT c.*, u.username, u.name, u.surname, u.avatar
         FROM comments c
         JOIN users u ON c.user_id = u.id
         WHERE c.post_id = ?
