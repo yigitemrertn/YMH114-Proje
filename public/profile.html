@@ -277,46 +277,190 @@
         }
     </script>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get user ID from URL if viewing another user's profile
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('id');
-    
-    // Load profile data based on whether we're viewing our own profile or another user's
-    const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
-    
-    fetch(endpoint)
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('profileName').textContent = data.profile.name + ' ' + data.profile.surname;
-                document.getElementById('profileUsername').textContent = '@' + data.profile.username;
-                document.getElementById('profileBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
-                document.getElementById('aboutBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
-                document.getElementById('joinDate').textContent = 'Katılım: ' + (data.profile.created_at ? new Date(data.profile.created_at).toLocaleDateString('tr-TR') : '-');
-                document.getElementById('avatarImage').src = data.profile.avatar ? data.profile.avatar : 'images/default-avatar.png';
-                document.getElementById('postCount').textContent = data.profile.post_count || 0;
-                document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
-                document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
-                
-                // Takip et/bırak butonu - sadece başka kullanıcının profilinde göster
-                const followBtn = document.getElementById('follow-button');
-                if (followBtn && userId && typeof data.profile.is_following !== "undefined") {
-                    followBtn.style.display = 'block';
-                    if (data.profile.is_following == 1 || data.profile.is_following === true) {
-                        followBtn.textContent = 'Takipten Çık';
-                        followBtn.classList.add('following');
-                    } else {
-                        followBtn.textContent = 'Takip Et';
-                        followBtn.classList.remove('following');
-                    }
-                } else if (followBtn) {
-                    followBtn.style.display = 'none';
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get user ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+
+        if (!userId) {
+            // ID yoksa ana sayfaya yönlendir
+            window.location.href = '../index.html';
+            return;
+        }
+
+        // Load profile data
+        fetch(`../api/user/get-user-profile.php?id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update profile information
+                    document.getElementById('profileName').textContent = data.profile.name + ' ' + data.profile.surname;
+                    document.getElementById('profileUsername').textContent = '@' + data.profile.username;
+                    document.getElementById('profileBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                    document.getElementById('aboutBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                    document.getElementById('joinDate').textContent = 'Katılım: ' + (data.profile.created_at ? new Date(data.profile.created_at).toLocaleDateString('tr-TR') : '-');
+                    document.getElementById('avatarImage').src = data.profile.avatar ? data.profile.avatar : 'images/default-avatar.png';
+                    document.getElementById('postCount').textContent = data.profile.post_count || 0;
+                    document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
+                    document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
+
+                    // Load user's posts
+                    return fetch(`../api/user/get-user-posts.php?id=${userId}`);
+                } else {
+                    throw new Error(data.message || 'Profil yüklenemedi');
                 }
-            }
-        });
-});
-</script>
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const postsContainer = document.getElementById('userPostsContainer');
+                    postsContainer.innerHTML = ''; // Clear existing content
+
+                    data.posts.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.className = 'post-item';
+                        postElement.innerHTML = `
+                            <div class="post-content">
+                                <h3>${post.title}</h3>
+                                <p>${post.content}</p>
+                                <div class="post-meta">
+                                    <span>${new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
+                                    <span>${post.comment_count} yorum</span>
+                                </div>
+                            </div>
+                        `;
+                        postElement.addEventListener('click', () => {
+                            window.location.href = `detailed-topic.html?id=${post.id}`;
+                        });
+                        postsContainer.appendChild(postElement);
+                    });
+
+                    // Load user's comments
+                    return fetch(`../api/user/get-user-comments.php?id=${userId}`);
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const commentsContainer = document.getElementById('userCommentsContainer');
+                    commentsContainer.innerHTML = ''; // Clear existing content
+
+                    data.comments.forEach(comment => {
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'comment-item';
+                        commentElement.innerHTML = `
+                            <div class="comment-content">
+                                <p>${comment.content}</p>
+                                <div class="comment-meta">
+                                    <span>${new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
+                                </div>
+                            </div>
+                        `;
+                        commentElement.addEventListener('click', () => {
+                            window.location.href = `detailed-topic.html?id=${comment.post_id}`;
+                        });
+                        commentsContainer.appendChild(commentElement);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('profileName').textContent = 'Hata: ' + error.message;
+            });
+
+        // Check login status
+        fetch('../status.php')
+            .then(response => response.json())
+            .then(data => {
+                const authButtons = document.getElementById('authButtons');
+                const hamburgerContainer = document.getElementById('hamburgerContainer');
+                const followButton = document.getElementById('follow-button');
+
+                if (data.loggedIn) {
+                    authButtons.style.display = 'none';
+                    hamburgerContainer.style.display = 'block';
+
+                    // Takip butonunu sadece başka kullanıcının profilinde göster
+                    if (data.userId !== userId) {
+                        followButton.style.display = 'block';
+                        // Takip durumunu kontrol et
+                        return fetch(`../api/user/check-follow-status.php?user_id=${userId}`);
+                    } else {
+                        followButton.style.display = 'none';
+                    }
+                } else {
+                    authButtons.style.display = 'flex';
+                    hamburgerContainer.style.display = 'none';
+                    followButton.style.display = 'none';
+                    // Giriş yapmamış kullanıcıyı login sayfasına yönlendir
+                    window.location.href = 'login.html';
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.is_following) {
+                    const followButton = document.getElementById('follow-button');
+                    followButton.textContent = 'Takipten Çık';
+                    followButton.classList.add('following');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+
+        // Setup logout button
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fetch('../logout.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = '../index.html';
+                        }
+                    });
+            });
+        }
+
+        // Setup follow button
+        const followButton = document.getElementById('follow-button');
+        if (followButton) {
+            followButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isFollowing = followButton.classList.contains('following');
+                const action = isFollowing ? 'unfollow' : 'follow';
+                
+                fetch(`../api/user/${action}.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (isFollowing) {
+                            followButton.textContent = 'Takip Et';
+                            followButton.classList.remove('following');
+                        } else {
+                            followButton.textContent = 'Takipten Çık';
+                            followButton.classList.add('following');
+                        }
+                        // Takipçi sayısını güncelle
+                        const followersCount = document.getElementById('followersCount');
+                        const currentCount = parseInt(followersCount.textContent);
+                        followersCount.textContent = isFollowing ? currentCount - 1 : currentCount + 1;
+                    }
+                });
+            });
+        }
+    });
+    </script>
         
 </body>
 </html>
