@@ -62,7 +62,7 @@
         border: 1px solid #e0e0e0;
         padding: 1.2rem 1.5rem;
         margin-bottom: 1.2rem;
-        transition: box-shadow 0.2s, border 0.2s;
+        transition: box-shadow 0.2s, border 0.2s, background 0.2s;
         min-width: 220px;
         max-width: 420px;
         word-break: break-word;
@@ -102,24 +102,36 @@
         background: #3498db;
         color: #fff;
     }
-    .profile-avatar-modal {
-        position: fixed;
-        z-index: 9999;
-        left: 0; top: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* --- DARK MODE CARD STYLES --- */
+    body.dark-mode .posts-container .post-card,
+    body.dark-mode .comments-container .comment-card {
+        background: #23243a;
+        border-color: #33364d;
+        color: #f5f5f5;
     }
-    .profile-avatar-modal img {
-        max-width: 90vw;
-        max-height: 90vh;
-        border-radius: 10px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-        background: #fff;
+    body.dark-mode .posts-container .post-card:hover,
+    body.dark-mode .comments-container .comment-card:hover {
+        box-shadow: 0 4px 16px rgba(108,182,255,0.10);
+        border: 1.5px solid #6cb6ff;
     }
-    .profile-avatar-modal { display: none; }
-    .profile-avatar-modal.active { display: flex; }
+    body.dark-mode .post-card-title {
+        color: #6cb6ff;
+    }
+    body.dark-mode .post-card-content,
+    body.dark-mode .comment-card-content {
+        color: #f5f5f5;
+        opacity: 0.88;
+    }
+    body.dark-mode .post-card-link,
+    body.dark-mode .comment-card-link {
+        background: #23243a;
+        color: #6cb6ff;
+    }
+    body.dark-mode .post-card-link:hover,
+    body.dark-mode .comment-card-link:hover {
+        background: #6cb6ff;
+        color: #23243a;
+    }
 
     @media (max-width: 700px) {
         .profile-header {
@@ -375,7 +387,7 @@ function setupLogoutButton() {
 
             fetch('../logout.php')
                 .then(response => response.json())
-                .then(data => {
+                .then data => {
                     if (data.success) {
                         window.location.href = '../index.html';
                     } else {
