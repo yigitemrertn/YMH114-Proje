@@ -53,7 +53,7 @@
                             <i class="fas fa-plus-circle"></i>
                             Konu Oluştur
                         </a>
-                        <a href="public/profile.html" class="menu-item">
+                        <a href="#" class="menu-item" id="profileLink">
                             <i class="fas fa-user"></i>
                             Profil
                         </a>
@@ -120,11 +120,14 @@
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
                     const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    const profileLink = document.getElementById('profileLink');
                     
                     if (data.loggedIn) {
                         // Kullanıcı giriş yapmışsa
                         authButtons.style.display = 'none';
                         hamburgerContainer.style.display = 'block';
+                        // Profil linkini güncelle
+                        profileLink.href = `public/profile.html?id=${data.userId}`;
                     } else {
                         // Kullanıcı giriş yapmamışsa
                         authButtons.style.display = 'flex';

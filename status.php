@@ -26,9 +26,10 @@ function checkRememberToken($pdo) {
     return false;
 }
 
-if (isset($_SESSION['user_id']) || checkRememberToken($pdo)) {
-    echo json_encode(['loggedIn' => true]);
-} else {
-    echo json_encode(['loggedIn' => false]);
-}
+$response = [
+    'loggedIn' => isset($_SESSION['user_id']) || checkRememberToken($pdo),
+    'userId' => $_SESSION['user_id'] ?? null
+];
+
+echo json_encode($response);
 ?> 
