@@ -1,91 +1,52 @@
 <?php
 session_start();
-require_once '../../config.php';
+require_once '../../../config.php';
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Oturum açmanız gerekiyor.'
-    ]);
+if (!isset($_GET['id'])) {
+    echo json_encode(['success' => false, 'message' => 'Kullanıcı ID\'si gerekli']);
     exit;
 }
 
-if (!isset($_GET['id'])) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Kullanıcı ID\'si gerekli.'
-    ]);
-    exit;
-}
+$userId = $_GET['id'];
+$currentUserId = $_SESSION['user_id'] ?? null;
 
 try {
-    $userId = $_GET['id'];
-    $currentUserId = $_SESSION['user_id'];
-    
     // Kullanıcı bilgilerini al
     $stmt = $pdo->prepare("
-        SELECT 
-            u.id,
-            u.username,
-            u.full_name,
-            u.bio,
-            u.avatar,
+        SELECT u.*, 
             (SELECT COUNT(*) FROM posts WHERE user_id = u.id) as post_count,
             (SELECT COUNT(*) FROM comments WHERE user_id = u.id) as comment_count,
-            (SELECT COUNT(*) FROM follows WHERE follower_id = u.id) as following_count,
-            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count,
-            EXISTS(SELECT 1 FROM follows WHERE follower_id = ? AND following_id = u.id) as is_following
-        FROM users u
+            (SELECT COUNT(*) FROM follows WHERE following_id = u.id) as followers_count
+        FROM users u 
         WHERE u.id = ?
     ");
-    $stmt->execute([$currentUserId, $userId]);
-    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$profile) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Kullanıcı bulunamadı.'
-        ]);
+    if (!$user) {
+        echo json_encode(['success' => false, 'message' => 'Kullanıcı bulunamadı']);
         exit;
     }
 
-    // Son gönderileri al
-    $stmt = $pdo->prepare("
-        SELECT id, title, content, created_at,
-            (SELECT COUNT(*) FROM likes WHERE post_id = posts.id) as like_count,
-            (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) as comment_count
-        FROM posts
-        WHERE user_id = ?
-        ORDER BY created_at DESC
-        LIMIT 5
-    ");
-    $stmt->execute([$userId]);
-    $recentPosts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Son yorumları al
-    $stmt = $pdo->prepare("
-        SELECT c.id, c.content, c.created_at, p.id as post_id, p.title as post_title
-        FROM comments c
-        JOIN posts p ON c.post_id = p.id
-        WHERE c.user_id = ?
-        ORDER BY c.created_at DESC
-        LIMIT 5
-    ");
-    $stmt->execute([$userId]);
-    $recentComments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Eğer giriş yapmış kullanıcı varsa, takip durumunu kontrol et
+    if ($currentUserId) {
+        $stmt = $pdo->prepare("SELECT COUNT(*) as is_following FROM follows WHERE follower_id = ? AND following_id = ?");
+        $stmt->execute([$currentUserId, $userId]);
+        $followStatus = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user['is_following'] = $followStatus['is_following'] > 0;
+    } else {
+        $user['is_following'] = false;
+    }
 
     echo json_encode([
         'success' => true,
-        'profile' => $profile,
-        'recentPosts' => $recentPosts,
-        'recentComments' => $recentComments
+        'profile' => $user
     ]);
-
 } catch (PDOException $e) {
     echo json_encode([
         'success' => false,
-        'message' => 'Veritabanı hatası: ' . $e->getMessage()
+        'message' => 'Profil bilgileri alınırken bir hata oluştu'
     ]);
 } 

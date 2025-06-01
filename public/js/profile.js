@@ -27,209 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Profil verilerini yükle
-    fetch('api/user/get-profile.php')
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('profileName').textContent = data.profile.name + ' ' + data.profile.surname;
-                document.getElementById('profileUsername').textContent = '@' + data.profile.username;
-                document.getElementById('profileBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
-                document.getElementById('aboutBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
-                document.getElementById('avatarImage').src = data.profile.avatar ? data.profile.avatar : 'images/default-avatar.png';
-                document.getElementById('postCount').textContent = data.profile.post_count || 0;
-                document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
-                document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
-                // Takip et/bırak butonu
-                const followBtn = document.getElementById('follow-button');
-                if (followBtn && typeof data.profile.is_following !== "undefined") {
-                    if (data.profile.is_following == 1 || data.profile.is_following === true) {
-                        followBtn.textContent = 'Takipten Çık';
-                        followBtn.classList.add('following');
-                    } else {
-                        followBtn.textContent = 'Takip Et';
-                        followBtn.classList.remove('following');
-                    }
-                    followBtn.onclick = function() {
-                        const userId = data.profile.id;
-                        fetch('api/user/toggle-follow.php', {
-                            method: 'POST',
-                            body: new URLSearchParams({ userId })
-                        })
-                        .then(res => res.json())
-                        .then(resp => {
-                            if (resp.success) {
-                                location.reload();
-                            } else {
-                                alert(resp.message || 'Takip işlemi başarısız');
-                            }
-                        });
-                    };
-                }
-            }
-        });
-
-    // Post Interaction Functionality
-    const postActions = document.querySelectorAll('.post-action');
-
-    postActions.forEach(action => {
-        action.addEventListener('click', function() {
-            const icon = this.querySelector('i');
-            const countSpan = this.querySelector('span');
-
-            // Handle like action
-            if (icon.classList.contains('fa-heart')) {
-                if (icon.classList.contains('far')) {
-                    // Like the post
-                    icon.classList.replace('far', 'fas');
-                    icon.style.color = '#e74c3c';
-                    if (countSpan) {
-                        let count = parseInt(countSpan.textContent);
-                        countSpan.textContent = count + 1;
-                    }
-                } else {
-                    // Unlike the post
-                    icon.classList.replace('fas', 'far');
-                    icon.style.color = '';
-                    if (countSpan) {
-                        let count = parseInt(countSpan.textContent);
-                        countSpan.textContent = count - 1;
-                    }
-                }
-            }
-
-            // Handle retweet action
-            if (icon.classList.contains('fa-retweet')) {
-                if (!icon.style.color || icon.style.color === '') {
-                    // Retweet the post
-                    icon.style.color = '#2ecc71';
-                    if (countSpan) {
-                        let count = parseInt(countSpan.textContent);
-                        countSpan.textContent = count + 1;
-                    }
-                } else {
-                    // Undo retweet
-                    icon.style.color = '';
-                    if (countSpan) {
-                        let count = parseInt(countSpan.textContent);
-                        countSpan.textContent = count - 1;
-                    }
-                }
-            }
-        });
-    });
-
-    // New Post Functionality
-    const newPostForm = document.querySelector('.new-post-form');
-    const newPostTextarea = document.querySelector('.new-post-input textarea');
-    const postButton = document.querySelector('.post-button');
-    const postsContainer = document.querySelector('.posts-container');
-
-    if (newPostForm && postButton && postsContainer) {
-        postButton.addEventListener('click', function() {
-            const postText = newPostTextarea.value.trim();
-
-            if (postText) {
-                // Create new post element
-                const newPost = document.createElement('div');
-                newPost.className = 'post-item';
-
-                // Get current date and time
-                const now = new Date();
-                const timeString = 'şimdi';
-
-                // Create post HTML
-                newPost.innerHTML = `
-                    <div class="post-avatar">
-                        <img src="https://via.placeholder.com/50" alt="Profil Resmi">
-                    </div>
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-name">Kullanıcı Adı</span>
-                            <span class="post-username">@kullanici</span>
-                            <span class="post-time">· ${timeString}</span>
-                        </div>
-                        <div class="post-text">
-                            <p>${postText}</p>
-                        </div>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <i class="far fa-comment"></i>
-                                <span>0</span>
-                            </button>
-                            <button class="post-action">
-                                <i class="fas fa-retweet"></i>
-                                <span>0</span>
-                            </button>
-                            <button class="post-action">
-                                <i class="far fa-heart"></i>
-                                <span>0</span>
-                            </button>
-                            <button class="post-action">
-                                <i class="far fa-share-square"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                // Add the new post to the beginning of the posts container
-                postsContainer.insertBefore(newPost, postsContainer.firstChild);
-
-                // Clear the textarea
-                newPostTextarea.value = '';
-
-                // Add event listeners to the new post's action buttons
-                const newPostActions = newPost.querySelectorAll('.post-action');
-                newPostActions.forEach(action => {
-                    action.addEventListener('click', function() {
-                        const icon = this.querySelector('i');
-                        const countSpan = this.querySelector('span');
-
-                        // Handle like action
-                        if (icon.classList.contains('fa-heart')) {
-                            if (icon.classList.contains('far')) {
-                                // Like the post
-                                icon.classList.replace('far', 'fas');
-                                icon.style.color = '#e74c3c';
-                                if (countSpan) {
-                                    let count = parseInt(countSpan.textContent);
-                                    countSpan.textContent = count + 1;
-                                }
-                            } else {
-                                // Unlike the post
-                                icon.classList.replace('fas', 'far');
-                                icon.style.color = '';
-                                if (countSpan) {
-                                    let count = parseInt(countSpan.textContent);
-                                    countSpan.textContent = count - 1;
-                                }
-                            }
-                        }
-
-                        // Handle retweet action
-                        if (icon.classList.contains('fa-retweet')) {
-                            if (!icon.style.color || icon.style.color === '') {
-                                // Retweet the post
-                                icon.style.color = '#2ecc71';
-                                if (countSpan) {
-                                    let count = parseInt(countSpan.textContent);
-                                    countSpan.textContent = count + 1;
-                                }
-                            } else {
-                                // Undo retweet
-                                icon.style.color = '';
-                                if (countSpan) {
-                                    let count = parseInt(countSpan.textContent);
-                                    countSpan.textContent = count - 1;
-                                }
-                            }
-                        }
-                    });
-                });
-            }
-        });
-    }
-
     // Initialize profile menu functionality
     initializeProfileMenu();
     setupProfileInteractions();
@@ -282,95 +79,46 @@ function stripTags(html) {
 }
 
 function loadProfile(userId) {
+    // Eğer userId varsa başka kullanıcının profilini, yoksa kendi profilimizi yükle
     const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
-
+    
     fetch(endpoint)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(res => res.json())
         .then(data => {
             if (data.success) {
-                updateProfileUI(data);
+                updateProfileUI(data.profile);
+                
+                // Takip butonunu sadece başka kullanıcının profilinde göster
+                const followButton = document.getElementById('follow-button');
+                if (followButton) {
+                    if (userId) {
+                        followButton.style.display = 'block';
+                        followButton.textContent = data.profile.is_following ? 'Takipten Çık' : 'Takip Et';
+                        followButton.classList.toggle('following', data.profile.is_following);
+                    } else {
+                        followButton.style.display = 'none';
+                    }
+                }
             } else {
-                showError(data.message);
+                showError(data.message || 'Profil yüklenirken bir hata oluştu');
             }
         })
         .catch(error => {
-            showError('Profil yüklenirken bir hata oluştu: ' + error.message);
-            console.error('Error:', error);
+            console.error('Error loading profile:', error);
+            showError('Profil yüklenirken bir hata oluştu');
         });
 }
 
 function updateProfileUI(data) {
-    const { profile } = data;
-    document.getElementById('profile-username').textContent = '@' + profile.username;
-    document.getElementById('profile-name').textContent = profile.full_name || profile.username;
-    document.getElementById('profile-bio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
-    const avatar = document.getElementById('profile-avatar');
-    if (profile.avatar) {
-        avatar.src = profile.avatar;
-    } else {
-        avatar.src = 'images/default-avatar.png';
-    }
-
-    // Update profile stats
-    document.getElementById('post-count').textContent = profile.post_count;
-    document.getElementById('comment-count').textContent = profile.comment_count;
-    document.getElementById('following-count').textContent = profile.following_count;
-    document.getElementById('followers-count').textContent = profile.followers_count;
-
-    // Update follow button
-    const followButton = document.getElementById('follow-button');
-    if (followButton) {
-        if (profile.is_following) {
-            followButton.textContent = 'Takibi Bırak';
-            followButton.classList.add('following');
-        } else {
-            followButton.textContent = 'Takip Et';
-            followButton.classList.remove('following');
-        }
-    }
-
-    // Update recent posts
-    const postsContainer = document.getElementById('recent-posts');
-    if (postsContainer) {
-        if (recentPosts && recentPosts.length > 0) {
-            postsContainer.innerHTML = recentPosts.map(post => `
-                <div class="post-card">
-                    <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-                    <p>${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
-                    <div class="post-stats">
-                        <span><i class="fas fa-heart"></i> ${post.like_count}</span>
-                        <span><i class="fas fa-comment"></i> ${post.comment_count}</span>
-                        <span><i class="fas fa-clock"></i> ${formatDate(post.created_at)}</span>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            postsContainer.innerHTML = '<p class="text-center">Henüz gönderi yok.</p>';
-        }
-    }
-
-    // Update recent comments
-    const commentsContainer = document.getElementById('recent-comments');
-    if (commentsContainer) {
-        if (recentComments && recentComments.length > 0) {
-            commentsContainer.innerHTML = recentComments.map(comment => `
-                <div class="comment-card">
-                    <p>${comment.content}</p>
-                    <div class="comment-meta">
-                        <a href="post.html?id=${comment.post_id}">${comment.post_title}</a>
-                        <span><i class="fas fa-clock"></i> ${formatDate(comment.created_at)}</span>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            commentsContainer.innerHTML = '<p class="text-center">Henüz yorum yok.</p>';
-        }
-    }
+    document.getElementById('profileName').textContent = data.name + ' ' + data.surname;
+    document.getElementById('profileUsername').textContent = '@' + data.username;
+    document.getElementById('profileBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
+    document.getElementById('aboutBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
+    document.getElementById('avatarImage').src = data.avatar ? data.avatar : 'images/default-avatar.png';
+    document.getElementById('postCount').textContent = data.post_count || 0;
+    document.getElementById('commentCount').textContent = data.comment_count || 0;
+    document.getElementById('followersCount').textContent = data.followers_count || 0;
+    document.getElementById('joinDate').textContent = 'Katılım: ' + formatDate(data.created_at);
 }
 
 function toggleFollow(userId) {
