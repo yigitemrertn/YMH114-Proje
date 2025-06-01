@@ -80,7 +80,7 @@ function stripTags(html) {
 
 function loadProfile(userId) {
     // Eğer userId varsa başka kullanıcının profilini, yoksa kendi profilimizi yükle
-    const endpoint = userId ? `../api/user/get-user-profile.php?id=${userId}` : '../api/user/get-profile.php';
+    const endpoint = userId ? `../../api/user/get-user-profile.php?id=${userId}` : '../../api/user/get-profile.php';
     
     fetch(endpoint)
         .then(res => res.json())
@@ -127,7 +127,7 @@ function toggleFollow(userId) {
     const formData = new FormData();
     formData.append('userId', userId);
 
-    fetch('../api/user/toggle-follow.php', {
+    fetch('../../api/user/toggle-follow.php', {
         method: 'POST',
         body: formData
     })

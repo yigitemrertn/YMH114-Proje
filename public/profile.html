@@ -288,7 +288,7 @@
         }
 
         // Load profile data
-        fetch(`../api/user/get-user-profile.php?id=${userId}`)
+        fetch(`../../api/user/get-user-profile.php?id=${userId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Profil bilgileri alınamadı');
@@ -309,7 +309,7 @@
                     document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
 
                     // Load user's posts
-                    return fetch(`../api/user/get-user-posts.php?id=${userId}`);
+                    return fetch(`../../api/user/get-user-posts.php?id=${userId}`);
                 } else {
                     throw new Error(data.message || 'Profil yüklenemedi');
                 }
@@ -345,7 +345,7 @@
                     });
 
                     // Load user's comments
-                    return fetch(`../api/user/get-user-comments.php?id=${userId}`);
+                    return fetch(`../../api/user/get-user-comments.php?id=${userId}`);
                 }
             })
             .then(response => {
@@ -383,7 +383,7 @@
             });
 
         // Check login status
-        fetch('../status.php')
+        fetch('../../status.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Giriş durumu kontrol edilemedi');
@@ -403,7 +403,7 @@
                     if (data.userId !== userId) {
                         followButton.style.display = 'block';
                         // Takip durumunu kontrol et
-                        return fetch(`../api/user/check-follow-status.php?user_id=${userId}`);
+                        return fetch(`../../api/user/check-follow-status.php?user_id=${userId}`);
                     } else {
                         followButton.style.display = 'none';
                     }
@@ -440,7 +440,7 @@
             logoutButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                fetch('../logout.php')
+                fetch('../../logout.php')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Çıkış yapılamadı');
@@ -468,7 +468,7 @@
                 const isFollowing = followButton.classList.contains('following');
                 const action = isFollowing ? 'unfollow' : 'follow';
                 
-                fetch(`../api/user/${action}.php`, {
+                fetch(`../../api/user/${action}.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
