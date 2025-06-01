@@ -74,7 +74,7 @@
         z-index: 2;
     }
     #follow-button.following {
-        background: #e74c3c;
+        background: #3498db; /* Kırmızı kaldırıldı, mavi kalacak */
     }
     #follow-button:active {
         box-shadow: 0 1px 2px rgba(52,152,219,0.12);
@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             })
             .then(res => res.json())
-            .the(data => {
+            .then(data => {
                 if (data.success) {
                     // Durumu güncelle
                     if (followButton.classList.contains('following')) {
@@ -509,6 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         followButton.textContent = 'Takipten Çık';
                         followButton.classList.add('following');
                     }
+                    alert(data.message); // Takip/Çık mesajı göster
                 } else {
                     alert(data.message || 'İşlem başarısız');
                 }
