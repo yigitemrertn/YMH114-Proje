@@ -29,7 +29,40 @@ try {
         throw new Exception('Database connection not established');
     }
 
-    // Get posts with user information
+    // Eğer id parametresi varsa, tek bir post getir
+    if (isset($_GET['id'])) {
+        $stmt = $pdo->prepare("
+            SELECT p.*, u.username, u.name, u.surname, u.avatar
+            FROM posts p
+            JOIN users u ON p.user_id = u.id
+            WHERE p.id = ?
+            LIMIT 1
+        ");
+        $stmt->execute([$_GET['id']]);
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($post) {
+            echo json_encode([
+                'success' => true,
+                'post' => [
+                    'id' => $post['id'],
+                    'title' => $post['title'],
+                    'content' => $post['content'],
+                    'created_at' => $post['created_at'],
+                    'updated_at' => $post['updated_at'],
+                    'name' => $post['name'],
+                    'surname' => $post['surname'],
+                    'username' => $post['username'],
+                    'avatar' => $post['avatar'] ?? 'default-avatar.png'
+                ]
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Post bulunamadı']);
+        }
+        exit;
+    }
+
+    // Tüm postları getir
     $query = "SELECT p.*, u.username, u.avatar,
     (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
     FROM posts p 
