@@ -12,14 +12,95 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
     /* Avatar çerçevesini tam dolduracak şekilde stil */
-    .profile-avatar img#avatarImage {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
+    .profile-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 2.5em;
+        flex-wrap: wrap;
+    }
+    .profile-avatar {
+        width: 130px;
+        height: 130px;
         border-radius: 50%;
         border: 3px solid #3498db;
         background: #f5f5f5;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 12px;
+        position: relative;
+    }
+    .profile-avatar img#avatarImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
         display: block;
+        background: #f5f5f5;
+    }
+    #follow-button {
+        margin-top: 18px;
+        padding: 7px 22px;
+        border-radius: 20px;
+        border: none;
+        background: #3498db;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1em;
+        width: 90%;
+        max-width: 120px;
+        align-self: center;
+    }
+    .posts-container .post-card,
+    .comments-container .comment-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        border: 1px solid #e0e0e0;
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.2rem;
+        transition: box-shadow 0.2s, border 0.2s;
+        min-width: 220px;
+        max-width: 420px;
+        word-break: break-word;
+    }
+    .posts-container .post-card:hover,
+    .comments-container .comment-card:hover {
+        box-shadow: 0 4px 16px rgba(52,152,219,0.12);
+        border: 1.5px solid #3498db;
+    }
+    .post-card-title {
+        font-weight: 600;
+        font-size: 1.15em;
+        color: #3498db;
+        margin-bottom: 0.3em;
+    }
+    .post-card-content, .comment-card-content {
+        color: #222;
+        font-size: 1em;
+        opacity: 0.9;
+        margin-bottom: 0.5em;
+        min-height: 2.2em;
+    }
+    .post-card-link, .comment-card-link {
+        margin-top: auto;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: 20px;
+        background: #f0f7ff;
+        padding: 0.4em 1em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        transition: background 0.18s, color 0.18s;
+    }
+    .post-card-link:hover, .comment-card-link:hover {
+        background: #3498db;
+        color: #fff;
     }
     .profile-avatar-modal {
         position: fixed;
@@ -39,6 +120,20 @@
     }
     .profile-avatar-modal { display: none; }
     .profile-avatar-modal.active { display: flex; }
+
+    @media (max-width: 700px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2em;
+        }
+        .posts-container .post-card,
+        .comments-container .comment-card {
+            min-width: 0;
+            max-width: 98vw;
+            padding: 1.1rem 0.8rem;
+        }
+    }
     </style>
 </head>
 <body>
@@ -114,9 +209,9 @@
             <main class="profile-container">
                 <!-- Profile Header -->
                 <div class="profile-header">
-                    <div class="profile-avatar" style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="profile-avatar">
                         <img src="images/default-avatar.png" alt="Profile Avatar" id="avatarImage" style="cursor:pointer;">
-                        <button id="follow-button" class="follow-btn" style="margin-top: 12px; padding: 7px 22px; border-radius: 20px; border: none; background: #3498db; color: #fff; font-weight: 600; cursor: pointer; font-size: 1em;">Takip Et</button>
+                        <button id="follow-button" class="follow-btn">Takip Et</button>
                     </div>
                     <div class="profile-info">
                         <h1 class="profile-name" id="profileName">Kullanıcı Adı</h1>
@@ -208,68 +303,41 @@
     <script src="js/profile.js"></script>
     <script src="js/search.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('../status.php')
-            .then(response => response.json())
-            .then(data => {
-                const authButtons = document.getElementById('authButtons');
-                const hamburgerContainer = document.getElementById('hamburgerContainer');
-                if (data.loggedIn) {
-                    authButtons.style.display = 'none';
-                    hamburgerContainer.style.display = 'block';
-                } else {
-                    authButtons.style.display = 'flex';
-                    hamburgerContainer.style.display = 'none';
-                    // Giriş yapılmamışsa login.html'e yönlendir
-                    window.location.href = 'login.html';
-                }
-            })
-            .catch(error => {
-                console.error('Error checking login status:', error);
-            });
-    
-         setupLogoutButton();
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('../status.php')
+        .then(response => response.json())
+        .then(data => {
+            const authButtons = document.getElementById('authButtons');
+            const hamburgerContainer = document.getElementById('hamburgerContainer');
+            if (data.loggedIn) {
+                authButtons.style.display = 'none';
+                hamburgerContainer.style.display = 'block';
+            } else {
+                authButtons.style.display = 'flex';
+                hamburgerContainer.style.display = 'none';
+                // Giriş yapılmamışsa login.html'e yönlendir
+                window.location.href = 'login.html';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking login status:', error);
         });
 
-        // Çıkış yapma butonunu ayarla
-        function setupLogoutButton() {
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+    setupLogoutButton();
 
-                    fetch('../logout.php')
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                window.location.href = '../index.html';
-                            } else {
-                                console.error('Çıkış yapılamadı');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Çıkış yapılırken hata oluştu:', error);
-                        });
-                });
-            }
-        }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Hamburger menüdeki Profil linkini dinamik olarak yönlendir
-        const profileMenuLink = document.querySelector('.hamburger-menu a.menu-item[href="profile.html"]');
-        if (profileMenuLink) {
-            fetch('../status.php')
-                .then(res => res.json())
-                .then(data => {
-                    if (data.loggedIn && data.userId) {
-                        profileMenuLink.href = `profile.html?id=${data.userId}`;
-                    } else {
-                        profileMenuLink.href = 'login.html';
-                    }
-                });
-        }
-    });
+    // Hamburger menüdeki Profil linkini dinamik olarak yönlendir
+    const profileMenuLink = document.querySelector('.hamburger-menu a.menu-item[href="profile.html"]');
+    if (profileMenuLink) {
+        fetch('../status.php')
+            .then(res => res.json())
+            .then(data => {
+                if (data.loggedIn && data.userId) {
+                    profileMenuLink.href = `profile.html?id=${data.userId}`;
+                } else {
+                    profileMenuLink.href = 'login.html';
+                }
+            });
+    }
 
     // Avatar modal aç/kapat
     const avatarImg = document.getElementById('avatarImage');
@@ -289,16 +357,46 @@
     }
 
     // Benzer profilleri yükle
-    loadSimilarProfiles();
+    fetch('../status.php')
+        .then(res => res.json())
+        .then(status => {
+            loadSimilarProfiles(status.userId);
+        });
+});
 
-    function loadSimilarProfiles() {
-        fetch('../get_profile.php?random=1')
-            .then(res => res.json())
-            .then(data => {
-                const container = document.getElementById('similarProfiles');
-                if (!container) return;
-                if (data.similar && data.similar.length > 0) {
-                    container.innerHTML = data.similar.map(u => `
+function setupLogoutButton() {
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // Hamburger menü kapanmasını engelle
+
+            fetch('../logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '../index.html';
+                    } else {
+                        console.error('Çıkış yapılamadı');
+                    }
+                })
+                .catch(error => {
+                    console.error('Çıkış yapılırken hata oluştu:', error);
+                });
+        });
+    }
+}
+
+function loadSimilarProfiles(currentUserId) {
+    fetch('../get_profile.php?random=1')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('similarProfiles');
+            if (!container) return;
+            if (data.similar && data.similar.length > 0) {
+                container.innerHTML = data.similar
+                    .filter(u => String(u.id) !== String(currentUserId))
+                    .map(u => `
                         <div class="featured-item" style="cursor:pointer;" onclick="window.location.href='profile.html?id=${u.id}'">
                             <div class="featured-icon">
                                 <img src="${u.avatar ? u.avatar : 'images/default-avatar.png'}" alt="@${u.username}" style="width:40px;height:40px;object-fit:cover;border-radius:50%;">
@@ -308,12 +406,12 @@
                                 <p>@${u.username} • ${u.followers_count} takipçi</p>
                             </div>
                         </div>
-                    `).join('');
-                } else {
-                    container.innerHTML = '<p>Benzer profil bulunamadı.</p>';
-                }
-            });
-    }
+                    `).join('') || '<p>Benzer profil bulunamadı.</p>';
+            } else {
+                container.innerHTML = '<p>Benzer profil bulunamadı.</p>';
+            }
+        });
+}
     </script>
 </body>
 </html>

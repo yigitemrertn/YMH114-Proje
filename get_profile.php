@@ -5,7 +5,6 @@ require_once 'config.php';
 header('Content-Type: application/json');
 
 if (isset($_GET['random']) && $_GET['random'] == 1) {
-    // Rastgele 4 kullanıcı getir (giriş yapan hariç)
     $excludeId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
     $stmt = $pdo->prepare("
         SELECT id, username, name, surname, avatar, 
@@ -76,10 +75,12 @@ try {
 
     echo json_encode([
         'success' => true,
-        'user' => $user,
+        'user' => array_merge($user, [
+            'followers_count' => (int)$followCounts['followers_count'],
+            'following_count' => (int)$followCounts['following_count']
+        ]),
         'posts' => $posts,
-        'comments' => $comments,
-        'followCounts' => $followCounts
+        'comments' => $comments
     ]);
 
 } catch (PDOException $e) {

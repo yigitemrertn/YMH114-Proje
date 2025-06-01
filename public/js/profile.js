@@ -64,7 +64,7 @@ function renderUserComments(comments) {
     container.innerHTML = comments.map(comment => `
         <div class="comment-card">
             <div class="comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
-            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="post-card-link">
+            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="comment-card-link">
                 <i class="fas fa-arrow-right"></i> Gönderiye Git
             </a>
         </div>
@@ -83,14 +83,13 @@ function loadProfile(userId) {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                updateProfileUI(data.user);
+                updateProfileUI(data.user, data.posts, data.comments);
                 renderUserPosts(data.posts);
                 renderUserComments(data.comments);
 
                 // Takip butonunu sadece başka kullanıcının profilinde göster
                 const followButton = document.getElementById('follow-button');
                 if (followButton) {
-                    // userId ve oturumdaki kullanıcı id'si eşitse gizle
                     fetch('../status.php')
                         .then(res => res.json())
                         .then(status => {
@@ -113,7 +112,7 @@ function loadProfile(userId) {
         });
 }
 
-function updateProfileUI(data) {
+function updateProfileUI(data, posts = [], comments = []) {
     document.getElementById('profileName').textContent = data.name + ' ' + data.surname;
     document.getElementById('profileUsername').textContent = '@' + data.username;
     document.getElementById('profileBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
@@ -121,15 +120,16 @@ function updateProfileUI(data) {
     // Avatar çerçeveye tam oturacak şekilde göster
     const avatarImg = document.getElementById('avatarImage');
     avatarImg.src = data.avatar ? data.avatar : 'images/default-avatar.png';
-    avatarImg.style.width = '120px';
-    avatarImg.style.height = '120px';
+    avatarImg.style.width = '100%';
+    avatarImg.style.height = '100%';
     avatarImg.style.objectFit = 'cover';
     avatarImg.style.borderRadius = '50%';
-    avatarImg.style.border = '3px solid #3498db';
+    avatarImg.style.border = 'none';
     avatarImg.style.background = '#f5f5f5';
     avatarImg.style.display = 'block';
-    document.getElementById('postCount').textContent = data.post_count || 0;
-    document.getElementById('commentCount').textContent = data.comment_count || 0;
+    // Sayıları güncel tut
+    document.getElementById('postCount').textContent = posts.length || 0;
+    document.getElementById('commentCount').textContent = comments.length || 0;
     document.getElementById('followersCount').textContent = data.followers_count || 0;
     document.getElementById('joinDate').textContent = 'Katılım: ' + formatDate(data.created_at);
 }
