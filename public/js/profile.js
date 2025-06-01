@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Menü tab switching güncellendi
+    // Menü tab switching
     const profileMenuItems = document.querySelectorAll('.profile-menu-item');
     const profileSections = document.querySelectorAll('.profile-section');
     profileMenuItems.forEach(item => {
@@ -237,177 +237,145 @@ document.addEventListener('DOMContentLoaded', function() {
     initializePageHandlers();
 });
 
-// Kullanıcının gönderilerini arama sayfasındaki gibi göster
-function renderUserPosts(posts) {
-    const container = document.getElementById('userPostsContainer');
-    if (!container) return;
-    if (!posts.length) {
-        container.innerHTML = '<p>Henüz gönderi yok.</p>';
-        return;
-    }
-    container.innerHTML = posts.map(post => `
-        <div class="post-card">
-            <div class="post-card-title">${post.title}</div>
-            <div class="post-card-content">${stripTags(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
-            <a href="detailed-post.html?id=${post.id}" class="post-card-link">
-                <i class="fas fa-arrow-right"></i> Detay
-            </a>
-        </div>
-    `).join('');
-}
-
-// Kullanıcının yorumlarını search-comments.html'deki gibi göster
-function renderUserComments(comments) {
-    const container = document.getElementById('userCommentsContainer');
-    if (!container) return;
-    if (!comments.length) {
-        container.innerHTML = '<p>Henüz yorum yok.</p>';
-        return;
-    }
-    container.innerHTML = comments.map(comment => `
-        <div class="comment-card">
-            <div class="comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
-            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="post-card-link">
-                <i class="fas fa-arrow-right"></i> Gönderiye Git
-            </a>
-        </div>
-    `).join('');
-}
-
-// HTML etiketlerini kaldırmak için yardımcı fonksiyon
-function stripTags(html) {
-    var div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-}
-
 function loadProfile(userId) {
     const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
-
+    
     fetch(endpoint)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(res => res.json())
         .then(data => {
             if (data.success) {
-                updateProfileUI(data);
+                updateProfileUI(data.profile);
+                loadUserPosts(userId);
+                loadUserComments(userId);
             } else {
-                showError(data.message);
+                showError(data.message || 'Profil yüklenirken bir hata oluştu.');
             }
         })
         .catch(error => {
-            showError('Profil yüklenirken bir hata oluştu: ' + error.message);
             console.error('Error:', error);
+            showError('Profil yüklenirken bir hata oluştu.');
         });
 }
 
 function updateProfileUI(data) {
-    const { profile } = data;
-    document.getElementById('profile-username').textContent = '@' + profile.username;
-    document.getElementById('profile-name').textContent = profile.full_name || profile.username;
-    document.getElementById('profile-bio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
-    const avatar = document.getElementById('profile-avatar');
-    if (profile.avatar) {
-        avatar.src = profile.avatar;
-    } else {
-        avatar.src = 'images/default-avatar.png';
-    }
+    document.getElementById('profileName').textContent = data.name + ' ' + data.surname;
+    document.getElementById('profileUsername').textContent = '@' + data.username;
+    document.getElementById('profileBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
+    document.getElementById('aboutBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
+    document.getElementById('avatarImage').src = data.avatar ? data.avatar : 'images/default-avatar.png';
+    document.getElementById('postCount').textContent = data.post_count || 0;
+    document.getElementById('commentCount').textContent = data.comment_count || 0;
+    document.getElementById('followersCount').textContent = data.followers_count || 0;
 
-    // Update profile stats
-    document.getElementById('post-count').textContent = profile.post_count;
-    document.getElementById('comment-count').textContent = profile.comment_count;
-    document.getElementById('following-count').textContent = profile.following_count;
-    document.getElementById('followers-count').textContent = profile.followers_count;
-
-    // Update follow button
-    const followButton = document.getElementById('follow-button');
-    if (followButton) {
-        if (profile.is_following) {
-            followButton.textContent = 'Takibi Bırak';
-            followButton.classList.add('following');
+    // Takip et/bırak butonu
+    const followBtn = document.getElementById('follow-button');
+    if (followBtn && typeof data.is_following !== "undefined") {
+        if (data.is_following == 1 || data.is_following === true) {
+            followBtn.textContent = 'Takipten Çık';
+            followBtn.classList.add('following');
         } else {
-            followButton.textContent = 'Takip Et';
-            followButton.classList.remove('following');
-        }
-    }
-
-    // Update recent posts
-    const postsContainer = document.getElementById('recent-posts');
-    if (postsContainer) {
-        if (recentPosts && recentPosts.length > 0) {
-            postsContainer.innerHTML = recentPosts.map(post => `
-                <div class="post-card">
-                    <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-                    <p>${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
-                    <div class="post-stats">
-                        <span><i class="fas fa-heart"></i> ${post.like_count}</span>
-                        <span><i class="fas fa-comment"></i> ${post.comment_count}</span>
-                        <span><i class="fas fa-clock"></i> ${formatDate(post.created_at)}</span>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            postsContainer.innerHTML = '<p class="text-center">Henüz gönderi yok.</p>';
-        }
-    }
-
-    // Update recent comments
-    const commentsContainer = document.getElementById('recent-comments');
-    if (commentsContainer) {
-        if (recentComments && recentComments.length > 0) {
-            commentsContainer.innerHTML = recentComments.map(comment => `
-                <div class="comment-card">
-                    <p>${comment.content}</p>
-                    <div class="comment-meta">
-                        <a href="post.html?id=${comment.post_id}">${comment.post_title}</a>
-                        <span><i class="fas fa-clock"></i> ${formatDate(comment.created_at)}</span>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            commentsContainer.innerHTML = '<p class="text-center">Henüz yorum yok.</p>';
+            followBtn.textContent = 'Takip Et';
+            followBtn.classList.remove('following');
         }
     }
 }
 
-function toggleFollow(userId) {
-    if (!userId) return;
+function loadUserPosts(userId) {
+    const endpoint = userId ? `api/user/get-user-posts.php?id=${userId}` : 'api/user/get-user-posts.php';
+    
+    fetch(endpoint)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                renderUserPosts(data.posts);
+            } else {
+                showError(data.message || 'Gönderiler yüklenirken bir hata oluştu.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Gönderiler yüklenirken bir hata oluştu.');
+        });
+}
 
-    const formData = new FormData();
-    formData.append('userId', userId);
+function loadUserComments(userId) {
+    const endpoint = userId ? `api/user/get-user-comments.php?id=${userId}` : 'api/user/get-user-comments.php';
+    
+    fetch(endpoint)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                renderUserComments(data.comments);
+            } else {
+                showError(data.message || 'Yorumlar yüklenirken bir hata oluştu.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Yorumlar yüklenirken bir hata oluştu.');
+        });
+}
 
-    fetch('api/user/toggle-follow.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            loadProfile(userId);
-            showSuccess(data.message);
-        } else {
-            showError(data.message);
-        }
-    })
-    .catch(error => {
-        showError('İşlem sırasında bir hata oluştu: ' + error.message);
-        console.error('Error:', error);
-    });
+function renderUserPosts(posts) {
+    const container = document.getElementById('userPostsContainer');
+    if (!container) return;
+    
+    if (!posts.length) {
+        container.innerHTML = '<p class="no-content">Henüz gönderi yok.</p>';
+        return;
+    }
+    
+    container.innerHTML = posts.map(post => `
+        <div class="post-card">
+            <div class="post-card-header">
+                <div class="post-card-title">${post.title}</div>
+                <div class="post-card-date">${formatDate(post.created_at)}</div>
+            </div>
+            <div class="post-card-content">${stripTags(post.content)}</div>
+            <div class="post-card-footer">
+                <div class="post-card-stats">
+                    <span><i class="far fa-comment"></i> ${post.comment_count}</span>
+                    <span><i class="far fa-heart"></i> ${post.like_count}</span>
+                </div>
+                <a href="detailed-topic.html?id=${post.id}" class="post-card-link">Devamını Oku</a>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderUserComments(comments) {
+    const container = document.getElementById('userCommentsContainer');
+    if (!container) return;
+    
+    if (!comments.length) {
+        container.innerHTML = '<p class="no-content">Henüz yorum yok.</p>';
+        return;
+    }
+    
+    container.innerHTML = comments.map(comment => `
+        <div class="comment-card">
+            <div class="comment-card-header">
+                <div class="comment-card-post">
+                    <a href="detailed-topic.html?id=${comment.post_id}">${comment.post_title}</a>
+                </div>
+                <div class="comment-card-date">${formatDate(comment.created_at)}</div>
+            </div>
+            <div class="comment-card-content">${stripTags(comment.content)}</div>
+        </div>
+    `).join('');
+}
+
+function stripTags(html) {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
 }
 
 function formatDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
     const diff = now - date;
-
+    
     // Less than 24 hours
     if (diff < 24 * 60 * 60 * 1000) {
         const hours = Math.floor(diff / (60 * 60 * 1000));
@@ -417,18 +385,40 @@ function formatDate(dateString) {
         }
         return `${hours} saat önce`;
     }
-
+    
     // Less than 7 days
     if (diff < 7 * 24 * 60 * 60 * 1000) {
         const days = Math.floor(diff / (24 * 60 * 60 * 1000));
         return `${days} gün önce`;
     }
-
-    // Otherwise show full date
+    
+    // Format as date
     return date.toLocaleDateString('tr-TR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
+    });
+}
+
+function toggleFollow(userId) {
+    fetch('api/user/toggle-follow.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `userId=${userId}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            showError(data.message || 'Takip işlemi başarısız.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showError('Takip işlemi sırasında bir hata oluştu.');
     });
 }
 

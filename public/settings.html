@@ -351,21 +351,27 @@
         }
 
         document.getElementById('profileSettingsForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    fetch('api/user/update-profile.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) {
-            location.reload();
-        }
-    });
-});
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            fetch('../api/user/update-profile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Profil güncellenirken bir hata oluştu.');
+            });
+        });
     </script>
     <script src="js/hamburger.js"></script>
 </body>
