@@ -5,7 +5,7 @@ const postId = urlParams.get('id');
 // Post verilerini çek
 async function fetchPostDetails() {
     try {
-        const response = await fetch(`/api/posts.php?id=${postId}`);
+        const response = await fetch(`/public/api/posts.php?id=${postId}`);
         if (!response.ok) {
             throw new Error('Post yüklenirken bir hata oluştu');
         }
