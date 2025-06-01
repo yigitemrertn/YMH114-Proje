@@ -255,6 +255,30 @@
         background: #6cb6ff;
         color: #23243a;
     }
+    .profile-alert {
+        margin-top: 12px;
+        margin-bottom: 0;
+        padding: 10px 18px;
+        border-radius: 8px;
+        background: #eaf6ff;
+        color: #3498db;
+        font-weight: 500;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px rgba(52,152,219,0.06);
+        display: none;
+        text-align: center;
+        z-index: 10;
+        position: relative;
+        transition: opacity 0.2s;
+    }
+    .profile-alert.show {
+        display: block;
+        opacity: 1;
+    }
+    .profile-alert.error {
+        background: #ffeaea;
+        color: #e74c3c;
+    }
     </style>
 </head>
 <body>
@@ -335,6 +359,7 @@
                             <img src="images/default-avatar.png" alt="Profile Avatar" id="avatarImage" style="cursor:pointer;">
                         </div>
                         <button id="follow-button" class="follow-btn" tabindex="0">Takip Et</button>
+                        <div id="profileAlert" class="profile-alert"></div>
                     </div>
                     <div class="profile-info">
                         <h1 class="profile-name" id="profileName">Kullanıcı Adı</h1>
@@ -466,6 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     const followButton = document.getElementById('follow-button');
+    const profileAlert = document.getElementById('profileAlert');
     if (followButton && userId) {
         fetch('../status.php')
             .then(res => res.json())
@@ -509,12 +535,38 @@ document.addEventListener('DOMContentLoaded', function() {
                         followButton.textContent = 'Takipten Çık';
                         followButton.classList.add('following');
                     }
-                    alert(data.message); // Takip/Çık mesajı göster
+                    showProfileAlert(data.message, false);
+                    // Takipçi sayısını güncelle
+                    updateFollowersCount();
                 } else {
-                    alert(data.message || 'İşlem başarısız');
+                    showProfileAlert(data.message || 'İşlem başarısız', true);
                 }
             });
         });
+
+        function updateFollowersCount() {
+            fetch(`api/user/get-user-profile.php?id=${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.profile) {
+                        const followersCount = document.getElementById('followersCount');
+                        if (followersCount) {
+                            followersCount.textContent = data.profile.followers_count || 0;
+                        }
+                    }
+                });
+        }
+
+        function showProfileAlert(message, isError) {
+            if (!profileAlert) return;
+            profileAlert.textContent = message;
+            profileAlert.classList.remove('error', 'show');
+            if (isError) profileAlert.classList.add('error');
+            profileAlert.classList.add('show');
+            setTimeout(() => {
+                profileAlert.classList.remove('show');
+            }, 2500);
+        }
     }
 
     // Avatar modal aç/kapat
