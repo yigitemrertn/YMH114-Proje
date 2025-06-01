@@ -181,7 +181,7 @@ function createPostElement(post) {
     postCard.className = 'post-card';
     postCard.style.cursor = 'pointer';
     postCard.addEventListener('click', function() {
-        window.location.href = `/public/detailed-posting.html?id=${post.id}`;
+        window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
     postCard.innerHTML = `
@@ -198,7 +198,7 @@ function createPostElement(post) {
         </div>
         
         <h2 class="post-title">
-            <a href="detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
+            <a href="/public/detailed-post.html?id=${post.id}" class="post-title-link">${post.title}</a>
         </h2>
         
         <div class="post-content">
@@ -268,7 +268,7 @@ function reportPost(postId) {
 }
 
 function focusCommentInput(postId) {
-    window.location.href = `detailed-post.html?id=${postId}#comment-input`;
+    window.location.href = `/public/detailed-post.html?id=${postId}#comment-input`;
 }
 
 function showSuccessMessage(message) {
