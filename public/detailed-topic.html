@@ -69,12 +69,6 @@
                 <div class="topic-cards-container" id="topicCards">
                     <!-- Topic cards will be loaded here -->
                 </div>
-                <div class="comment-form-container" id="commentFormContainer" style="display: none;">
-                    <form id="commentForm" class="comment-form">
-                        <textarea id="commentContent" placeholder="Yorumunuzu yazın..." required></textarea>
-                        <button type="submit" class="submit-button">Yorum Yap</button>
-                    </form>
-                </div>
             </div>
             <div class="pagination" id="pagination">
                 <!-- Pagination will be loaded here -->
@@ -105,19 +99,17 @@
                 return;
             }
 
-            let currentPost = null;
-
             // Load topic data
-            fetch(`api/post/get-post.php?id=${topicId}`)
+            fetch(`../get_post.php?id=${topicId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        currentPost = data.post;
-                        document.title = `ForumFU - ${currentPost.title}`;
-                        document.getElementById('topicTitle').textContent = currentPost.title;
+                        const post = data.post;
+                        document.title = `ForumFU - ${post.title}`;
+                        document.getElementById('topicTitle').textContent = post.title;
                         
                         // Load comments
-                        return fetch(`api/post/get-comments.php?post_id=${topicId}`);
+                        return fetch(`../get_comments.php?post_id=${topicId}`);
                     } else {
                         throw new Error(data.message || 'Konu yüklenemedi');
                     }
@@ -135,18 +127,18 @@
                             <div class="card-content">
                                 <div class="post-header">
                                     <div class="post-author">
-                                        <img src="${currentPost.avatar || 'images/default-avatar.png'}" alt="@${currentPost.username}" class="author-avatar">
+                                        <img src="${post.avatar || 'images/default-avatar.png'}" alt="@${post.username}" class="author-avatar">
                                         <div class="author-info">
-                                            <span class="author-name">${currentPost.name} ${currentPost.surname}</span>
-                                            <span class="author-username">@${currentPost.username}</span>
+                                            <span class="author-name">${post.name} ${post.surname}</span>
+                                            <span class="author-username">@${post.username}</span>
                                         </div>
                                     </div>
                                     <div class="post-meta">
-                                        <span class="post-date">${formatDate(currentPost.created_at)}</span>
+                                        <span class="post-date">${new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
                                     </div>
                                 </div>
                                 <div class="post-content">
-                                    ${currentPost.content}
+                                    ${post.content}
                                 </div>
                             </div>
                         `;
@@ -167,7 +159,7 @@
                                             </div>
                                         </div>
                                         <div class="post-meta">
-                                            <span class="post-date">${formatDate(comment.created_at)}</span>
+                                            <span class="post-date">${new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
                                         </div>
                                     </div>
                                     <div class="post-content">
@@ -177,12 +169,6 @@
                             `;
                             topicCards.appendChild(commentCard);
                         });
-
-                        // Show comment form if user is logged in
-                        const commentFormContainer = document.getElementById('commentFormContainer');
-                        if (commentFormContainer) {
-                            commentFormContainer.style.display = 'block';
-                        }
                     }
                 })
                 .catch(error => {
@@ -190,77 +176,18 @@
                     document.getElementById('topicTitle').textContent = 'Hata: ' + error.message;
                 });
 
-            // Load featured topics
-            fetch('api/post/get-featured-posts.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const featuredList = document.getElementById('featuredList');
-                        featuredList.innerHTML = data.posts.map(post => `
-                            <div class="featured-item">
-                                <a href="detailed-topic.html?id=${post.id}" class="featured-link">
-                                    <i class="fas fa-comment"></i>
-                                    <span class="featured-title">${post.title}</span>
-                                    <span class="featured-meta">
-                                        <i class="fas fa-comments"></i> ${post.comment_count}
-                                        <i class="fas fa-clock"></i> ${formatDate(post.created_at)}
-                                    </span>
-                                </a>
-                            </div>
-                        `).join('');
-                    }
-                })
-                .catch(error => console.error('Error loading featured topics:', error));
-
-            // Handle comment form submission
-            const commentForm = document.getElementById('commentForm');
-            if (commentForm) {
-                commentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const content = document.getElementById('commentContent').value;
-                    
-                    fetch('api/post/add-comment.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `post_id=${topicId}&content=${encodeURIComponent(content)}`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            alert(data.message || 'Yorum eklenirken bir hata oluştu.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Yorum eklenirken bir hata oluştu.');
-                    });
-                });
-            }
-
             // Check login status
-            fetch('api/user/check-auth.php')
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
                     const hamburgerContainer = document.getElementById('hamburgerContainer');
-                    const commentFormContainer = document.getElementById('commentFormContainer');
-                    
                     if (data.loggedIn) {
                         authButtons.style.display = 'none';
                         hamburgerContainer.style.display = 'block';
-                        if (commentFormContainer) {
-                            commentFormContainer.style.display = 'block';
-                        }
                     } else {
                         authButtons.style.display = 'flex';
                         hamburgerContainer.style.display = 'none';
-                        if (commentFormContainer) {
-                            commentFormContainer.style.display = 'none';
-                        }
                     }
                 });
 
@@ -270,45 +197,16 @@
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    fetch('api/user/logout.php')
+                    fetch('../logout.php')
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                window.location.href = 'index.html';
+                                window.location.href = '../index.html';
                             }
                         });
                 });
             }
         });
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diff = now - date;
-            
-            // Less than 24 hours
-            if (diff < 24 * 60 * 60 * 1000) {
-                const hours = Math.floor(diff / (60 * 60 * 1000));
-                if (hours === 0) {
-                    const minutes = Math.floor(diff / (60 * 1000));
-                    return `${minutes} dakika önce`;
-                }
-                return `${hours} saat önce`;
-            }
-            
-            // Less than 7 days
-            if (diff < 7 * 24 * 60 * 60 * 1000) {
-                const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-                return `${days} gün önce`;
-            }
-            
-            // Format as date
-            return date.toLocaleDateString('tr-TR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
     </script>
 </body>
 </html>
