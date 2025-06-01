@@ -10,6 +10,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    /* Avatar çerçevesini tam dolduracak şekilde stil */
+    .profile-avatar img#avatarImage {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #3498db;
+        background: #f5f5f5;
+        display: block;
+    }
+    .profile-avatar-modal {
+        position: fixed;
+        z-index: 9999;
+        left: 0; top: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-avatar-modal img {
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        background: #fff;
+    }
+    .profile-avatar-modal { display: none; }
+    .profile-avatar-modal.active { display: flex; }
+    </style>
 </head>
 <body>
     <header>
@@ -85,7 +115,7 @@
                 <!-- Profile Header -->
                 <div class="profile-header">
                     <div class="profile-avatar" style="display: flex; flex-direction: column; align-items: center;">
-                        <img src="images/default-avatar.png" alt="Profile Avatar" id="avatarImage">
+                        <img src="images/default-avatar.png" alt="Profile Avatar" id="avatarImage" style="cursor:pointer;">
                         <button id="follow-button" class="follow-btn" style="margin-top: 12px; padding: 7px 22px; border-radius: 20px; border: none; background: #3498db; color: #fff; font-weight: 600; cursor: pointer; font-size: 1em;">Takip Et</button>
                     </div>
                     <div class="profile-info">
@@ -158,38 +188,17 @@
                 </div>
             </main>
 
+            <!-- Avatar modal -->
+            <div id="avatarModal" class="profile-avatar-modal">
+                <img id="avatarModalImg" src="" alt="Büyük Profil Fotoğrafı">
+            </div>
+
             <aside class="featured-topics">
                 <div class="featured-header">
                     <h2>Benzer Profiller</h2>
                 </div>
-                <div class="featured-list">
-                    <div class="featured-item">
-                        <div class="featured-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="featured-content">
-                            <h3>Ahmet Yılmaz</h3>
-                            <p>@ahmet_y • 256 takipçi</p>
-                        </div>
-                    </div>
-                    <div class="featured-item">
-                        <div class="featured-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="featured-content">
-                            <h3>Zeynep Kaya</h3>
-                            <p>@zeynep_k • 189 takipçi</p>
-                        </div>
-                    </div>
-                    <div class="featured-item">
-                        <div class="featured-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="featured-content">
-                            <h3>Mehmet Özkan</h3>
-                            <p>@mehmet_oz • 342 takipçi</p>
-                        </div>
-                    </div>
+                <div class="featured-list" id="similarProfiles">
+                    <!-- Benzer profiller JS ile yüklenecek -->
                 </div>
             </aside>
         </div>
@@ -199,8 +208,7 @@
     <script src="js/profile.js"></script>
     <script src="js/search.js"></script>
     <script>
-    // Giriş durumunu kontrol et ve hamburger menüyü göster/gizle
-     document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         fetch('../status.php')
             .then(response => response.json())
             .then(data => {
@@ -246,6 +254,66 @@
                 });
             }
         }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hamburger menüdeki Profil linkini dinamik olarak yönlendir
+        const profileMenuLink = document.querySelector('.hamburger-menu a.menu-item[href="profile.html"]');
+        if (profileMenuLink) {
+            fetch('../status.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.loggedIn && data.userId) {
+                        profileMenuLink.href = `profile.html?id=${data.userId}`;
+                    } else {
+                        profileMenuLink.href = 'login.html';
+                    }
+                });
+        }
+    });
+
+    // Avatar modal aç/kapat
+    const avatarImg = document.getElementById('avatarImage');
+    const avatarModal = document.getElementById('avatarModal');
+    const avatarModalImg = document.getElementById('avatarModalImg');
+    if (avatarImg && avatarModal && avatarModalImg) {
+        avatarImg.addEventListener('click', function() {
+            avatarModalImg.src = avatarImg.src;
+            avatarModal.classList.add('active');
+        });
+        avatarModal.addEventListener('click', function(e) {
+            if (e.target === avatarModal) {
+                avatarModal.classList.remove('active');
+                avatarModalImg.src = '';
+            }
+        });
+    }
+
+    // Benzer profilleri yükle
+    loadSimilarProfiles();
+
+    function loadSimilarProfiles() {
+        fetch('../get_profile.php?random=1')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('similarProfiles');
+                if (!container) return;
+                if (data.similar && data.similar.length > 0) {
+                    container.innerHTML = data.similar.map(u => `
+                        <div class="featured-item" style="cursor:pointer;" onclick="window.location.href='profile.html?id=${u.id}'">
+                            <div class="featured-icon">
+                                <img src="${u.avatar ? u.avatar : 'images/default-avatar.png'}" alt="@${u.username}" style="width:40px;height:40px;object-fit:cover;border-radius:50%;">
+                            </div>
+                            <div class="featured-content">
+                                <h3>${u.name} ${u.surname}</h3>
+                                <p>@${u.username} • ${u.followers_count} takipçi</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p>Benzer profil bulunamadı.</p>';
+                }
+            });
+    }
     </script>
 </body>
 </html>

@@ -86,17 +86,22 @@ function loadProfile(userId) {
                 updateProfileUI(data.user);
                 renderUserPosts(data.posts);
                 renderUserComments(data.comments);
-                
+
                 // Takip butonunu sadece başka kullanıcının profilinde göster
                 const followButton = document.getElementById('follow-button');
                 if (followButton) {
-                    if (userId !== data.user.id) {
-                        followButton.style.display = 'block';
-                        followButton.textContent = data.is_following ? 'Takipten Çık' : 'Takip Et';
-                        followButton.classList.toggle('following', data.is_following);
-                    } else {
-                        followButton.style.display = 'none';
-                    }
+                    // userId ve oturumdaki kullanıcı id'si eşitse gizle
+                    fetch('../status.php')
+                        .then(res => res.json())
+                        .then(status => {
+                            if (status.loggedIn && String(status.userId) === String(userId)) {
+                                followButton.style.display = 'none';
+                            } else {
+                                followButton.style.display = 'block';
+                                followButton.textContent = data.is_following ? 'Takipten Çık' : 'Takip Et';
+                                followButton.classList.toggle('following', data.is_following);
+                            }
+                        });
                 }
             } else {
                 showError(data.message || 'Profil yüklenirken bir hata oluştu');
@@ -113,7 +118,16 @@ function updateProfileUI(data) {
     document.getElementById('profileUsername').textContent = '@' + data.username;
     document.getElementById('profileBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
     document.getElementById('aboutBio').textContent = data.bio || 'Henüz bir biyografi eklenmemiş.';
-    document.getElementById('avatarImage').src = data.avatar ? data.avatar : 'images/default-avatar.png';
+    // Avatar çerçeveye tam oturacak şekilde göster
+    const avatarImg = document.getElementById('avatarImage');
+    avatarImg.src = data.avatar ? data.avatar : 'images/default-avatar.png';
+    avatarImg.style.width = '120px';
+    avatarImg.style.height = '120px';
+    avatarImg.style.objectFit = 'cover';
+    avatarImg.style.borderRadius = '50%';
+    avatarImg.style.border = '3px solid #3498db';
+    avatarImg.style.background = '#f5f5f5';
+    avatarImg.style.display = 'block';
     document.getElementById('postCount').textContent = data.post_count || 0;
     document.getElementById('commentCount').textContent = data.comment_count || 0;
     document.getElementById('followersCount').textContent = data.followers_count || 0;
