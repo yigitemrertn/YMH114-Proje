@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once __DIR__ . '/../../config.php';
+require_once _DIR_ . '/../../config.php';
 
 header('Content-Type: application/json');
 
@@ -98,11 +98,11 @@ try {
     ]);
 
     // DEBUG: Eğer buraya kadar gelirse
-    file_put_contents(__DIR__.'/debug.txt', 'Çalıştı: '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+    file_put_contents(_DIR_.'/debug.txt', 'Çalıştı: '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
 } catch (PDOException $e) {
     echo json_encode([
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
-    ]);
+    ]);
 }

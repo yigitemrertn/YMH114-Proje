@@ -117,5 +117,5 @@ try {
     echo json_encode([
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
-    ]);
+    ]);
 }
