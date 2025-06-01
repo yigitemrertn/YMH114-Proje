@@ -2,150 +2,786 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get user ID from URL if viewing another user's profile
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
-    
-    // Load profile data based on whether we're viewing our own profile or another user's
-    const endpoint = userId ? `../api/user/get-user-profile.php?id=${userId}` : '../api/user/get-profile.php';
-    
-    fetch(endpoint)
+
+    // Load profile data
+    loadProfile(userId);
+
+    // Follow button click handler
+    const followButton = document.getElementById('follow-button');
+    if (followButton) {
+        followButton.addEventListener('click', function() {
+            toggleFollow(userId);
+        });
+    }
+
+    // Menü tab switching güncellendi
+    const profileMenuItems = document.querySelectorAll('.profile-menu-item');
+    const profileSections = document.querySelectorAll('.profile-section');
+    profileMenuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            profileMenuItems.forEach(i => i.classList.remove('active'));
+            profileSections.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            const targetId = this.getAttribute('data-section') + '-section';
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+
+    // Profil verilerini yükle
+    fetch('api/user/get-profile.php')
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                updateProfileUI(data.profile);
-                loadUserPosts(userId);
-                loadUserComments(userId);
+                document.getElementById('profileName').textContent = data.profile.name + ' ' + data.profile.surname;
+                document.getElementById('profileUsername').textContent = '@' + data.profile.username;
+                document.getElementById('profileBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                document.getElementById('aboutBio').textContent = data.profile.bio || 'Henüz bir biyografi eklenmemiş.';
+                document.getElementById('avatarImage').src = data.profile.avatar ? data.profile.avatar : 'images/default-avatar.png';
+                document.getElementById('postCount').textContent = data.profile.post_count || 0;
+                document.getElementById('commentCount').textContent = data.profile.comment_count || 0;
+                document.getElementById('followersCount').textContent = data.profile.followers_count || 0;
+                // Takip et/bırak butonu
+                const followBtn = document.getElementById('follow-button');
+                if (followBtn && typeof data.profile.is_following !== "undefined") {
+                    if (data.profile.is_following == 1 || data.profile.is_following === true) {
+                        followBtn.textContent = 'Takipten Çık';
+                        followBtn.classList.add('following');
+                    } else {
+                        followBtn.textContent = 'Takip Et';
+                        followBtn.classList.remove('following');
+                    }
+                    followBtn.onclick = function() {
+                        const userId = data.profile.id;
+                        fetch('api/user/toggle-follow.php', {
+                            method: 'POST',
+                            body: new URLSearchParams({ userId })
+                        })
+                        .then(res => res.json())
+                        .then(resp => {
+                            if (resp.success) {
+                                location.reload();
+                            } else {
+                                alert(resp.message || 'Takip işlemi başarısız');
+                            }
+                        });
+                    };
+                }
+            }
+        });
+
+    // Post Interaction Functionality
+    const postActions = document.querySelectorAll('.post-action');
+
+    postActions.forEach(action => {
+        action.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('span');
+
+            // Handle like action
+            if (icon.classList.contains('fa-heart')) {
+                if (icon.classList.contains('far')) {
+                    // Like the post
+                    icon.classList.replace('far', 'fas');
+                    icon.style.color = '#e74c3c';
+                    if (countSpan) {
+                        let count = parseInt(countSpan.textContent);
+                        countSpan.textContent = count + 1;
+                    }
+                } else {
+                    // Unlike the post
+                    icon.classList.replace('fas', 'far');
+                    icon.style.color = '';
+                    if (countSpan) {
+                        let count = parseInt(countSpan.textContent);
+                        countSpan.textContent = count - 1;
+                    }
+                }
+            }
+
+            // Handle retweet action
+            if (icon.classList.contains('fa-retweet')) {
+                if (!icon.style.color || icon.style.color === '') {
+                    // Retweet the post
+                    icon.style.color = '#2ecc71';
+                    if (countSpan) {
+                        let count = parseInt(countSpan.textContent);
+                        countSpan.textContent = count + 1;
+                    }
+                } else {
+                    // Undo retweet
+                    icon.style.color = '';
+                    if (countSpan) {
+                        let count = parseInt(countSpan.textContent);
+                        countSpan.textContent = count - 1;
+                    }
+                }
+            }
+        });
+    });
+
+    // New Post Functionality
+    const newPostForm = document.querySelector('.new-post-form');
+    const newPostTextarea = document.querySelector('.new-post-input textarea');
+    const postButton = document.querySelector('.post-button');
+    const postsContainer = document.querySelector('.posts-container');
+
+    if (newPostForm && postButton && postsContainer) {
+        postButton.addEventListener('click', function() {
+            const postText = newPostTextarea.value.trim();
+
+            if (postText) {
+                // Create new post element
+                const newPost = document.createElement('div');
+                newPost.className = 'post-item';
+
+                // Get current date and time
+                const now = new Date();
+                const timeString = 'şimdi';
+
+                // Create post HTML
+                newPost.innerHTML = `
+                    <div class="post-avatar">
+                        <img src="https://via.placeholder.com/50" alt="Profil Resmi">
+                    </div>
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-name">Kullanıcı Adı</span>
+                            <span class="post-username">@kullanici</span>
+                            <span class="post-time">· ${timeString}</span>
+                        </div>
+                        <div class="post-text">
+                            <p>${postText}</p>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action">
+                                <i class="far fa-comment"></i>
+                                <span>0</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="fas fa-retweet"></i>
+                                <span>0</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="far fa-heart"></i>
+                                <span>0</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="far fa-share-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Add the new post to the beginning of the posts container
+                postsContainer.insertBefore(newPost, postsContainer.firstChild);
+
+                // Clear the textarea
+                newPostTextarea.value = '';
+
+                // Add event listeners to the new post's action buttons
+                const newPostActions = newPost.querySelectorAll('.post-action');
+                newPostActions.forEach(action => {
+                    action.addEventListener('click', function() {
+                        const icon = this.querySelector('i');
+                        const countSpan = this.querySelector('span');
+
+                        // Handle like action
+                        if (icon.classList.contains('fa-heart')) {
+                            if (icon.classList.contains('far')) {
+                                // Like the post
+                                icon.classList.replace('far', 'fas');
+                                icon.style.color = '#e74c3c';
+                                if (countSpan) {
+                                    let count = parseInt(countSpan.textContent);
+                                    countSpan.textContent = count + 1;
+                                }
+                            } else {
+                                // Unlike the post
+                                icon.classList.replace('fas', 'far');
+                                icon.style.color = '';
+                                if (countSpan) {
+                                    let count = parseInt(countSpan.textContent);
+                                    countSpan.textContent = count - 1;
+                                }
+                            }
+                        }
+
+                        // Handle retweet action
+                        if (icon.classList.contains('fa-retweet')) {
+                            if (!icon.style.color || icon.style.color === '') {
+                                // Retweet the post
+                                icon.style.color = '#2ecc71';
+                                if (countSpan) {
+                                    let count = parseInt(countSpan.textContent);
+                                    countSpan.textContent = count + 1;
+                                }
+                            } else {
+                                // Undo retweet
+                                icon.style.color = '';
+                                if (countSpan) {
+                                    let count = parseInt(countSpan.textContent);
+                                    countSpan.textContent = count - 1;
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    // Initialize profile menu functionality
+    initializeProfileMenu();
+    setupProfileInteractions();
+    loadProfileData();
+    initializePageHandlers();
+});
+
+// Kullanıcının gönderilerini arama sayfasındaki gibi göster
+function renderUserPosts(posts) {
+    const container = document.getElementById('userPostsContainer');
+    if (!container) return;
+    if (!posts.length) {
+        container.innerHTML = '<p>Henüz gönderi yok.</p>';
+        return;
+    }
+    container.innerHTML = posts.map(post => `
+        <div class="post-card">
+            <div class="post-card-title">${post.title}</div>
+            <div class="post-card-content">${stripTags(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${post.id}" class="post-card-link">
+                <i class="fas fa-arrow-right"></i> Detay
+            </a>
+        </div>
+    `).join('');
+}
+
+// Kullanıcının yorumlarını search-comments.html'deki gibi göster
+function renderUserComments(comments) {
+    const container = document.getElementById('userCommentsContainer');
+    if (!container) return;
+    if (!comments.length) {
+        container.innerHTML = '<p>Henüz yorum yok.</p>';
+        return;
+    }
+    container.innerHTML = comments.map(comment => `
+        <div class="comment-card">
+            <div class="comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="post-card-link">
+                <i class="fas fa-arrow-right"></i> Gönderiye Git
+            </a>
+        </div>
+    `).join('');
+}
+
+// HTML etiketlerini kaldırmak için yardımcı fonksiyon
+function stripTags(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+}
+
+function loadProfile(userId) {
+    const endpoint = userId ? `api/user/get-user-profile.php?id=${userId}` : 'api/user/get-profile.php';
+
+    fetch(endpoint)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                updateProfileUI(data);
+            } else {
+                showError(data.message);
             }
         })
         .catch(error => {
-            console.error('Error loading profile:', error);
+            showError('Profil yüklenirken bir hata oluştu: ' + error.message);
+            console.error('Error:', error);
         });
+}
 
-    // Setup profile menu switching
+function updateProfileUI(data) {
+    const { profile } = data;
+    document.getElementById('profile-username').textContent = '@' + profile.username;
+    document.getElementById('profile-name').textContent = profile.full_name || profile.username;
+    document.getElementById('profile-bio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
+    const avatar = document.getElementById('profile-avatar');
+    if (profile.avatar) {
+        avatar.src = profile.avatar;
+    } else {
+        avatar.src = 'images/default-avatar.png';
+    }
+
+    // Update profile stats
+    document.getElementById('post-count').textContent = profile.post_count;
+    document.getElementById('comment-count').textContent = profile.comment_count;
+    document.getElementById('following-count').textContent = profile.following_count;
+    document.getElementById('followers-count').textContent = profile.followers_count;
+
+    // Update follow button
+    const followButton = document.getElementById('follow-button');
+    if (followButton) {
+        if (profile.is_following) {
+            followButton.textContent = 'Takibi Bırak';
+            followButton.classList.add('following');
+        } else {
+            followButton.textContent = 'Takip Et';
+            followButton.classList.remove('following');
+        }
+    }
+
+    // Update recent posts
+    const postsContainer = document.getElementById('recent-posts');
+    if (postsContainer) {
+        if (recentPosts && recentPosts.length > 0) {
+            postsContainer.innerHTML = recentPosts.map(post => `
+                <div class="post-card">
+                    <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
+                    <p>${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
+                    <div class="post-stats">
+                        <span><i class="fas fa-heart"></i> ${post.like_count}</span>
+                        <span><i class="fas fa-comment"></i> ${post.comment_count}</span>
+                        <span><i class="fas fa-clock"></i> ${formatDate(post.created_at)}</span>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            postsContainer.innerHTML = '<p class="text-center">Henüz gönderi yok.</p>';
+        }
+    }
+
+    // Update recent comments
+    const commentsContainer = document.getElementById('recent-comments');
+    if (commentsContainer) {
+        if (recentComments && recentComments.length > 0) {
+            commentsContainer.innerHTML = recentComments.map(comment => `
+                <div class="comment-card">
+                    <p>${comment.content}</p>
+                    <div class="comment-meta">
+                        <a href="post.html?id=${comment.post_id}">${comment.post_title}</a>
+                        <span><i class="fas fa-clock"></i> ${formatDate(comment.created_at)}</span>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            commentsContainer.innerHTML = '<p class="text-center">Henüz yorum yok.</p>';
+        }
+    }
+}
+
+function toggleFollow(userId) {
+    if (!userId) return;
+
+    const formData = new FormData();
+    formData.append('userId', userId);
+
+    fetch('api/user/toggle-follow.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            loadProfile(userId);
+            showSuccess(data.message);
+        } else {
+            showError(data.message);
+        }
+    })
+    .catch(error => {
+        showError('İşlem sırasında bir hata oluştu: ' + error.message);
+        console.error('Error:', error);
+    });
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now - date;
+
+    // Less than 24 hours
+    if (diff < 24 * 60 * 60 * 1000) {
+        const hours = Math.floor(diff / (60 * 60 * 1000));
+        if (hours === 0) {
+            const minutes = Math.floor(diff / (60 * 1000));
+            return `${minutes} dakika önce`;
+        }
+        return `${hours} saat önce`;
+    }
+
+    // Less than 7 days
+    if (diff < 7 * 24 * 60 * 60 * 1000) {
+        const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+        return `${days} gün önce`;
+    }
+
+    // Otherwise show full date
+    return date.toLocaleDateString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    setTimeout(() => errorDiv.remove(), 3000);
+}
+
+function showSuccess(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    document.body.appendChild(successDiv);
+    setTimeout(() => successDiv.remove(), 3000);
+}
+
+// Initialize profile menu functionality
+function initializeProfileMenu() {
     const menuItems = document.querySelectorAll('.profile-menu-item');
     const sections = document.querySelectorAll('.profile-section');
 
     menuItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const section = item.dataset.section;
+        item.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-section');
             
-            // Update active states
-            menuItems.forEach(mi => mi.classList.remove('active'));
-            sections.forEach(s => s.classList.remove('active'));
+            // Remove active class from all menu items and sections
+            menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
             
-            item.classList.add('active');
-            document.getElementById(`${section}-section`).classList.add('active');
+            // Add active class to clicked menu item
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const targetSectionElement = document.getElementById(targetSection + '-section');
+            if (targetSectionElement) {
+                targetSectionElement.classList.add('active');
+            }
+        });
+    });
+}
+
+// Setup profile interactions
+function setupProfileInteractions() {
+    // Follow button functionality
+    const followButton = document.getElementById('followButton');
+    if (followButton) {
+        followButton.addEventListener('click', function() {
+            const isFollowing = this.classList.contains('following');
+            
+            if (isFollowing) {
+                this.innerHTML = '<i class="fas fa-user-plus"></i> Takip Et';
+                this.classList.remove('following');
+                this.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                
+                // Update follower count
+                const followerCount = document.getElementById('followerCount');
+                if (followerCount) {
+                    const currentCount = parseInt(followerCount.textContent);
+                    followerCount.textContent = currentCount - 1;
+                }
+            } else {
+                this.innerHTML = '<i class="fas fa-user-check"></i> Takip Ediliyor';
+                this.classList.add('following');
+                this.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+                
+                // Update follower count
+                const followerCount = document.getElementById('followerCount');
+                if (followerCount) {
+                    const currentCount = parseInt(followerCount.textContent);
+                    followerCount.textContent = currentCount + 1;
+                }
+            }
+        });
+    }
+
+    // Post action buttons
+    setupPostActions();
+}
+
+// Setup post action functionality
+function setupPostActions() {
+    const postActions = document.querySelectorAll('.post-action');
+    
+    postActions.forEach(action => {
+        action.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('span');
+            
+            if (icon.classList.contains('fa-heart')) {
+                // Like functionality
+                if (icon.style.color === 'rgb(231, 76, 60)') {
+                    // Unlike
+                    icon.style.color = '';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount - 1;
+                    }
+                } else {
+                    // Like
+                    icon.style.color = '#e74c3c';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount + 1;
+                    }
+                }
+            } else if (icon.classList.contains('fa-comment')) {
+                // Comment functionality - could open a modal or navigate to post detail
+                console.log('Comment clicked');
+            } else if (icon.classList.contains('fa-share')) {
+                // Share functionality
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Forum Gönderisi',
+                        text: 'Bu gönderiyi kontrol et!',
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        showNotification('Bağlantı panoya kopyalandı!');
+                    });
+                }
+            }
+        });
+    });
+}
+
+// Load profile data (this would typically come from an API)
+function loadProfileData() {
+    // Simulate loading profile data
+    // In a real application, this would fetch data from a server
+    
+    const profileData = {
+        name: 'Kullanıcı Adı',
+        username: '@kullanici',
+        bio: 'Bu kullanıcının henüz bir biyografisi bulunmuyor.',
+        postCount: 42,
+        followerCount: 128,
+        followingCount: 89,
+        avatar: 'images/default-avatar.png',
+        joinDate: 'Ocak 2024',
+        location: 'İstanbul, Türkiye',
+        website: 'example.com'
+    };
+
+    // Update profile elements with data
+    updateProfileDisplay(profileData);
+    
+    // Load posts
+    loadUserPosts();
+}
+
+// Update profile display with data
+function updateProfileDisplay(data) {
+    const elements = {
+        profileName: document.getElementById('profileName'),
+        profileUsername: document.getElementById('profileUsername'),
+        profileBio: document.getElementById('profileBio'),
+        postCount: document.getElementById('postCount'),
+        followerCount: document.getElementById('followerCount'),
+        followingCount: document.getElementById('followingCount'),
+        avatarImage: document.getElementById('avatarImage')
+    };
+
+    // Update elements if they exist
+    Object.keys(elements).forEach(key => {
+        const element = elements[key];
+        const dataKey = key.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toLowerCase()).replace(/ /g, '');
+        if (element && data[dataKey]) {
+            if (key === 'avatarImage') {
+                element.src = data.avatar;
+            } else {
+                element.textContent = data[dataKey];
+            }
+        }
+    });
+}
+
+// Load user posts (simulated)
+function loadUserPosts() {
+    const postsContainer = document.querySelector('.posts-container');
+    if (!postsContainer) return;
+
+    // Sample posts data
+    const posts = [
+        {
+            id: 2,
+            content: 'Forum platformlarında kullanıcı deneyimi çok önemli. İyi bir arayüz tasarımı kullanıcıların platformda daha çok zaman geçirmesini sağlar.',
+            likes: 25,
+            comments: 8,
+            time: '1s',
+            avatar: 'images/default-avatar.png'
+        },
+        {
+            id: 3,
+            content: 'JavaScript ile dinamik web sayfaları oluşturmak gerçekten eğlenceli! Özellikle modern framework\'lerle birlikte.',
+            likes: 18,
+            comments: 5,
+            time: '3s',
+            avatar: 'images/default-avatar.png'
+        }
+    ];
+
+    // Add new posts to existing container
+    posts.forEach(post => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+    });
+}
+
+// Create post element
+function createPostElement(post) {
+    const postDiv = document.createElement('div');
+    postDiv.className = 'post-item';
+    postDiv.innerHTML = `
+        <div class="post-avatar">
+            <img src="${post.avatar}" alt="User Avatar">
+        </div>
+        <div class="post-content">
+            <div class="post-header">
+                <span class="post-name">Kullanıcı Adı</span>
+                <span class="post-username">@kullanici</span>
+                <span class="post-time">• ${post.time}</span>
+            </div>
+            <div class="post-text">
+                <p>${post.content}</p>
+            </div>
+            <div class="post-actions">
+                <button class="post-action">
+                    <i class="fas fa-heart"></i>
+                    <span>${post.likes}</span>
+                </button>
+                <button class="post-action">
+                    <i class="fas fa-comment"></i>
+                    <span>${post.comments}</span>
+                </button>
+                <button class="post-action">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Add event listeners to the new post actions
+    const postActions = postDiv.querySelectorAll('.post-action');
+    postActions.forEach(action => {
+        action.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const icon = this.querySelector('i');
+            const countSpan = this.querySelector('span');
+            
+            if (icon.classList.contains('fa-heart')) {
+                // Like functionality
+                if (icon.style.color === 'rgb(231, 76, 60)') {
+                    // Unlike
+                    icon.style.color = '';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount - 1;
+                    }
+                } else {
+                    // Like
+                    icon.style.color = '#e74c3c';
+                    if (countSpan) {
+                        const currentCount = parseInt(countSpan.textContent);
+                        countSpan.textContent = currentCount + 1;
+                    }
+                }
+            }
         });
     });
 
-    // Setup follow button
-    const followButton = document.getElementById('follow-button');
-    if (followButton) {
-        followButton.addEventListener('click', () => {
-            if (!userId) return;
-            
-            const isFollowing = followButton.classList.contains('following');
-            const action = isFollowing ? 'unfollow' : 'follow';
-            
-            fetch(`../api/user/${action}.php`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user_id: userId })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    followButton.classList.toggle('following');
-                    followButton.textContent = isFollowing ? 'Takip Et' : 'Takipten Çık';
-                    // Update followers count
-                    const followersCount = document.getElementById('followersCount');
-                    const currentCount = parseInt(followersCount.textContent);
-                    followersCount.textContent = isFollowing ? currentCount - 1 : currentCount + 1;
-                }
-            });
-        });
-    }
-});
+    return postDiv;
+}
 
-function updateProfileUI(profile) {
-    document.getElementById('profileName').textContent = `${profile.name} ${profile.surname}`;
-    document.getElementById('profileUsername').textContent = `@${profile.username}`;
-    document.getElementById('profileBio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
-    document.getElementById('aboutBio').textContent = profile.bio || 'Henüz bir biyografi eklenmemiş.';
-    document.getElementById('joinDate').textContent = 'Katılım: ' + (profile.created_at ? new Date(profile.created_at).toLocaleDateString('tr-TR') : '-');
-    document.getElementById('avatarImage').src = profile.avatar || 'images/default-avatar.png';
-    document.getElementById('postCount').textContent = profile.post_count || 0;
-    document.getElementById('commentCount').textContent = profile.comment_count || 0;
-    document.getElementById('followersCount').textContent = profile.followers_count || 0;
-    
-    // Update follow button
-    const followBtn = document.getElementById('follow-button');
-    if (followBtn && profile.is_following !== undefined) {
-        followBtn.style.display = 'block';
-        if (profile.is_following) {
-            followBtn.textContent = 'Takipten Çık';
-            followBtn.classList.add('following');
-        } else {
-            followBtn.textContent = 'Takip Et';
-            followBtn.classList.remove('following');
+// Show notification (utility function)
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: #2ecc71;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 0.9rem;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        animation: slideInRight 0.3s ease;
+    `;
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-    } else if (followBtn) {
-        followBtn.style.display = 'none';
-    }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.body.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
-function loadUserPosts(userId) {
-    const container = document.getElementById('userPostsContainer');
-    if (!container) return;
-
-    fetch(`../api/user/get-user-posts.php?id=${userId}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                container.innerHTML = data.posts.map(post => `
-                    <div class="post-item">
-                        <div class="post-content">
-                            <h3><a href="detailed-topic.html?id=${post.id}">${post.title}</a></h3>
-                            <p>${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}</p>
-                            <div class="post-meta">
-                                <span class="post-date">${new Date(post.created_at).toLocaleDateString('tr-TR')}</span>
-                                <span class="comment-count">${post.comment_count} yorum</span>
-                            </div>
-                        </div>
-                    </div>
-                `).join('') || '<p class="no-content">Henüz gönderi yok.</p>';
+// Initialize page handlers
+function initializePageHandlers() {
+    // Add smooth scrolling for any anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error loading posts:', error);
-            container.innerHTML = '<p class="error">Gönderiler yüklenirken bir hata oluştu.</p>';
         });
-}
+    });
 
-function loadUserComments(userId) {
-    const container = document.getElementById('userCommentsContainer');
-    if (!container) return;
-
-    fetch(`../api/user/get-user-comments.php?id=${userId}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                container.innerHTML = data.comments.map(comment => `
-                    <div class="comment-item">
-                        <div class="comment-content">
-                            <p>${comment.content}</p>
-                            <div class="comment-meta">
-                                <a href="detailed-topic.html?id=${comment.post_id}">Gönderiye git</a>
-                                <span class="comment-date">${new Date(comment.created_at).toLocaleDateString('tr-TR')}</span>
-                            </div>
-                        </div>
-                    </div>
-                `).join('') || '<p class="no-content">Henüz yorum yok.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading comments:', error);
-            container.innerHTML = '<p class="error">Yorumlar yüklenirken bir hata oluştu.</p>';
-        });
+    // Add click handlers for profile posts
+    document.addEventListener('click', function(e) {
+        const postItem = e.target.closest('.post-item');
+        if (postItem && !e.target.closest('.post-action')) {
+            // Could navigate to detailed post view
+            console.log('Post clicked:', postItem);
+        }
+    });
 }
 
