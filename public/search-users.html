@@ -63,6 +63,17 @@
         <h2>Kullanıcılar Arama Sonuçları</h2>
         <div id="search-results" style="display: flex; flex-wrap: wrap; gap: 1.5rem;"></div>
     </main>
+    <div class="search-results">
+        <div class="user-card">
+            <div class="user-info">
+                <img src="" alt="Profil Fotoğrafı" class="user-avatar" id="userAvatar">
+                <div class="user-details">
+                    <h3 class="user-name" id="userName">Kullanıcı Adı</h3>
+                    <p class="user-username" id="userUsername">@kullanici</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);

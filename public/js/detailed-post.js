@@ -33,6 +33,7 @@ function displayPostDetails(post) {
     // Yazar bilgileri
     document.querySelector('.author-name').textContent = `${post.name} ${post.surname}`;
     document.querySelector('.post-date').textContent = formatDate(post.created_at);
+    document.getElementById('authorAvatar').src = post.avatar || 'images/default-avatar.png';
     
     // Post içeriği
     document.querySelector('.post-title').textContent = post.title;
@@ -71,7 +72,7 @@ function displayComments(comments) {
         <div class="comment">
             <div class="comment-header">
                 <div class="comment-user-info">
-                    <img src="images/default-avatar.png" alt="Profil Fotoğrafı" class="author-avatar">
+                    <img src="${comment.avatar || 'images/default-avatar.png'}" alt="Profil Fotoğrafı" class="author-avatar">
                     <div class="user-details">
                         <span class="username">${comment.name} ${comment.surname}</span>
                         <span class="comment-time">${formatDate(comment.created_at)}</span>
