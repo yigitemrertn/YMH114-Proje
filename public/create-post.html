@@ -350,6 +350,20 @@
             checkLoginStatus();
             setupLogoutButton();
             setupFormValidation();
+
+            // Hamburger menüdeki Profil linkini dinamik olarak yönlendir
+            const profileMenuLink = document.querySelector('.hamburger-menu a.menu-item[href="profile.html"]');
+            if (profileMenuLink) {
+                fetch('../status.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.loggedIn && data.userId) {
+                            profileMenuLink.href = `profile.html?id=${data.userId}`;
+                        } else {
+                            profileMenuLink.href = 'login.html';
+                        }
+                    });
+            }
         });
 
         // Giriş durumunu kontrol eden fonksiyon
