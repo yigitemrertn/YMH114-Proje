@@ -124,7 +124,7 @@ async function updatePosts() {
 // Update posts when page loads
 document.addEventListener('DOMContentLoaded', function() {
     loadPosts();
-    loadNews();
+    // loadNews(); // Haberler artık dinamik yüklenmeyecek, statik HTML kullanılacak
 });
 
 // Update posts every 5 minutes
@@ -153,32 +153,36 @@ function loadPosts() {
         });
 }
 
-function loadNews() {
-    fetch('/news.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const featuredList = document.querySelector('.featured-list');
-                featuredList.innerHTML = ''; // Clear existing content
-
-                data.news.forEach(news => {
-                    const newsElement = createNewsElement(news);
-                    featuredList.appendChild(newsElement);
-                });
-            } else {
-                console.error('Error loading news:', data.error);
-                showNewsError('Haberler yüklenirken bir hata oluştu.');
-            }
-        })
-        .catch(error => {
-            console.error('Error loading news:', error);
-            showNewsError('Haberler yüklenirken bir hata oluştu.');
-        });
-}
+// function loadNews() {
+//     fetch('/news.php')
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 const featuredList = document.querySelector('.featured-list');
+//                 featuredList.innerHTML = ''; // Clear existing content
+//
+//                 data.news.forEach(news => {
+//                     const newsElement = createNewsElement(news);
+//                     featuredList.appendChild(newsElement);
+//                 });
+//             } else {
+//                 console.error('Error loading news:', data.error);
+//                 showNewsError('Haberler yüklenirken bir hata oluştu.');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error loading news:', error);
+//             showNewsError('Haberler yüklenirken bir hata oluştu.');
+//         });
+// }
 
 function createPostElement(post) {
     const postCard = document.createElement('article');
     postCard.className = 'post-card';
+    postCard.style.cursor = 'pointer';
+    postCard.addEventListener('click', function() {
+        window.location.href = `detailed-post.html?id=${post.id}`;
+    });
 
     postCard.innerHTML = `
         <div class="post-header">
@@ -201,7 +205,7 @@ function createPostElement(post) {
             ${formatPostContent(post.content)}
         </div>
         <div class="post-actions" style="margin-top:0.7em;display:flex;align-items:center;gap:1em;">
-            <span class="post-stat"><i class="fas fa-comment"></i> ${post.comment_count || 0}</span>
+            <!-- Like butonu ve like-count kaldırıldı -->
         </div>
     `;
     return postCard;
