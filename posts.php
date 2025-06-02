@@ -19,6 +19,10 @@ try {
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($post) {
+            // Avatar kontrolü
+            if (empty($post['avatar'])) {
+                $post['avatar'] = 'public/images/default-avatar.png'; // Varsayılan avatar yolu
+            }
             echo json_encode(['success' => true, 'post' => $post]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Post bulunamadı']);
@@ -37,6 +41,13 @@ try {
         
         $stmt->execute();
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Her post için avatar kontrolü yap
+        foreach ($posts as &$post) {
+            if (empty($post['avatar'])) {
+                $post['avatar'] = 'public/images/default-avatar.png'; // Varsayılan avatar yolu
+            }
+        }
         
         echo json_encode(['success' => true, 'posts' => $posts]);
     }
