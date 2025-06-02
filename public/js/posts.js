@@ -78,8 +78,8 @@ async function updatePosts() {
                     
                     postElement.innerHTML = `
                         <div class="post-card-header">
-                            <img src="${post.author.avatar || 'https://randomuser.me/api/portraits/men/32.jpg'}" class="post-card-avatar" alt="Profil Fotoğrafı">
-                            <span class="post-card-username">@${post.author.username}</span>
+                            <img src="${post.avatar || 'public/images/default-avatar.png'}" class="post-card-avatar" alt="Profil Fotoğrafı" onerror="this.src='public/images/default-avatar.png'">
+                            <span class="post-card-username">@${post.username}</span>
                         </div>
                         <div class="post-card-title">${post.title}</div>
                         <div class="post-card-desc">${truncatedContent}</div>
@@ -184,10 +184,13 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
+    // Avatar yolunu düzelt
+    const avatarPath = post.avatar ? post.avatar : 'public/images/default-avatar.png';
+
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="${post.avatar || 'images/default-avatar.png'}" alt="${post.username}'s avatar">
+                <img src="${avatarPath}" alt="${post.username}'s avatar" onerror="this.src='public/images/default-avatar.png'">
             </div>
             <div class="user-details">
                 <span class="username">@${post.username}</span>
