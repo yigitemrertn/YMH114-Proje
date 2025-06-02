@@ -49,9 +49,14 @@ try {
         foreach ($posts as &$post) {
             if (empty($post['avatar'])) {
                 $post['avatar'] = 'public/images/default-avatar.png'; // Varsayılan avatar yolu
+            } else {
+                // Avatar varsa, tam yolunu ekle
+                $post['avatar'] = $post['avatar'];
             }
-            // Avatar yolu zaten doğru formatta olduğu için ek bir işlem yapmıyoruz
         }
+        
+        // Debug bilgisi ekle
+        error_log('Posts data: ' . print_r($posts, true));
         
         echo json_encode(['success' => true, 'posts' => $posts]);
     }

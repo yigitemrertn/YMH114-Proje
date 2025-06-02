@@ -184,8 +184,12 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
+    // Debug bilgisi
+    console.log('Post data:', post);
+
     // Avatar yolunu düzelt
     const avatarPath = post.avatar ? post.avatar : 'public/images/default-avatar.png';
+    console.log('Avatar path:', avatarPath);
 
     postCard.innerHTML = `
         <div class="post-header">
