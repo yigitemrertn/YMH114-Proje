@@ -22,6 +22,9 @@ try {
             // Avatar kontrolü
             if (empty($post['avatar'])) {
                 $post['avatar'] = 'public/images/default-avatar.png'; // Varsayılan avatar yolu
+            } else {
+                // Avatar varsa tam yolunu ekle
+                $post['avatar'] = $post['avatar'];
             }
             echo json_encode(['success' => true, 'post' => $post]);
         } else {
@@ -47,6 +50,7 @@ try {
             if (empty($post['avatar'])) {
                 $post['avatar'] = 'public/images/default-avatar.png'; // Varsayılan avatar yolu
             }
+            // Avatar yolu zaten doğru formatta olduğu için ek bir işlem yapmıyoruz
         }
         
         echo json_encode(['success' => true, 'posts' => $posts]);
