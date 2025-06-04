@@ -46,7 +46,7 @@ try {
     // Close cURL session
     curl_close($ch);
     
-    if ($response === FALSE) {
+    if ($response === false) {
         throw new Exception('Failed to fetch news feed');
     }
     
@@ -61,7 +61,9 @@ try {
     $count = 0;
     
     foreach ($xml->channel->item as $item) {
-        if ($count >= 4) break;
+        if ($count >= 4) {
+            break
+        };
         
         // Extract the actual URL from the Google News redirect URL
         $url = (string)$item->link;
@@ -102,4 +104,3 @@ try {
         ]
     ]);
 }
-?> 

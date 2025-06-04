@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -31,4 +31,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Veritabanı hatası']);
 }
-?> 

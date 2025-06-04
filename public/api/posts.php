@@ -22,7 +22,7 @@ try {
         throw new Exception('Config file not found');
     }
 
-    require_once $configFile;
+    use $configFile;
 
     // PDO bağlantı kontrolü
     if (!isset($pdo) || !($pdo instanceof PDO)) {
@@ -65,8 +65,8 @@ try {
     // Tüm postları getir
     $query = "SELECT p.*, u.username, u.avatar,
     (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
-    FROM posts p 
-    JOIN users u ON p.user_id = u.id 
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
     ORDER BY p.created_at DESC";
     
     $stmt = $pdo->prepare($query);
@@ -111,4 +111,3 @@ try {
         ]
     ]);
 }
-?>

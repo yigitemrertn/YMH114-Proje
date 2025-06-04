@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/database.php';
+use '../config/database.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -17,7 +17,7 @@ try {
 
     // Get user settings
     $stmt = $conn->prepare("
-        SELECT 
+        SELECT
             username,
             email,
             full_name,
@@ -31,7 +31,7 @@ try {
             profile_visibility,
             activity_visibility,
             search_visibility
-        FROM users 
+        FROM users
         WHERE id = ?
     ");
 
@@ -54,4 +54,4 @@ try {
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
     ]);
-} 
+}

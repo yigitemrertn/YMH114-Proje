@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -30,7 +30,7 @@ try {
         } else {
             echo json_encode(['success' => false, 'message' => 'Post bulunamadı']);
         }
-    } 
+    }
     // ID yoksa, tüm postları getir
     else {
         $stmt = $pdo->prepare("
@@ -63,4 +63,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Veritabanı hatası']);
 }
-?> 

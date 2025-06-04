@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/database.php';
+use '../config/database.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -32,7 +32,7 @@ try {
     // Update notification settings
     $stmt = $conn->prepare("
         UPDATE users
-        SET 
+        SET
             email_notifications = ?,
             push_notifications = ?,
             mention_notifications = ?

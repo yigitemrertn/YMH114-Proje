@@ -24,7 +24,7 @@ try {
         throw new Exception('Config file not found');
     }
 
-    require_once $configFile;
+    use $configFile;
 
     // PDO bağlantı kontrolü
     if (!isset($pdo) || !($pdo instanceof PDO)) {
@@ -100,4 +100,3 @@ try {
         'error' => $e->getMessage()
     ]);
 }
-?>

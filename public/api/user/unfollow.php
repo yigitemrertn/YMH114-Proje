@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../../config.php';
+use '../../../config.php';
 
 header('Content-Type: application/json');
 
@@ -41,4 +41,3 @@ try {
         'message' => 'Takipten çıkma işlemi sırasında bir hata oluştu'
     ]);
 }
-?> 

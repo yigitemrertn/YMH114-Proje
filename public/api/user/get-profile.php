@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once _DIR_ . '/../../config.php';
+use _DIR_ . '/../../config.php';
 
 header('Content-Type: application/json');
 
@@ -20,7 +20,7 @@ try {
     
     // Kullanıcı bilgilerini al
     $stmt = $pdo->prepare("
-        SELECT 
+        SELECT
             u.id,
             u.username,
             u.name,

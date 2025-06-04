@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../../config.php';
+use '../../../config.php';
 
 header('Content-Type: application/json');
 
@@ -21,4 +21,3 @@ $stmt->execute([$currentUserId, $userId]);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 echo json_encode(['is_following' => $result['is_following'] > 0]);
-?>

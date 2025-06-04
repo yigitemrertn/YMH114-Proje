@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -16,4 +16,3 @@ if (isset($_COOKIE['remember_token'])) {
 }
 
 echo json_encode(['success' => true]);
-?> 

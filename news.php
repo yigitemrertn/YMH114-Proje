@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -20,7 +20,9 @@ try {
     
     // Her bir haber öğesini işle
     foreach ($rss->channel->item as $item) {
-        if ($count >= 5) break; // Sadece ilk 5 haberi al
+        if {
+        ($count >= 5) break;
+        }// Sadece ilk 5 haberi al
         
         // Haber başlığından kaynak bilgisini ayır
         $title_parts = explode(' - ', (string)$item->title);
@@ -53,4 +55,3 @@ try {
         'error' => 'Haberler yüklenemedi: ' . $e->getMessage()
     ]);
 }
-?> 

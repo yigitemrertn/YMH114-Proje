@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/config.php';
+use __DIR__ . '/config.php';
 
 header('Content-Type: application/json');
 
@@ -53,4 +53,3 @@ try {
         'message' => 'Konu oluşturulurken hata oluştu: ' . $e->getMessage()
     ]);
 }
-?>

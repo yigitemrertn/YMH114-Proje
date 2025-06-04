@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../config.php';
+use '../../config.php';
 
 header('Content-Type: application/json');
 
@@ -71,4 +71,4 @@ try {
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
     ]);
-} 
+}

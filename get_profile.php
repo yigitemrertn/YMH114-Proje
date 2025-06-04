@@ -1,17 +1,17 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
 if (isset($_GET['random']) && $_GET['random'] == 1) {
     $excludeId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
     $stmt = $pdo->prepare("
-        SELECT id, username, name, surname, avatar, 
-        (SELECT COUNT(*) FROM follows WHERE following_id = users.id) as followers_count 
-        FROM users 
-        WHERE id != ? 
-        ORDER BY RAND() 
+        SELECT id, username, name, surname, avatar,
+        (SELECT COUNT(*) FROM follows WHERE following_id = users.id) as followers_count
+        FROM users
+        WHERE id != ?
+        ORDER BY RAND()
         LIMIT 4
     ");
     $stmt->execute([$excludeId]);
@@ -31,7 +31,7 @@ try {
     // Kullanıcı bilgilerini getir
     $stmt = $pdo->prepare("
         SELECT id, username, name, surname, email, bio, avatar, created_at
-        FROM users 
+        FROM users
         WHERE id = ?
     ");
     $stmt->execute([$userId]);
@@ -44,7 +44,7 @@ try {
 
     // Kullanıcının gönderilerini getir
     $stmt = $pdo->prepare("
-        SELECT p.*, 
+        SELECT p.*,
         (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
         FROM posts p
         WHERE p.user_id = ?
@@ -86,4 +86,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Veritabanı hatası']);
 }
-?> 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../../config.php';
+use '../../../config.php';
 
 header('Content-Type: application/json');
 
@@ -14,10 +14,10 @@ $userId = $_GET['id'];
 try {
     // Kullanıcının gönderilerini al
     $stmt = $pdo->prepare("
-        SELECT p.*, 
+        SELECT p.*,
                (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
-        FROM posts p 
-        WHERE p.user_id = ? 
+        FROM posts p
+        WHERE p.user_id = ?
         ORDER BY p.created_at DESC
     ");
     $stmt->execute([$userId]);
@@ -33,4 +33,3 @@ try {
         'message' => 'Gönderiler alınırken bir hata oluştu'
     ]);
 }
-?> 
