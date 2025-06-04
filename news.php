@@ -1,7 +1,9 @@
+
 <?php
 session_start();
-use 'config.php';
+require_once __DIR__ . '/public/config.php';
 
+use Config;
 header('Content-Type: application/json');
 
 try {

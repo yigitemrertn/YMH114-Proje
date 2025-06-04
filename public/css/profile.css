@@ -1,11 +1,10 @@
 /* Profile Container - Matching forum-container from detailed-post.css */
 .profile-container {
     flex: 3;
-    padding-right: 1rem;
     margin: 2rem 1rem 2rem 2rem;
     background-color: rgba(245, 248, 252, 0.9);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 2rem 1rem 2rem 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease, background-color 0.5s ease, box-shadow 0.5s ease;
@@ -284,7 +283,6 @@ body.dark-mode .comment-item:hover {
     .profile-container {
         margin: 1rem;
         padding: 1rem;
-        padding-right: 1rem;
     }
 
     .profile-header {

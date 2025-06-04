@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = passwordInput.value;
         const rememberMe = rememberMeCheckbox.checked;
 
-        fetch('../../login.php', {
+        fetch('/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

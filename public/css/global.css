@@ -529,19 +529,21 @@ body.light-mode #about-us-header {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
     text-decoration: none;
     border-radius: 25px;
     font-size: 0.9rem;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 .register-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #2980b9, #3498db);
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
 }
 
 .register-button i {
@@ -915,6 +917,9 @@ body.dark-mode .register-button:hover {
 
 .topic-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .topic-content h3 {
@@ -1052,8 +1057,6 @@ body.dark-mode .search-button:hover {
     z-index: 9998;
     backdrop-filter: blur(10px);
     transition: background-color 0.5s ease;
-    /* Perfect centering for mobile dropdown */
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -2124,7 +2127,7 @@ body.dark-mode .trending-item:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-body.dark-mode .search-input::focus {
+body.dark-mode .search-input:focus {
     outline: none;
     box-shadow: none;
 }
@@ -2254,17 +2257,6 @@ body.dark-mode .search-history-wrap {
     color: white;
 }
 
-.register-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: 1px solid var(--primary-color);
-}
-
-.register-button:hover {
-    background-color: var(--primary-color-dark);
-    border-color: var(--primary-color-dark);
-}
-
 /* Dark mode styles for auth buttons */
 [data-theme="dark"] .login-button {
     border-color: var(--primary-color-light);
@@ -2352,11 +2344,6 @@ body.dark-mode .create-topic-button:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.topic-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
 
 .topic-header {
     display: flex;

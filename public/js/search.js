@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function closeDropdown() {
-            if (dropdownMenu && dropdownMenu.parentNode) {
+            if (dropdownMenu?.parentNode) {
                 dropdownMenu.parentNode.removeChild(dropdownMenu);
                 dropdownMenu = null;
             }

@@ -73,7 +73,7 @@ function renderUserComments(comments) {
 
 // HTML etiketlerini kaldırmak için yardımcı fonksiyon
 function stripTags(html) {
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.innerHTML = html;
     return div.textContent || div.innerText || '';
 }
