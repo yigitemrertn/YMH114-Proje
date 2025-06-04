@@ -196,7 +196,6 @@
     padding: 1.25rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
-    background: var(--bg-secondary);
 }
 
 .comment:hover {
