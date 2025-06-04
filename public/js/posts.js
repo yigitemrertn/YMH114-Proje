@@ -184,12 +184,13 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
-    // Debug bilgisi
-    console.log('Post data:', post);
-
     // Avatar yolunu düzelt
-    const avatarPath = post.avatar ? post.avatar : 'public/images/default-avatar.png';
-    console.log('Avatar path:', avatarPath);
+    let avatarPath = post.avatar;
+    if (!avatarPath || avatarPath === 'default-avatar.png') {
+        avatarPath = 'public/images/default-avatar.png';
+    } else if (!avatarPath.startsWith('http') && !avatarPath.startsWith('public/')) {
+        avatarPath = 'public/images/' + avatarPath;
+    }
 
     postCard.innerHTML = `
         <div class="post-header">
