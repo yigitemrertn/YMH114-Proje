@@ -2,6 +2,12 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+# Security sensitive files
+forumdb.sql
+config.php
+public/config.php
+
+# VSCode specific files
 .vscode/*
 
 # User-specific stuff
