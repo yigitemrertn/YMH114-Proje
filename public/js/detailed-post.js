@@ -169,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         showError('Post ID bulunamadı');
     }
-
     // Yorum gönderme butonunu doğru şekilde bağla
     const submitBtn = document.getElementById('submitCommentBtn');
     if (submitBtn) {
