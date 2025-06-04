@@ -49,7 +49,7 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+                <a href="/" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
@@ -119,9 +119,10 @@
                 <div class="post-header-section">
                     <h1 class="page-title" id="postTitle" style="display:inline-block;">Loading...</h1>
                     <span id="postCreatedAt" style="font-size:0.98em;color:#888;margin-left:1em;vertical-align:middle;">Loading...</span>
-                    <!-- <div class="post-date">
+                    <!-- Post tarihi için eski post-date divi geri eklendi -->
+                    <div class="post-date" id="postDateDiv">
                         <span class="date-text" id="postDate">Loading...</span>
-                    </div> -->
+                    </div>
                 </div>
                 
                 <div class="detailed-post">
@@ -201,6 +202,7 @@
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/news.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             checkLoginStatus();
@@ -210,7 +212,7 @@
 
             // Giriş durumu kontrolü ve yorum gönderme engelleme
             let isLoggedIn = false;
-            fetch('../status.php') // düzeltildi: ../status.php
+            fetch('../status.php')
                 .then(res => res.json())
                 .then(data => {
                     isLoggedIn = !!data.loggedIn;
@@ -231,7 +233,7 @@
             if (submitCommentBtn) {
                 submitCommentBtn.addEventListener('click', function(e) {
                     // Giriş yapılmamışsa engelle ve uyarı göster
-                    fetch('../status.php') // düzeltildi: ../status.php
+                    fetch('../status.php')
                         .then(res => res.json())
                         .then(data => {
                             if (!data.loggedIn) {
@@ -258,7 +260,7 @@
                                 // Post id'yi al
                                 const urlParams = new URLSearchParams(window.location.search);
                                 const postId = urlParams.get('id');
-                                fetch('/public/api/add-comment.php', {
+                                fetch('../public/api/add-comment.php', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ post_id: postId, content: content })
@@ -340,7 +342,7 @@
 
         // Giriş durumunu kontrol eden fonksiyon
         function checkLoginStatus() {
-            fetch('../status.php') // düzeltildi: ../status.php
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
@@ -433,7 +435,7 @@
                 // Post id'yi al
                 const urlParams = new URLSearchParams(window.location.search);
                 const postId = urlParams.get('id');
-                fetch('/public/api/add-comment.php', {
+                fetch('../public/api/add-comment.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ post_id: postId, content: content })
@@ -464,7 +466,7 @@
                 alert('Post ID is required');
                 return;
             }
-            fetch(`/public/api/post-details.php?id=${postId}`)
+            fetch('../public/api/post-details.php?id=' + postId)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -473,11 +475,16 @@
                         document.getElementById('postTime').textContent = formatRelativeTime(data.post.created_at);
                         document.getElementById('postContent').textContent = data.post.content;
                         document.getElementById('postCreatedAt').textContent = formatDate(data.post.created_at);
+                        // post-date divini de güncelle
+                        const postDateDiv = document.getElementById('postDate');
+                        if (postDateDiv) {
+                            postDateDiv.textContent = formatDate(data.post.created_at);
+                        }
                         // Update author avatar
                         const avatarImg = document.getElementById('authorAvatar');
                         avatarImg.src = data.post.author.avatar.startsWith('http') 
                             ? data.post.author.avatar 
-                            : `/public/images/${data.post.author.avatar}`;
+                            : '../public/images/' + data.post.author.avatar;
 
                         // Display comments
                         const commentsList = document.getElementById('commentsList');
@@ -648,7 +655,7 @@
                         // Alt yorumu gönder
                         const urlParams = new URLSearchParams(window.location.search);
                         const postId = urlParams.get('id');
-                        fetch('/public/api/add-comment.php', {
+                        fetch('../public/api/add-comment.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ post_id: postId, content: content, parent_comment_id: parentId })

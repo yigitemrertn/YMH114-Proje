@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 $host = 'localhost';
-$dbname = 'u805253064_forumdb';
-$username = 'u805253064_yemauser';
-$password = 'YeMa6455';
+$dbname = 'forumdb';
+$username = 'root';
+$password = '';
 
 
 try {
@@ -25,3 +25,4 @@ try {
     ]);
     exit();
 }
+?>
