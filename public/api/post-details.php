@@ -56,11 +56,28 @@ try {
                      FROM comments c 
                      JOIN users u ON c.user_id = u.id 
                      WHERE c.post_id = :post_id 
-                     ORDER BY c.created_at DESC";
+                     ORDER BY c.created_at DESC"; // DESC olarak değiştirildi
     
     $stmt = $pdo->prepare($commentsQuery);
     $stmt->execute(['post_id' => $postId]);
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Yorumları ana ve alt yorumlar olarak grupla
+    $commentTree = [];
+    foreach ($comments as $comment) {
+        if (empty($comment['parent_comment_id'])) {
+            $comment['replies'] = [];
+            $commentTree[$comment['id']] = $comment;
+        }
+    }
+    foreach ($comments as $comment) {
+        if (!empty($comment['parent_comment_id']) && isset($commentTree[$comment['parent_comment_id']])) {
+            if (!isset($commentTree[$comment['parent_comment_id']]['replies'])) {
+                $commentTree[$comment['parent_comment_id']]['replies'] = [];
+            }
+            $commentTree[$comment['parent_comment_id']]['replies'][] = $comment;
+        }
+    }
 
     // Format the response
     $formattedPost = [
@@ -74,17 +91,7 @@ try {
         ]
     ];
 
-    $formattedComments = array_map(function($comment) {
-        return [
-            'id' => $comment['id'],
-            'content' => strip_tags($comment['content']), // HTML etiketlerini kaldır
-            'created_at' => $comment['created_at'],
-            'author' => [
-                'username' => $comment['username'],
-                'avatar' => $comment['avatar'] ?? 'default-avatar.png'
-            ]
-        ];
-    }, $comments);
+    $formattedComments = array_values($commentTree);
 
     echo json_encode([
         'success' => true,
