@@ -95,10 +95,17 @@ function loadProfile(userId) {
                         .then(status => {
                             if (status.loggedIn && String(status.userId) === String(userId)) {
                                 followButton.style.display = 'none';
-                            } else {
+                            } else if (status.loggedIn) {
                                 followButton.style.display = 'block';
-                                followButton.textContent = data.is_following ? 'Takipten Çık' : 'Takip Et';
-                                followButton.classList.toggle('following', data.is_following);
+                                // Takip durumu kontrolü
+                                fetch(`api/user/check-follow-status.php?user_id=${userId}`)
+                                    .then(res => res.json())
+                                    .then(followData => {
+                                        followButton.textContent = followData.is_following ? 'Takipten Çık' : 'Takip Et';
+                                        followButton.classList.toggle('following', followData.is_following);
+                                    });
+                            } else {
+                                followButton.style.display = 'none';
                             }
                         });
                 }
@@ -147,6 +154,7 @@ function toggleFollow(userId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            // Takip/çık sonrası tekrar takip durumu kontrolü ve UI güncellemesi
             loadProfile(userId);
             showSuccess(data.message);
         } else {
