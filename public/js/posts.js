@@ -184,25 +184,34 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
-    // Avatarı post.author.avatar'dan veya post.avatar'dan al (API'ye göre)
-    let avatarPath = null;
+    // Avatarı doğru şekilde belirle
+    let avatarPath = '';
     if (post.author && post.author.avatar) {
         avatarPath = post.author.avatar;
     } else if (post.avatar) {
         avatarPath = post.avatar;
     }
 
-    // Avatar yolunu düzelt
-    if (!avatarPath || avatarPath === 'default-avatar.png') {
-        avatarPath = 'public/images/default-avatar.png';
-    } else if (!avatarPath.startsWith('http') && !avatarPath.startsWith('public/')) {
-        avatarPath = 'public/images/' + avatarPath;
+    // Eğer avatar uploads/avatars ile başlıyorsa tam yolu oluştur
+    if (avatarPath && !avatarPath.startsWith('http')) {
+        if (avatarPath.startsWith('uploads/avatars/')) {
+            avatarPath = '/public/' + avatarPath;
+        } else if (avatarPath.startsWith('public/images/')) {
+            // zaten tam yol
+        } else if (avatarPath !== 'default-avatar.png') {
+            avatarPath = '/public/images/' + avatarPath;
+        } else {
+            avatarPath = '/public/images/default-avatar.png';
+        }
+    }
+    if (!avatarPath) {
+        avatarPath = '/public/images/default-avatar.png';
     }
 
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="${avatarPath}" alt="${post.username ? post.username : (post.author && post.author.username) ? post.author.username : 'avatar'}'s avatar" onerror="this.src='public/images/default-avatar.png'">
+                <img src="${avatarPath}" alt="${post.username ? post.username : (post.author && post.author.username) ? post.author.username : 'avatar'}'s avatar" onerror="this.src='/public/images/default-avatar.png'">
             </div>
             <div class="user-details">
                 <span class="username">@${post.username ? post.username : (post.author && post.author.username ? post.author.username : '')}</span>
@@ -215,7 +224,6 @@ function createPostElement(post) {
         <h2 class="post-title">
             ${post.title}
         </h2>
-        
         <div class="post-content">
             ${formatPostContent(post.content)}
         </div>
