@@ -529,19 +529,14 @@ body.light-mode #about-us-header {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    color: white;
     text-decoration: none;
     border-radius: 25px;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    color: black;
 }
 
 .register-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     background-color: var(--primary-color-dark);
     border-color: var(--primary-color-dark);
 }
@@ -553,12 +548,14 @@ body.light-mode #about-us-header {
 /* Dark Mode Register Button */
 body.dark-mode .register-button {
     background: linear-gradient(135deg, #2980b9, #3498db);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color:white;
+
 }
 
 body.dark-mode .register-button:hover {
-        background: linear-gradient(135deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, #3498db, #2980b9);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 /* Social Login */
@@ -2254,7 +2251,7 @@ body.dark-mode .search-history-wrap {
 
 .login-button:hover {
     background-color: var(--primary-color);
-    color: white;
+    transform: translateY(-2px);
 }
 
 /* Dark mode styles for auth buttons */

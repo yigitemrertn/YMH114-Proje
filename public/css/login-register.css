@@ -58,8 +58,6 @@ body.dark-mode .main-container h3 {
 }
 
 .register-button {
-    background-color: #007BFF;
-    color: white;
     border: none;
     border-radius: 50px;
     cursor: pointer;

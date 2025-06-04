@@ -22,24 +22,6 @@
     transition: background-color 0.5s ease, box-shadow 0.5s ease;
 }
 
-/* Featured Topics */
-.featured-topics {
-    width: 30%; /* Percentage width for better responsiveness */
-    position: sticky; /* Changed from fixed to sticky for better scrolling experience */
-    top: 4rem; /* Keep at top when scrolling */
-    right: 0;
-    background-color: rgba(245, 248, 252, 0.9);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(10px);
-    max-height: calc(100vh - 5rem);
-    overflow-y: auto;
-    z-index: 100;
-    transition: background-color 0.5s ease, box-shadow 0.5s ease;
-    align-self: flex-start; /* Align to top of container */
-}
-
 /* Forum Topics */
 .forum-topic {
     display: flex;

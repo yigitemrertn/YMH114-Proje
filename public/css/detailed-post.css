@@ -552,7 +552,7 @@ body.dark-mode .dropdown-item:hover {
 
 .share-button {
     background: var(--primary-color);
-    color: white;
+    color: var(--text-color);
 }
 
 .report-button {
@@ -574,29 +574,49 @@ body.dark-mode .dropdown-item:hover {
     width: 100%;
     min-height: 100px;
     padding: 1rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     margin-bottom: 1rem;
     resize: vertical;
     font-family: inherit;
     font-size: 1rem;
     background: var(--bg-secondary);
-    color: var(--text-color);
+    color:var(--text-color);
 }
 
 .submit-comment {
-    padding: 0.75rem 1.5rem;
-    background: var(--primary-color);
-    color: white;
-    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
-    font-size: 1rem;
+    background: var(--card-bg, #ffffff);
+    color:var(--text-color);
     cursor: pointer;
-    transition: background-color 0.2s;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
 .submit-comment:hover {
+    background: var(--hover-bg, #f5f5f5);
+    border-color: var(--text-muted, #999999);
+    color: var(--text-primary, #333333);
     opacity: 0.9;
+}
+
+body.dark-mode .submit-comment {
+    background-color: rgba(22, 33, 62, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #b0b0b0;
+}
+
+body.dark-mode .submit-comment:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #f5f5f5;
 }
 
 .comments-list {
