@@ -31,7 +31,7 @@ try {
 
     // Update notification settings
     $stmt = $conn->prepare("
-        UPDATE users 
+        UPDATE users
         SET 
             email_notifications = ?,
             push_notifications = ?,
@@ -55,4 +55,4 @@ try {
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
     ]);
-} 
+}

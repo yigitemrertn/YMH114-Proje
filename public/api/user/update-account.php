@@ -100,4 +100,4 @@ try {
         'success' => false,
         'message' => 'Veritabanı hatası: ' . $e->getMessage()
     ]);
-} 
+}
