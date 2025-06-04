@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -96,4 +96,3 @@ try {
     http_response_code(500);
     echo json_encode(['error' => 'Arama sırasında hata oluştu']);
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+use 'config.php';
 
 header('Content-Type: application/json');
 
@@ -32,4 +32,3 @@ $response = [
 ];
 
 echo json_encode($response);
-?> 

@@ -73,7 +73,7 @@
         display: block;
         z-index: 2;
     }
-    #follow-button.following {
+    #follow-button {
         background: #3498db; /* Kırmızı kaldırıldı, mavi kalacak */
     }
     #follow-button:active {
@@ -144,8 +144,8 @@
             gap: 1.5em;
         }
     }
-    .posts-container .post-card,
-    .comments-container .comment-card {
+    .posts-container,
+    .comments-container {
         background: #fff;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -157,59 +157,22 @@
         max-width: 420px;
         word-break: break-word;
     }
-    .posts-container .post-card:hover,
-    .comments-container .comment-card:hover {
+    .posts-container,
+    .comments-container {
         box-shadow: 0 4px 16px rgba(52,152,219,0.12);
-        border: 1.5px solid #3498db;
+        border: 2px solid #3498db;
     }
-    .post-card-title {
-        font-weight: 600;
-        font-size: 1.15em;
-        color: #3498db;
-        margin-bottom: 0.3em;
-    }
-    .post-card-content, .comment-card-content {
-        color: #222;
-        font-size: 1em;
-        opacity: 0.9;
-        margin-bottom: 0.5em;
-        min-height: 2.2em;
-    }
-    .post-card-link, .comment-card-link {
-        margin-top: auto;
-        color: #3498db;
-        text-decoration: none;
-        font-weight: 500;
-        border-radius: 20px;
-        background: #f0f7ff;
-        padding: 0.4em 1em;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5em;
-        transition: background 0.18s, color 0.18s;
-    }
-    .post-card-link:hover, .comment-card-link:hover {
-        background: #3498db;
-        color: #fff;
-    }
+
     .profile-avatar-modal {
-        position: fixed;
-        z-index: 9999;
-        left: 0; top: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: none;
     }
     .profile-avatar-modal img {
         max-width: 90vw;
         max-height: 90vh;
         border-radius: 10px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
         background: #fff;
     }
-    .profile-avatar-modal { display: none; }
-    .profile-avatar-modal.active { display: flex; }
 
     @media (max-width: 700px) {
         .profile-header {
@@ -217,8 +180,8 @@
             align-items: center;
             gap: 1.2em;
         }
-        .posts-container .post-card,
-        .comments-container .comment-card {
+        .posts-container,
+        .comments-container {
             min-width: 0;
             max-width: 98vw;
             padding: 1.1rem 0.8rem;
@@ -226,35 +189,27 @@
     }
 
     /* --- DARK MODE CARD STYLES --- */
-    body.dark-mode .posts-container .post-card,
-    body.dark-mode .comments-container .comment-card {
+    body.dark-mode .posts-container,
+    body.dark-mode .comments-container {
         background: #23243a;
         border-color: #33364d;
         color: #f5f5f5;
     }
-    body.dark-mode .posts-container .post-card:hover,
-    body.dark-mode .comments-container .comment-card:hover {
+    body.dark-mode .posts-container ,
+    body.dark-mode .comments-container {
         box-shadow: 0 4px 16px rgba(108,182,255,0.10);
         border: 1.5px solid #6cb6ff;
     }
-    body.dark-mode .post-card-title {
+    body.dark-mode {
         color: #6cb6ff;
     }
-    body.dark-mode .post-card-content,
-    body.dark-mode .comment-card-content {
-        color: #f5f5f5;
-        opacity: 0.88;
-    }
+
     body.dark-mode .post-card-link,
     body.dark-mode .comment-card-link {
         background: #23243a;
         color: #6cb6ff;
     }
-    body.dark-mode .post-card-link:hover,
-    body.dark-mode .comment-card-link:hover {
-        background: #6cb6ff;
-        color: #23243a;
-    }
+
     .profile-alert {
         margin-top: 12px;
         margin-bottom: 0;
@@ -271,11 +226,9 @@
         position: relative;
         transition: opacity 0.2s;
     }
-    .profile-alert.show {
+    .profile-alert {
         display: block;
         opacity: 1;
-    }
-    .profile-alert.error {
         background: #ffeaea;
         color: #e74c3c;
     }
@@ -331,7 +284,7 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <a href="logout.php" class="menu-item" id="logoutButton">
+                        <a href="../logout.php" class="menu-item" id="logoutButton">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
                         </a>

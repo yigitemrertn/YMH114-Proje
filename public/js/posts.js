@@ -153,29 +153,6 @@ function loadPosts() {
         });
 }
 
-// function loadNews() {
-//     fetch('/news.php')
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 const featuredList = document.querySelector('.featured-list');
-//                 featuredList.innerHTML = ''; // Clear existing content
-//
-//                 data.news.forEach(news => {
-//                     const newsElement = createNewsElement(news);
-//                     featuredList.appendChild(newsElement);
-//                 });
-//             } else {
-//                 console.error('Error loading news:', data.error);
-//                 showNewsError('Haberler yüklenirken bir hata oluştu.');
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error loading news:', error);
-//             showNewsError('Haberler yüklenirken bir hata oluştu.');
-//         });
-// }
-
 function createPostElement(post) {
     const postCard = document.createElement('article');
     postCard.className = 'post-card';
