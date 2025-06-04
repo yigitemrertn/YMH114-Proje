@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 $data = json_decode(file_get_contents('php://input'), true);
 $postId = (int)($data['post_id'] ?? 0);
-$content = trim($data['content'] ?? '');
-$content = trim(strip_tags($content));
+$content = isset($data['content']) ? trim($data['content']) : '';
 if ($postId <= 0 || $content === '') {
     echo json_encode(['success' => false, 'message' => 'Eksik veri']);
     exit;
