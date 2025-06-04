@@ -184,8 +184,15 @@ function createPostElement(post) {
         window.location.href = `/public/detailed-post.html?id=${post.id}`;
     });
 
+    // Avatarı post.author.avatar'dan veya post.avatar'dan al (API'ye göre)
+    let avatarPath = null;
+    if (post.author && post.author.avatar) {
+        avatarPath = post.author.avatar;
+    } else if (post.avatar) {
+        avatarPath = post.avatar;
+    }
+
     // Avatar yolunu düzelt
-    let avatarPath = post.avatar;
     if (!avatarPath || avatarPath === 'default-avatar.png') {
         avatarPath = 'public/images/default-avatar.png';
     } else if (!avatarPath.startsWith('http') && !avatarPath.startsWith('public/')) {
@@ -195,10 +202,10 @@ function createPostElement(post) {
     postCard.innerHTML = `
         <div class="post-header">
             <div class="profile-picture">
-                <img src="${avatarPath}" alt="${post.username}'s avatar" onerror="this.src='public/images/default-avatar.png'">
+                <img src="${avatarPath}" alt="${post.username ? post.username : (post.author && post.author.username) ? post.author.username : 'avatar'}'s avatar" onerror="this.src='public/images/default-avatar.png'">
             </div>
             <div class="user-details">
-                <span class="username">@${post.username}</span>
+                <span class="username">@${post.username ? post.username : (post.author && post.author.username ? post.author.username : '')}</span>
             </div>
             <div class="post-date" style="margin-left:auto;font-size:0.97em;color:#888;">
                 ${formatDate(post.created_at)}
