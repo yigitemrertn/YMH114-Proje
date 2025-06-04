@@ -38,7 +38,7 @@ try {
     }
 
     // Get post details with user information
-    $query = "SELECT p.*, u.username, u.avatar 
+    $query = "SELECT p.*, u.id as user_id, u.username, u.avatar 
               FROM posts p 
               JOIN users u ON p.user_id = u.id 
               WHERE p.id = :post_id";
@@ -52,11 +52,11 @@ try {
     }
 
     // Get comments for the post
-    $commentsQuery = "SELECT c.*, u.username, u.avatar 
+    $commentsQuery = "SELECT c.*, u.id as user_id, u.username, u.avatar 
                      FROM comments c 
                      JOIN users u ON c.user_id = u.id 
                      WHERE c.post_id = :post_id 
-                     ORDER BY c.created_at DESC"; // DESC olarak değiştirildi
+                     ORDER BY c.created_at DESC";
     
     $stmt = $pdo->prepare($commentsQuery);
     $stmt->execute(['post_id' => $postId]);
@@ -83,14 +83,16 @@ try {
     $formattedPost = [
         'id' => $post['id'],
         'title' => $post['title'],
-        'content' => strip_tags($post['content']), // HTML etiketlerini kaldır
+        'content' => strip_tags($post['content']),
         'created_at' => $post['created_at'],
         'author' => [
+            'id' => $post['user_id'],
             'username' => $post['username'],
             'avatar' => $post['avatar'] ?? 'default-avatar.png'
         ]
     ];
 
+    // Yorumlarda user_id ekli
     $formattedComments = array_values($commentTree);
 
     echo json_encode([

@@ -471,7 +471,8 @@
                 .then(data => {
                     if (data.success) {
                         document.getElementById('postTitle').textContent = data.post.title;
-                        document.getElementById('postAuthor').textContent = `@${data.post.author.username}`;
+                        // Kullanıcı adı linkli
+                        document.getElementById('postAuthor').innerHTML = `<a href="profile.html?id=${data.post.author.id}" class="username-link">@${data.post.author.username}</a>`;
                         document.getElementById('postTime').textContent = formatRelativeTime(data.post.created_at);
                         document.getElementById('postContent').textContent = data.post.content;
                         document.getElementById('postCreatedAt').textContent = formatDate(data.post.created_at);
@@ -480,13 +481,21 @@
                         if (postDateDiv) {
                             postDateDiv.textContent = formatDate(data.post.created_at);
                         }
-                        // Update author avatar
+                        // Avatar yolu düzeltildi
                         const avatarImg = document.getElementById('authorAvatar');
-                        avatarImg.src = data.post.author.avatar.startsWith('http') 
-                            ? data.post.author.avatar 
-                            : '../public/images/' + data.post.author.avatar;
+                        let avatarPath = data.post.author.avatar;
+                        if (avatarPath && !avatarPath.startsWith('http')) {
+                            if (avatarPath.startsWith('uploads/avatars/')) {
+                                avatarPath = '../public/' + avatarPath;
+                            } else if (avatarPath === 'default-avatar.png') {
+                                avatarPath = 'images/default-avatar.png';
+                            } else {
+                                avatarPath = '../public/images/' + avatarPath;
+                            }
+                        }
+                        avatarImg.src = avatarPath || 'images/default-avatar.png';
 
-                        // Display comments
+                        // Yorumları göster
                         const commentsList = document.getElementById('commentsList');
                         if (data.comments.length === 0) {
                             commentsList.innerHTML = '<p class="no-comments">Henüz yorum yapılmamış.</p>';
@@ -547,19 +556,29 @@
 
         // Yorum ve alt yorumları render eden fonksiyon
         function renderComment(comment) {
-            // Ana yorum
+            // Avatar yolu düzeltildi
+            let avatarPath = comment.avatar;
+            if (avatarPath && !avatarPath.startsWith('http')) {
+                if (avatarPath.startsWith('uploads/avatars/')) {
+                    avatarPath = '../public/' + avatarPath;
+                } else if (avatarPath === 'default-avatar.png') {
+                    avatarPath = 'images/default-avatar.png';
+                } else {
+                    avatarPath = '../public/images/' + avatarPath;
+                }
+            }
+            // Kullanıcı adı linkli
+            let username = comment.username || (comment.author && comment.author.username) || '';
+            let userId = comment.user_id || (comment.author && comment.author.id) || '';
             let html = `
                 <div class="comment" id="comment-${comment.id}">
                     <div class="comment-header">
                         <div class="comment-user-info">
                             <div class="profile-picture">
-                                <img src="${comment.avatar && comment.avatar.startsWith('http') 
-                                    ? comment.avatar 
-                                    : `/public/images/${comment.avatar || comment.author.avatar}`}" 
-                                    alt="User Avatar" class="avatar">
+                                <img src="${avatarPath || 'images/default-avatar.png'}" alt="User Avatar" class="avatar">
                             </div>
                             <div class="user-details">
-                                <span class="username">@${comment.username || comment.author.username}</span>
+                                <span class="username"><a href="profile.html?id=${userId}" class="username-link">@${username}</a></span>
                                 <span class="comment-time">${formatRelativeTime(comment.created_at)}</span>
                             </div>
                         </div>
@@ -586,18 +605,27 @@
 
         // Alt yorum render fonksiyonu
         function renderReply(reply) {
+            let avatarPath = reply.avatar;
+            if (avatarPath && !avatarPath.startsWith('http')) {
+                if (avatarPath.startsWith('uploads/avatars/')) {
+                    avatarPath = '../public/' + avatarPath;
+                } else if (avatarPath === 'default-avatar.png') {
+                    avatarPath = 'images/default-avatar.png';
+                } else {
+                    avatarPath = '../public/images/' + avatarPath;
+                }
+            }
+            let username = reply.username || (reply.author && reply.author.username) || '';
+            let userId = reply.user_id || (reply.author && reply.author.id) || '';
             return `
                 <div class="comment reply" id="comment-${reply.id}">
                     <div class="comment-header">
                         <div class="comment-user-info">
                             <div class="profile-picture">
-                                <img src="${reply.avatar && reply.avatar.startsWith('http') 
-                                    ? reply.avatar 
-                                    : `/public/images/${reply.avatar || reply.author.avatar}`}" 
-                                    alt="User Avatar" class="avatar">
+                                <img src="${avatarPath || 'images/default-avatar.png'}" alt="User Avatar" class="avatar">
                             </div>
                             <div class="user-details">
-                                <span class="username">@${reply.username || reply.author.username}</span>
+                                <span class="username"><a href="profile.html?id=${userId}" class="username-link">@${username}</a></span>
                                 <span class="comment-time">${formatRelativeTime(reply.created_at)}</span>
                             </div>
                         </div>
