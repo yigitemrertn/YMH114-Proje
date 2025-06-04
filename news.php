@@ -2,7 +2,6 @@
 session_start();
 require_once __DIR__ . '/public/config.php';
 
-use Config;
 header('Content-Type: application/json');
 
 try {
@@ -21,9 +20,8 @@ try {
     
     // Her bir haber öğesini işle
     foreach ($rss->channel->item as $item) {
-        if {
-        ($count >= 5) break;
-        }// Sadece ilk 5 haberi al
+        if ($count >= 5) break; // Hatalı if düzeltildi
+        // Sadece ilk 5 haberi al
         
         // Haber başlığından kaynak bilgisini ayır
         $title_parts = explode(' - ', (string)$item->title);

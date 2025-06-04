@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForumFU - Detaylı Gönderi</title>
+    <title>Forum - Detaylı Gönderi</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/detailed-post.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,9 +49,18 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="/" class="logo"><h1>ForumFU</h1></a>
+                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
             <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -67,7 +76,7 @@
                 </div>
                 <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
-                        <span class="hamburger-icon"></span>
+                        <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
                         <a href="index.html" class="menu-item">
@@ -110,11 +119,12 @@
                 <div class="post-header-section">
                     <h1 class="page-title" id="postTitle" style="display:inline-block;">Loading...</h1>
                     <span id="postCreatedAt" style="font-size:0.98em;color:#888;margin-left:1em;vertical-align:middle;">Loading...</span>
-                    <!-- <div class="post-date">
+                    <!-- Post tarihi için eski post-date divi geri eklendi -->
+                    <div class="post-date" id="postDateDiv">
                         <span class="date-text" id="postDate">Loading...</span>
-                    </div> -->
+                    </div>
                 </div>
-
+                
                 <div class="detailed-post">
                     <div class="post-header">
                         <div class="post-user-info">
@@ -147,11 +157,11 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="post-content" id="postContent">
                         Loading...
                     </div>
-
+                    
                     <div class="post-actions">
                         <button class="action-button comment-button" id="showCommentInputBtn">
                             <i class="fas fa-comment"></i>
@@ -188,10 +198,11 @@
             </aside>
         </div>
     </main>
-
+    
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/news.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             checkLoginStatus();
@@ -201,7 +212,7 @@
 
             // Giriş durumu kontrolü ve yorum gönderme engelleme
             let isLoggedIn = false;
-            fetch('../status.php') // düzeltildi: ../status.php
+            fetch('../status.php')
                 .then(res => res.json())
                 .then(data => {
                     isLoggedIn = !!data.loggedIn;
@@ -222,7 +233,7 @@
             if (submitCommentBtn) {
                 submitCommentBtn.addEventListener('click', function(e) {
                     // Giriş yapılmamışsa engelle ve uyarı göster
-                    fetch('../status.php') // düzeltildi: ../status.php
+                    fetch('../status.php')
                         .then(res => res.json())
                         .then(data => {
                             if (!data.loggedIn) {
@@ -249,7 +260,7 @@
                                 // Post id'yi al
                                 const urlParams = new URLSearchParams(window.location.search);
                                 const postId = urlParams.get('id');
-                                fetch('/public/api/add-comment.php', {
+                                fetch('../public/api/add-comment.php', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ post_id: postId, content: content })
@@ -291,27 +302,27 @@
         // Dropdown menu functionality
         function setupDropdownMenus() {
             const menuButtons = document.querySelectorAll('.menu-button');
-
+            
             menuButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-
+                    
                     const dropdown = this.nextElementSibling;
                     const isVisible = dropdown.classList.contains('show');
-
+                    
                     // Close all other dropdowns
                     document.querySelectorAll('.dropdown-menu').forEach(menu => {
                         menu.classList.remove('show');
                     });
-
+                    
                     // Toggle current dropdown
                     if (!isVisible) {
                         dropdown.classList.add('show');
                     }
                 });
             });
-
+            
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.post-menu') && !e.target.closest('.comment-menu')) {
@@ -320,7 +331,7 @@
                     });
                 }
             });
-
+            
             // Prevent dropdown from closing when clicking inside
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 menu.addEventListener('click', function(e) {
@@ -331,12 +342,12 @@
 
         // Giriş durumunu kontrol eden fonksiyon
         function checkLoginStatus() {
-            fetch('../status.php') // düzeltildi: ../status.php
+            fetch('../status.php')
                 .then(response => response.json())
                 .then(data => {
                     const authButtons = document.getElementById('authButtons');
                     const hamburgerContainer = document.getElementById('hamburgerContainer');
-
+                    
                     if (data.loggedIn) {
                         // Kullanıcı giriş yapmışsa
                         authButtons.style.display = 'none';
@@ -359,7 +370,7 @@
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation(); // Hamburger menü kapanmasını engelle
-
+                    
                     fetch('/logout.php')
                         .then(response => response.json())
                         .then(data => {
@@ -424,7 +435,7 @@
                 // Post id'yi al
                 const urlParams = new URLSearchParams(window.location.search);
                 const postId = urlParams.get('id');
-                fetch('/public/api/add-comment.php', {
+                fetch('../public/api/add-comment.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ post_id: postId, content: content })
@@ -455,7 +466,7 @@
                 alert('Post ID is required');
                 return;
             }
-            fetch(`/public/api/post-details.php?id=${postId}`)
+            fetch('../public/api/post-details.php?id=' + postId)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -464,11 +475,16 @@
                         document.getElementById('postTime').textContent = formatRelativeTime(data.post.created_at);
                         document.getElementById('postContent').textContent = data.post.content;
                         document.getElementById('postCreatedAt').textContent = formatDate(data.post.created_at);
+                        // post-date divini de güncelle
+                        const postDateDiv = document.getElementById('postDate');
+                        if (postDateDiv) {
+                            postDateDiv.textContent = formatDate(data.post.created_at);
+                        }
                         // Update author avatar
                         const avatarImg = document.getElementById('authorAvatar');
-                        avatarImg.src = data.post.author.avatar.startsWith('http')
-                            ? data.post.author.avatar
-                            : `/public/images/${data.post.author.avatar}`;
+                        avatarImg.src = data.post.author.avatar.startsWith('http') 
+                            ? data.post.author.avatar 
+                            : '../public/images/' + data.post.author.avatar;
 
                         // Display comments
                         const commentsList = document.getElementById('commentsList');
@@ -537,9 +553,9 @@
                     <div class="comment-header">
                         <div class="comment-user-info">
                             <div class="profile-picture">
-                                <img src="${comment.avatar && comment.avatar.startsWith('http')
-                                    ? comment.avatar
-                                    : `/public/images/${comment.avatar || comment.author.avatar}`}"
+                                <img src="${comment.avatar && comment.avatar.startsWith('http') 
+                                    ? comment.avatar 
+                                    : `/public/images/${comment.avatar || comment.author.avatar}`}" 
                                     alt="User Avatar" class="avatar">
                             </div>
                             <div class="user-details">
@@ -575,9 +591,9 @@
                     <div class="comment-header">
                         <div class="comment-user-info">
                             <div class="profile-picture">
-                                <img src="${reply.avatar && reply.avatar.startsWith('http')
-                                    ? reply.avatar
-                                    : `/public/images/${reply.avatar || reply.author.avatar}`}"
+                                <img src="${reply.avatar && reply.avatar.startsWith('http') 
+                                    ? reply.avatar 
+                                    : `/public/images/${reply.avatar || reply.author.avatar}`}" 
                                     alt="User Avatar" class="avatar">
                             </div>
                             <div class="user-details">
@@ -639,7 +655,7 @@
                         // Alt yorumu gönder
                         const urlParams = new URLSearchParams(window.location.search);
                         const postId = urlParams.get('id');
-                        fetch('/public/api/add-comment.php', {
+                        fetch('../public/api/add-comment.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ post_id: postId, content: content, parent_comment_id: parentId })
@@ -700,8 +716,5 @@
             return urlParams.get('id');
         }
     </script>
-    <script src="js/hamburger.js"></script>
-    <script src="js/theme-toggle.js"></script>
-    <script src="js/detailed-post.js"></script>
 </body>
 </html>

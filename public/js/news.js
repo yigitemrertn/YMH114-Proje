@@ -30,6 +30,7 @@ function getNewsIcon(title) {
 // Function to show error message
 function showErrorMessage(error, debug = null) {
     const featuredList = document.querySelector('.featured-list');
+    if (!featuredList) return;
     featuredList.innerHTML = `
         <div class="featured-item">
             <div class="featured-icon">
@@ -47,19 +48,16 @@ function showErrorMessage(error, debug = null) {
 // Function to update featured news
 async function updateFeaturedNews() {
     try {
+        // fetch yolunu kontrol et: /news.php kökten doğru
         const response = await fetch('/news.php');
-        
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
         const data = await response.json();
-        
         if (data.success) {
             const featuredList = document.querySelector('.featured-list');
-            featuredList.innerHTML = ''; // Clear existing content
-            
+            if (!featuredList) return;
+            featuredList.innerHTML = '';
             if (data.news && data.news.length > 0) {
                 data.news.forEach(article => {
                     const newsItem = document.createElement('a');
@@ -73,7 +71,7 @@ async function updateFeaturedNews() {
                         </div>
                         <div class="featured-content">
                             <h3>${article.title}</h3>
-                            <p>Son yorum: ${formatDate(article.publishedAt)}</p>
+                            <p>${article.source ? article.source : ''} • ${formatDate(article.publishedAt)}</p>
                         </div>
                     `;
                     
@@ -95,4 +93,4 @@ async function updateFeaturedNews() {
 document.addEventListener('DOMContentLoaded', updateFeaturedNews);
 
 // Update news every 30 minutes
-setInterval(updateFeaturedNews, 30 * 60 * 1000); 
+setInterval(updateFeaturedNews, 30 * 60 * 1000);
