@@ -167,6 +167,22 @@
             color: #aaa;
         }
 
+        @media (min-width: 1440px ) {
+            #create-post-container {
+                align-self: center;
+                justify-self: center;
+                max-width: 1000px;
+            }
+        }
+
+        @media (min-width: 1441px) {
+            #create-post-container {
+                margin: 2rem 17rem;
+                align-self: center;
+                justify-self: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .form-group {
                 flex-direction: column;
@@ -177,6 +193,23 @@
                 margin-bottom: 0.5rem;
             }
         }
+
+        @media (min-width: 320px) and (max-width: 480px) {
+
+            #create-post-container {
+                align-self: center;
+                padding: 1.2rem;
+                margin: 0 !important;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #create-post-container {
+                align-self: center;
+                margin: 1rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -248,7 +281,7 @@
             </div>
         </div>
         <div class="main-content">
-            <main class="forum-container">
+            <main class="forum-container" id="create-post-container">
                 <div class="forum-header">
                     <h2>Konu Oluştur</h2>
                 </div>

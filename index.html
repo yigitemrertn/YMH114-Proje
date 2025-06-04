@@ -18,7 +18,7 @@
                 <a href="/" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input" autocomplete="off">
                 <button class="search-button" aria-label="Ara">
                     <i class="fas fa-search"></i>
                 </button>
@@ -31,46 +31,29 @@
                     <i class="fas fa-moon"></i>
                 </button>
                 <div class="auth-buttons" id="authButtons">
-                    <a href="public/login.html" class="auth-button login-button">
+                    <a href="login.html" class="auth-button login-button">
                         <i class="fas fa-sign-in-alt"></i>
                         Giriş Yap
                     </a>
-                    <a href="public/registration.html" class="auth-button register-button">
+                    <a href="registration.html" class="auth-button register-button">
                         <i class="fas fa-user-plus"></i>
                         Kayıt Ol
                     </a>
                 </div>
                 <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
-                        <span class="hamburger-icon"></span> 
+                        <span class="hamburger-icon"></span>
                     </button>
                     <div class="hamburger-menu">
-                        <a href="/" class="menu-item">
-                            <i class="fas fa-home"></i>
-                            Ana Sayfa
-                        </a>
-                        <a href="public/create-post.html" class="menu-item">
-                            <i class="fas fa-plus-circle"></i>
-                            Konu Oluştur
-                        </a>
-                        <a href="#" class="menu-item" id="profileLink">
-                            <i class="fas fa-user"></i>
-                            Profil
-                        </a>
-                        <a href="public/settings.html" class="menu-item">
-                            <i class="fas fa-cog"></i>
-                            Ayarlar
-                        </a>
-                        <a href="logout.php" class="menu-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Çıkış Yap
-                        </a>
+                        <a href="/" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+                        <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profil</a>
+                        <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Ayarlar</a>
+                        <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-
     <main>
         <div class="search-dropdown">
             <div class="search-container">
@@ -177,5 +160,6 @@
             }
         }
     </script>
+    <script src="/public/js/header.js"
 </body>
 </html>
