@@ -22,14 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 try {
     $userId = $_SESSION['user_id'];
-    $fullName = $_POST['fullName'] ?? '';
-    $username = $_POST['username'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $bio = $_POST['bio'] ?? '';
+    $fullName = $_POST['fullName'] ?? null;
+    $username = $_POST['username'] ?? null;
+    $email = $_POST['email'] ?? null;
+    $bio = $_POST['bio'] ?? null;
     $avatar = $_FILES['avatar'] ?? null;
 
     // Kullanıcı adı benzersiz mi?
-    if ($username) {
+    if ($username !== null && $username !== '') {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
         $stmt->execute([$username, $userId]);
         if ($stmt->fetch()) {
@@ -42,7 +42,7 @@ try {
     }
 
     // E-posta benzersiz mi?
-    if ($email) {
+    if ($email !== null && $email !== '') {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
         $stmt->execute([$email, $userId]);
         if ($stmt->fetch()) {
@@ -94,25 +94,52 @@ try {
     }
 
     // Ad soyad ayır
-    $name = '';
-    $surname = '';
-    if ($fullName) {
+    $name = null;
+    $surname = null;
+    if ($fullName !== null && trim($fullName) !== '') {
         $parts = explode(' ', trim($fullName), 2);
         $name = $parts[0];
         $surname = isset($parts[1]) ? $parts[1] : '';
     }
 
-    // Update profile
-    $sql = "UPDATE users SET ";
+    // Sadece dolu olan alanları güncelle
+    $fields = [];
     $params = [];
-    if ($name) { $sql .= "name = ?, "; $params[] = $name; }
-    if ($surname) { $sql .= "surname = ?, "; $params[] = $surname; }
-    if ($username) { $sql .= "username = ?, "; $params[] = $username; }
-    if ($bio !== null && $bio !== '') { $sql .= "bio = ?, "; $params[] = $bio; }
-    if ($avatarPath) { $sql .= "avatar = ?, "; $params[] = $avatarPath; }
-    if ($email) { $sql .= "email = ?, "; $params[] = $email; }
-    $sql = rtrim($sql, ', ');
-    $sql .= " WHERE id = ?";
+
+    if ($name !== null && $name !== '') {
+        $fields[] = "name = ?";
+        $params[] = $name;
+    }
+    if ($surname !== null && $surname !== '') {
+        $fields[] = "surname = ?";
+        $params[] = $surname;
+    }
+    if ($username !== null && $username !== '') {
+        $fields[] = "username = ?";
+        $params[] = $username;
+    }
+    if ($bio !== null && $bio !== '') {
+        $fields[] = "bio = ?";
+        $params[] = $bio;
+    }
+    if ($avatarPath) {
+        $fields[] = "avatar = ?";
+        $params[] = $avatarPath;
+    }
+    if ($email !== null && $email !== '') {
+        $fields[] = "email = ?";
+        $params[] = $email;
+    }
+
+    if (empty($fields)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Güncellenecek bir alan yok.'
+        ]);
+        exit;
+    }
+
+    $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE id = ?";
     $params[] = $userId;
 
     $stmt = $pdo->prepare($sql);
