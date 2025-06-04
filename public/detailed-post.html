@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForumFU - Konu Detayı</title>
+    <title>Forum - Detaylı Gönderi</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/detailed-post.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,6 +33,7 @@
             color: #888;
             margin-left: 0;
             margin-top: 2px;
+            vertical-align: middle;
             display: block;
         }
         /* Post sahibi için de aynı renk */
@@ -48,9 +49,18 @@
     <header>
         <nav>
             <div class="logo-container">
-                <a href="/" class="logo"><h1>ForumFU</h1></a>
+                <a href="index.html" class="logo"><h1>ForumFU</h1></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
             <div class="nav-controls">
+                <button class="search-button-mobile" aria-label="Ara">
+                    <i class="fas fa-search"></i>
+                </button>
                 <button class="theme-toggle" aria-label="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -66,10 +76,10 @@
                 </div>
                 <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
-                        <span class="hamburger-icon"></span>
+                        <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
-                        <a href="/" class="menu-item">
+                        <a href="index.html" class="menu-item">
                             <i class="fas fa-home"></i>
                             Ana Sayfa
                         </a>
@@ -85,7 +95,7 @@
                             <i class="fas fa-cog"></i>
                             Ayarlar
                         </a>
-                        <a href="/logout.php" class="menu-item">
+                        <a href="logout.php" class="menu-item">
                             <i class="fas fa-sign-out-alt"></i>
                             Çıkış Yap
                         </a>
@@ -94,75 +104,610 @@
             </div>
         </nav>
     </header>
-
     <main>
-        <div class="post-container">
-            <div class="post-header">
-                <div class="post-meta">
-                    <div class="author-info">
-                        <img src="" alt="Profil Fotoğrafı" class="author-avatar" id="authorAvatar">
-                        <div class="author-details">
-                            <span class="author-name">Yükleniyor...</span>
-                            <span class="post-date">Yükleniyor...</span>
+        <div class="search-dropdown">
+            <div class="search-container">
+                <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="main-content">
+            <main class="forum-container">
+                <!-- Post Header -->
+                <div class="post-header-section">
+                    <h1 class="page-title" id="postTitle" style="display:inline-block;">Loading...</h1>
+                    <span id="postCreatedAt" style="font-size:0.98em;color:#888;margin-left:1em;vertical-align:middle;">Loading...</span>
+                    <!-- <div class="post-date">
+                        <span class="date-text" id="postDate">Loading...</span>
+                    </div> -->
+                </div>
+                
+                <div class="detailed-post">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="profile-picture">
+                                <img src="images/default-avatar.png" alt="User Avatar" class="avatar" id="authorAvatar">
+                            </div>
+                            <div class="user-details">
+                                <span class="username" id="postAuthor">Loading...</span>
+                                <span class="post-time" id="postTime"></span>
+                            </div>
+                        </div>
+                        <!-- post-date div KALDIRILDI -->
+                        <div class="post-menu">
+                            <button class="menu-button" aria-label="Post Menu">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-edit"></i>
+                                    Düzenle
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-share"></i>
+                                    Paylaş
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-flag"></i>
+                                    Şikayet Et
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="post-content" id="postContent">
+                        Loading...
+                    </div>
+                    
+                    <div class="post-actions">
+                        <button class="action-button comment-button" id="showCommentInputBtn">
+                            <i class="fas fa-comment"></i>
+                            Yorum Yap
+                        </button>
+                    </div>
+                    <!-- Yorum giriş alanı -->
+                    <div id="commentInputArea" style="display:none; margin-top:1rem;">
+                        <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="width:100%;padding:0.7rem;border-radius:8px;border:1px solid #ccc;"></textarea>
+                        <button id="submitCommentBtn" style="margin-top:0.5rem;padding:0.5rem 1.2rem;border-radius:6px;background:#3498db;color:#fff;border:none;cursor:pointer;">
+                            Gönder
+                        </button>
+                        <span id="commentError" style="color:#e74c3c;display:none;margin-left:1rem;"></span>
+                    </div>
                 </div>
-            </div>
-            
-            <article class="post-content">
-                <h1 class="post-title">Yükleniyor...</h1>
-                <div class="post-text">Yükleniyor...</div>
-            </article>
 
-            <div class="post-actions">
-                <button class="action-button share-button" onclick="sharePost()">
-                    <i class="fas fa-share"></i>
-                    Paylaş
-                </button>
-                <button class="action-button report-button" onclick="reportPost()">
-                    <i class="fas fa-flag"></i>
-                    Bildir
-                </button>
-            </div>
-
-            <section class="comments-section">
-                <h2>Yorumlar</h2>
-                <div class="comment-form-container">
-                    <textarea id="commentInput" placeholder="Yorumunuzu yazın..." class="comment-input"></textarea>
-                    <button onclick="submitComment()" class="submit-comment">Yorum Yap</button>
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <div class="section-header">
+                        <h3>Yorumlar</h3>
+                    </div>
+                    <div id="commentsList">
+                        <!-- Comments will be loaded here -->
+                    </div>
                 </div>
-                <div class="comments-list">
-                    <!-- Yorumlar buraya yüklenecek -->
+            </main>
+            <aside class="featured-topics">
+                <div class="featured-header">
+                    <h2>Öne Çıkan Konular</h2>
                 </div>
-            </section>
+                <div class="featured-list">
+                    <!-- Featured topics will be loaded here -->
+                </div>
+            </aside>
         </div>
     </main>
-
-    <script>
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        if (diffDays === 0) {
-            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-            if (diffHours === 0) {
-                const diffMinutes = Math.floor(diffTime / (1000 * 60));
-                return `${diffMinutes} dakika önce`;
-            }
-            return `${diffHours} saat önce`;
-        } else if (diffDays === 1) {
-            return 'Dün';
-        } else if (diffDays < 7) {
-            return `${diffDays} gün önce`;
-        } else {
-            return date.toLocaleDateString('tr-TR');
-        }
-    }
-    </script>
-
+    
     <script src="js/hamburger.js"></script>
     <script src="js/theme-toggle.js"></script>
-    <script src="js/detailed-post.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            setupLogoutButton();
+            setupDropdownMenus();
+            loadPostDetails();
+
+            // Giriş durumu kontrolü ve yorum gönderme engelleme
+            let isLoggedIn = false;
+            fetch('../status.php') // düzeltildi: ../status.php
+                .then(res => res.json())
+                .then(data => {
+                    isLoggedIn = !!data.loggedIn;
+                    // Sağ üstteki elementleri güncelle
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    if (isLoggedIn) {
+                        if (authButtons) authButtons.style.display = 'none';
+                        if (hamburgerContainer) hamburgerContainer.style.display = 'block';
+                    } else {
+                        if (authButtons) authButtons.style.display = 'flex';
+                        if (hamburgerContainer) hamburgerContainer.style.display = 'none';
+                    }
+                });
+
+            // Yorum gönderme butonunu kontrol et
+            var submitCommentBtn = document.getElementById('submitCommentBtn');
+            if (submitCommentBtn) {
+                submitCommentBtn.addEventListener('click', function(e) {
+                    // Giriş yapılmamışsa engelle ve uyarı göster
+                    fetch('../status.php') // düzeltildi: ../status.php
+                        .then(res => res.json())
+                        .then(data => {
+                            if (!data.loggedIn) {
+                                e.preventDefault();
+                                const commentError = document.getElementById('commentError');
+                                if (commentError) {
+                                    commentError.textContent = 'Yorum yapmak için giriş yapmalısınız.';
+                                    commentError.style.display = 'inline';
+                                } else {
+                                    alert('Yorum yapmak için giriş yapmalısınız.');
+                                }
+                                return false;
+                            } else {
+                                // Giriş yapılmışsa mevcut yorum gönderme kodu çalışsın
+                                const commentInput = document.getElementById('commentInput');
+                                const commentError = document.getElementById('commentError');
+                                const content = commentInput.value.trim();
+                                if (!content) {
+                                    commentError.textContent = 'Yorum boş olamaz!';
+                                    commentError.style.display = 'inline';
+                                    return;
+                                }
+                                commentError.style.display = 'none';
+                                // Post id'yi al
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const postId = urlParams.get('id');
+                                fetch('/public/api/add-comment.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ post_id: postId, content: content })
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        commentInput.value = '';
+                                        document.getElementById('commentInputArea').style.display = 'none';
+                                        loadPostDetails(); // Yorumları güncelle
+                                    } else {
+                                        commentError.textContent = data.message || 'Yorum eklenemedi';
+                                        commentError.style.display = 'inline';
+                                    }
+                                })
+                                .catch(() => {
+                                    commentError.textContent = 'Yorum eklenirken hata oluştu';
+                                    commentError.style.display = 'inline';
+                                });
+                            }
+                        });
+                });
+            }
+
+            // Hamburger menüdeki Profil linkini dinamik olarak yönlendir
+            const profileMenuLink = document.querySelector('.hamburger-menu a.menu-item[href="profile.html"]');
+            if (profileMenuLink) {
+                fetch('../status.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.loggedIn && data.userId) {
+                            profileMenuLink.href = `profile.html?id=${data.userId}`;
+                        } else {
+                            profileMenuLink.href = 'login.html';
+                        }
+                    });
+            }
+        });
+        // Dropdown menu functionality
+        function setupDropdownMenus() {
+            const menuButtons = document.querySelectorAll('.menu-button');
+            
+            menuButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdown = this.nextElementSibling;
+                    const isVisible = dropdown.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                    
+                    // Toggle current dropdown
+                    if (!isVisible) {
+                        dropdown.classList.add('show');
+                    }
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.post-menu') && !e.target.closest('.comment-menu')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+            
+            // Prevent dropdown from closing when clicking inside
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        }
+
+        // Giriş durumunu kontrol eden fonksiyon
+        function checkLoginStatus() {
+            fetch('../status.php') // düzeltildi: ../status.php
+                .then(response => response.json())
+                .then(data => {
+                    const authButtons = document.getElementById('authButtons');
+                    const hamburgerContainer = document.getElementById('hamburgerContainer');
+                    
+                    if (data.loggedIn) {
+                        // Kullanıcı giriş yapmışsa
+                        authButtons.style.display = 'none';
+                        hamburgerContainer.style.display = 'block';
+                    } else {
+                        // Kullanıcı giriş yapmamışsa
+                        authButtons.style.display = 'flex';
+                        hamburgerContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+        }
+
+        // Çıkış yapma butonunu ayarla
+        function setupLogoutButton() {
+            const logoutButton = document.getElementById('logoutButton');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Hamburger menü kapanmasını engelle
+                    
+                    fetch('/logout.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Çıkış başarılı olduğunda sayfayı yenile
+                                window.location.href = 'index.html';
+                            } else {
+                                console.error('Çıkış yapılamadı');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Çıkış yapılırken hata oluştu:', error);
+                        });
+                });
+            }
+        }
+
+        // Zamanı canlı olarak güncelleyen fonksiyon
+        function formatRelativeTime(dateString) {
+            const now = new Date();
+            const date = new Date(dateString);
+            const diffMs = now - date;
+            const diffMin = Math.floor(diffMs / 60000);
+            if (diffMin < 1) return '1 dakikadan az';
+            if (diffMin < 60) return `${diffMin} dakika önce`;
+            const diffHour = Math.floor(diffMin / 60);
+            if (diffHour < 24) return `${diffHour} saat önce`;
+            const diffDay = Math.floor(diffHour / 24);
+            if (diffDay < 7) return `${diffDay} gün önce`;
+            const diffWeek = Math.floor(diffDay / 7);
+            return `${diffWeek} hafta önce`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('tr-TR', {
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        // Yorum giriş alanını aç/kapat
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('showCommentInputBtn').addEventListener('click', function() {
+                const area = document.getElementById('commentInputArea');
+                area.style.display = area.style.display === 'none' ? 'block' : 'none';
+                if (area.style.display === 'block') {
+                    document.getElementById('commentInput').focus();
+                }
+            });
+
+            document.getElementById('submitCommentBtn').addEventListener('click', function() {
+                const commentInput = document.getElementById('commentInput');
+                const commentError = document.getElementById('commentError');
+                const content = commentInput.value.trim();
+                if (!content) {
+                    commentError.textContent = 'Yorum boş olamaz!';
+                    commentError.style.display = 'inline';
+                    return;
+                }
+                commentError.style.display = 'none';
+                // Post id'yi al
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('id');
+                fetch('/public/api/add-comment.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ post_id: postId, content: content })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        commentInput.value = '';
+                        document.getElementById('commentInputArea').style.display = 'none';
+                        loadPostDetails(); // Yorumları güncelle
+                    } else {
+                        commentError.textContent = data.message || 'Yorum eklenemedi';
+                        commentError.style.display = 'inline';
+                    }
+                })
+                .catch(() => {
+                    commentError.textContent = 'Yorum eklenirken hata oluştu';
+                    commentError.style.display = 'inline';
+                });
+            });
+        });
+
+        // Post detaylarını yükle (yorumlar dahil)
+        function loadPostDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            if (!postId) {
+                alert('Post ID is required');
+                return;
+            }
+            fetch(`/public/api/post-details.php?id=${postId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('postTitle').textContent = data.post.title;
+                        document.getElementById('postAuthor').textContent = `@${data.post.author.username}`;
+                        document.getElementById('postTime').textContent = formatRelativeTime(data.post.created_at);
+                        document.getElementById('postContent').textContent = data.post.content;
+                        document.getElementById('postCreatedAt').textContent = formatDate(data.post.created_at);
+                        // Update author avatar
+                        const avatarImg = document.getElementById('authorAvatar');
+                        avatarImg.src = data.post.author.avatar.startsWith('http') 
+                            ? data.post.author.avatar 
+                            : `/public/images/${data.post.author.avatar}`;
+
+                        // Display comments
+                        const commentsList = document.getElementById('commentsList');
+                        if (data.comments.length === 0) {
+                            commentsList.innerHTML = '<p class="no-comments">Henüz yorum yapılmamış.</p>';
+                        } else {
+                            commentsList.innerHTML = data.comments.map(comment => renderComment(comment)).join('');
+                        }
+                        // Canlı zamanlayıcı başlat
+                        startLiveTimers(data.post.created_at, flattenCommentTimes(data.comments));
+
+                        // Yönlendirme ile gelen comment varsa scroll yap
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const commentId = urlParams.get('comment');
+                        if (commentId) {
+                            setTimeout(() => {
+                                const el = document.getElementById('comment-' + commentId);
+                                if (el) {
+                                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    el.style.background = '#eaf6ff';
+                                    setTimeout(() => { el.style.background = ''; }, 2000);
+                                }
+                            }, 300);
+                        }
+                    } else {
+                        alert('Error loading post: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading post details');
+                });
+        }
+
+        // Canlı zamanlayıcıyı başlat
+        function startLiveTimers(postTime, commentTimes) {
+            function updateAllTimes() {
+                document.getElementById('postTime').textContent = formatRelativeTime(postTime);
+                // Yorumlar ve alt yorumlar
+                const commentTimeEls = document.querySelectorAll('.comment-time');
+                commentTimeEls.forEach((el, idx) => {
+                    if (commentTimes[idx]) el.textContent = formatRelativeTime(commentTimes[idx]);
+                });
+            }
+            setInterval(updateAllTimes, 60000); // Her dakika güncelle
+            updateAllTimes();
+        }
+
+        // Yorum ve alt yorumların zamanlarını düz diziye çevir
+        function flattenCommentTimes(comments) {
+            let times = [];
+            comments.forEach(c => {
+                times.push(c.created_at);
+                if (c.replies && c.replies.length > 0) {
+                    c.replies.forEach(r => times.push(r.created_at));
+                }
+            });
+            return times;
+        }
+
+        // Yorum ve alt yorumları render eden fonksiyon
+        function renderComment(comment) {
+            // Ana yorum
+            let html = `
+                <div class="comment" id="comment-${comment.id}">
+                    <div class="comment-header">
+                        <div class="comment-user-info">
+                            <div class="profile-picture">
+                                <img src="${comment.avatar && comment.avatar.startsWith('http') 
+                                    ? comment.avatar 
+                                    : `/public/images/${comment.avatar || comment.author.avatar}`}" 
+                                    alt="User Avatar" class="avatar">
+                            </div>
+                            <div class="user-details">
+                                <span class="username">@${comment.username || comment.author.username}</span>
+                                <span class="comment-time">${formatRelativeTime(comment.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        <p>${(comment.content || '').replace(/<[^>]*>/g, '')}</p>
+                    </div>
+                    <div class="comment-actions">
+                        <button class="reply-btn" data-comment-id="${comment.id}">Yorum Yap</button>
+                        ${comment.replies && comment.replies.length > 0 ? `<button class="toggle-replies-btn" data-comment-id="${comment.id}">Yorumları Gör (${comment.replies.length})</button>` : ''}
+                    </div>
+                    <div class="reply-form" id="reply-form-${comment.id}" style="display:none;margin-top:0.5em;">
+                        <textarea rows="2" class="reply-input" placeholder="Yanıtınızı yazın..."></textarea>
+                        <button class="submit-reply-btn" data-parent-id="${comment.id}">Gönder</button>
+                        <span class="reply-error" style="color:#e74c3c;display:none;margin-left:1rem;"></span>
+                    </div>
+                    <div class="replies-list" id="replies-list-${comment.id}" style="display:none;margin-left:2em;margin-top:0.5em;">
+                        ${comment.replies && comment.replies.length > 0 ? comment.replies.map(reply => renderReply(reply)).join('') : ''}
+                    </div>
+                </div>
+            `;
+            return html;
+        }
+
+        // Alt yorum render fonksiyonu
+        function renderReply(reply) {
+            return `
+                <div class="comment reply" id="comment-${reply.id}">
+                    <div class="comment-header">
+                        <div class="comment-user-info">
+                            <div class="profile-picture">
+                                <img src="${reply.avatar && reply.avatar.startsWith('http') 
+                                    ? reply.avatar 
+                                    : `/public/images/${reply.avatar || reply.author.avatar}`}" 
+                                    alt="User Avatar" class="avatar">
+                            </div>
+                            <div class="user-details">
+                                <span class="username">@${reply.username || reply.author.username}</span>
+                                <span class="comment-time">${formatRelativeTime(reply.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        <p>${(reply.content || '').replace(/<[^>]*>/g, '')}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Yorumlara tıklama olaylarını dinle
+        document.addEventListener('click', function(e) {
+            // Yorum Yap butonu
+            if (e.target.classList.contains('reply-btn')) {
+                const commentId = e.target.getAttribute('data-comment-id');
+                const form = document.getElementById('reply-form-' + commentId);
+                if (form) {
+                    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                    if (form.style.display === 'block') {
+                        form.querySelector('.reply-input').focus();
+                    }
+                }
+            }
+            // Yorumları Gör butonu
+            if (e.target.classList.contains('toggle-replies-btn')) {
+                const commentId = e.target.getAttribute('data-comment-id');
+                const repliesList = document.getElementById('replies-list-' + commentId);
+                if (repliesList) {
+                    repliesList.style.display = repliesList.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+            // Alt yorum gönderme
+            if (e.target.classList.contains('submit-reply-btn')) {
+                const parentId = e.target.getAttribute('data-parent-id');
+                const form = document.getElementById('reply-form-' + parentId);
+                const textarea = form.querySelector('.reply-input');
+                const errorSpan = form.querySelector('.reply-error');
+                const content = textarea.value.trim();
+                if (!content) {
+                    errorSpan.textContent = 'Yorum boş olamaz!';
+                    errorSpan.style.display = 'inline';
+                    return;
+                }
+                errorSpan.style.display = 'none';
+                // Giriş kontrolü
+                fetch('../status.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.loggedIn) {
+                            errorSpan.textContent = 'Yorum yapmak için giriş yapmalısınız.';
+                            errorSpan.style.display = 'inline';
+                            return;
+                        }
+                        // Alt yorumu gönder
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const postId = urlParams.get('id');
+                        fetch('/public/api/add-comment.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ post_id: postId, content: content, parent_comment_id: parentId })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                textarea.value = '';
+                                form.style.display = 'none';
+                                loadPostDetails(); // Yorumları güncelle
+                            } else {
+                                errorSpan.textContent = data.message || 'Yorum eklenemedi';
+                                errorSpan.style.display = 'inline';
+                            }
+                        })
+                        .catch(() => {
+                            errorSpan.textContent = 'Yorum eklenirken hata oluştu';
+                            errorSpan.style.display = 'inline';
+                        });
+                    });
+            }
+        });
+
+        // Dropdown menu işlevleri
+        function editPost() {
+            // Düzenleme işlevi burada implemente edilecek
+            console.log('Post düzenleme özelliği henüz implement edilmedi');
+            // Örnek: window.location.href = 'edit-post.html?id=' + getPostId();
+        }
+
+        function sharePost() {
+            // Paylaşım işlevi
+            const postUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ForumFU Post',
+                    url: postUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(postUrl).then(() => {
+                    alert('Link kopyalandı!');
+                });
+            }
+        }
+
+        function reportPost() {
+            // Şikayet işlevi
+            if (confirm('Bu postu şikayet etmek istediğinizden emin misiniz?')) {
+                // Şikayet API'si burada çağrılacak
+                console.log('Şikayet özelliği henüz implement edilmedi');
+                // Örnek: submitReport(getPostId());
+            }
+        }
+
+        function getPostId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+    </script>
 </body>
 </html>
