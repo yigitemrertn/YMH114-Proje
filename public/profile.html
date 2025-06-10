@@ -207,6 +207,143 @@
         transition: opacity 0.2s;
         opacity: 1;
     }
+
+    .user-post-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+        border: 1px solid #e0eafc;
+        padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+        margin-bottom: 1.2rem;
+        min-width: 220px;
+        max-width: 420px;
+        word-break: break-word;
+        transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+        position: relative;
+    }
+    .user-post-card-title {
+        color: #3498db;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        margin-top: 0;
+    }
+    .user-post-card-content {
+        color: #444;
+        font-size: 1.05rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.5;
+    }
+    .user-post-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        background: #f4f9ff;
+        color: #3498db;
+        border-radius: 2em;
+        padding: 0.5em 1.2em;
+        font-weight: 500;
+        font-size: 1.05rem;
+        text-decoration: none;
+        transition: background 0.18s, color 0.18s;
+    }
+    .user-post-card-link:hover {
+        background: #eaf6ff;
+        color: #217dbb;
+    }
+    .user-post-card-link i {
+        font-size: 1.1em;
+    }
+    @media (max-width: 700px) {
+        .user-post-card {
+            min-width: 0;
+            max-width: 98vw;
+            padding: 1.1rem 0.8rem 1rem 0.8rem;
+        }
+    }
+    body.dark-mode .user-post-card {
+        background: #23243a;
+        color: #f5f5f5;
+        box-shadow: 0 4px 16px rgba(108,182,255,0.10);
+        border: 2px solid #33364d;
+    }
+    body.dark-mode .user-post-card-title {
+        color: #4ea3f7;
+    }
+    body.dark-mode .user-post-card-content {
+        color: #e0e0e0;
+    }
+    body.dark-mode .user-post-card-link {
+        background: #1a233a;
+        color: #4ea3f7;
+    }
+    body.dark-mode .user-post-card-link:hover {
+        background: #23243a;
+        color: #3498db;
+    }
+    .user-comment-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+        border: 1px solid #e0eafc;
+        padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+        margin-bottom: 1.2rem;
+        min-width: 220px;
+        max-width: 420px;
+        word-break: break-word;
+        transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+        position: relative;
+    }
+    .user-comment-card-content {
+        color: #444;
+        font-size: 1.05rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.5;
+    }
+    .user-comment-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        background: #f4f9ff;
+        color: #3498db;
+        border-radius: 2em;
+        padding: 0.5em 1.2em;
+        font-weight: 500;
+        font-size: 1.05rem;
+        text-decoration: none;
+        transition: background 0.18s, color 0.18s;
+    }
+    .user-comment-card-link:hover {
+        background: #eaf6ff;
+        color: #217dbb;
+    }
+    .user-comment-card-link i {
+        font-size: 1.1em;
+    }
+    @media (max-width: 700px) {
+        .user-comment-card {
+            min-width: 0;
+            max-width: 98vw;
+            padding: 1.1rem 0.8rem 1rem 0.8rem;
+        }
+    }
+    body.dark-mode .user-comment-card {
+        background: #23243a;
+        color: #f5f5f5;
+        box-shadow: 0 4px 16px rgba(108,182,255,0.10);
+        border: 2px solid #33364d;
+    }
+    body.dark-mode .user-comment-card-content {
+        color: #e0e0e0;
+    }
+    body.dark-mode .user-comment-card-link {
+        background: #1a233a;
+        color: #4ea3f7;
+    }
+    body.dark-mode .user-comment-card-link:hover {
+        background: #23243a;
+        color: #3498db;
+    }
     </style>
 </head>
 <body>
@@ -216,9 +353,7 @@
                 <a href="/" class="logo"><h1>ForumFU</h1></a>
             </div>
             <div class="search-container">
-                <label>
-                    <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
-                </label>
+                <input type="text" id="search-input" placeholder="Forumda ara..." class="search-input">
                 <button class="search-button" aria-label="Ara">
                     <i class="fas fa-search"></i>
                 </button>
@@ -273,9 +408,7 @@
     <main>
         <div class="search-dropdown">
             <div class="search-container">
-                <label>
-                    <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
-                </label>
+                <input type="text" id="search-input-mobile" placeholder="Forumda ara..." class="search-input">
                 <button class="search-button">
                     <i class="fas fa-search"></i>
                 </button>

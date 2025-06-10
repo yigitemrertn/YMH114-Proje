@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="public/images/favicon.ico">
 </head>
 <body>
     <header>
@@ -31,24 +32,40 @@
                     <i class="fas fa-moon"></i>
                 </button>
                 <div class="auth-buttons" id="authButtons">
-                    <a href="login.html" class="auth-button login-button">
+                    <a href="./public/login.html" class="auth-button login-button">
                         <i class="fas fa-sign-in-alt"></i>
                         Giriş Yap
                     </a>
-                    <a href="registration.html" class="auth-button register-button">
+                    <a href="./public/registration.html" class="auth-button register-button">
                         <i class="fas fa-user-plus"></i>
                         Kayıt Ol
                     </a>
                 </div>
                 <div class="hamburger-container" id="hamburgerContainer" style="display: none;">
                     <button class="hamburger-button" aria-label="Menüyü Aç">
-                        <span class="hamburger-icon"></span>
+                        <span class="hamburger-icon"></span> 
                     </button>
                     <div class="hamburger-menu">
-                        <a href="/" class="menu-item"><i class="fas fa-home"></i> Ana Sayfa</a>
-                        <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profil</a>
-                        <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Ayarlar</a>
-                        <button id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+                        <a href="/" class="menu-item">
+                            <i class="fas fa-home"></i>
+                            Ana Sayfa
+                        </a>
+                        <a href="./public/create-post.html" class="menu-item">
+                            <i class="fas fa-plus-circle"></i>
+                            Konu Oluştur
+                        </a>
+                        <a href="profile.html" class="menu-item">
+                            <i class="fas fa-user"></i>
+                            Profil
+                        </a>
+                        <a href="./public/settings.html" class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            Ayarlar
+                        </a>
+                        <a href="logout.php" class="menu-item" id="logoutButton">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Çıkış Yap
+                        </a>
                     </div>
                 </div>
             </div>
@@ -160,6 +177,5 @@
             }
         }
     </script>
-    <script src="/public/js/header.js"
 </body>
 </html>

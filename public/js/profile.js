@@ -43,10 +43,10 @@ function renderUserPosts(posts) {
         return;
     }
     container.innerHTML = posts.map(post => `
-        <div class="post-card">
-            <div class="post-card-title">${post.title}</div>
-            <div class="post-card-content">${stripTags(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
-            <a href="detailed-post.html?id=${post.id}" class="post-card-link">
+        <div class="user-post-card">
+            <div class="user-post-card-title">${post.title}</div>
+            <div class="user-post-card-content">${stripTags(post.content).substring(0, 120)}${post.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${post.id}" class="user-post-card-link">
                 <i class="fas fa-arrow-right"></i> Detay
             </a>
         </div>
@@ -62,9 +62,9 @@ function renderUserComments(comments) {
         return;
     }
     container.innerHTML = comments.map(comment => `
-        <div class="comment-card">
-            <div class="comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
-            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="comment-card-link">
+        <div class="user-comment-card">
+            <div class="user-comment-card-content">${stripTags(comment.content).substring(0, 120)}${comment.content.length > 120 ? '...' : ''}</div>
+            <a href="detailed-post.html?id=${comment.post_id}&comment=${comment.id}" class="user-comment-card-link">
                 <i class="fas fa-arrow-right"></i> Gönderiye Git
             </a>
         </div>
