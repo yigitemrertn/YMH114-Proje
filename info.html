@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForumFU - Bilgi Sayfası</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card ul {
+            list-style-position: inside;
+            margin-left: 1rem;
+        }
+
+        .feature-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .cta a {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cta a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ForumFU'ya Hoş Geldiniz!</h1>
+            <p>Türkiye'nin en kapsamlı teknoloji forum platformuna hoş geldiniz. Burada teknoloji tutkunlarıyla buluşabilir, bilgi paylaşabilir ve güncel teknoloji haberlerini takip edebilirsiniz.</p>
+        </header>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>Kullanıcı Özellikleri</h3>
+                <ul>
+                    <li>Kolay hesap oluşturma ve giriş yapma</li>
+                    <li>Kişiselleştirilmiş profil sayfası</li>
+                    <li>Kullanıcı takip sistemi</li>
+                    <li>Karanlık/Açık tema desteği</li>
+                    <li>Gelişmiş arama özellikleri</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>İçerik Özellikleri</h3>
+                <ul>
+                    <li>Teknoloji haberleri ve güncellemeler</li>
+                    <li>Gönderi oluşturma ve paylaşma</li>
+                    <li>Yorum yapma ve oylama sistemi</li>
+                    <li>İçerik paylaşım ve bildirim sistemi</li>
+                    <li>Detaylı gönderi görüntüleme</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>Topluluk Özellikleri</h3>
+                <ul>
+                    <li>Kullanıcı etkileşimi</li>
+                    <li>Önerilen kullanıcılar</li>
+                    <li>Profil düzenleme</li>
+                    <li>İçerik moderasyonu</li>
+                    <li>Güvenli paylaşım ortamı</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta">
+            <a href="../index.html">Hemen Başla</a>
+        </div>
+    </div>
+</body>
+</html>
