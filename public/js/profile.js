@@ -12,11 +12,60 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load profile data
     loadProfile(userId);
 
-    // Follow button click handler
+    // Takip butonu click handler (sadece burada olmalı)
     const followButton = document.getElementById('follow-button');
     if (followButton) {
-        followButton.addEventListener('click', function() {
+        followButton.onclick = function(e) {
+            e.preventDefault();
             toggleFollow(userId);
+        };
+    }
+
+    // Profil fotoğrafı büyütme (modal) - kare ve sabit boyut
+    const avatarImg = document.getElementById('avatarImage');
+    const avatarModal = document.getElementById('avatarModal');
+    const avatarModalImg = document.getElementById('avatarModalImg');
+    if (avatarImg && avatarModal && avatarModalImg) {
+        // Modal stilini ayarla (her zaman aynı boyut)
+        avatarModal.style.position = 'fixed';
+        avatarModal.style.top = '0';
+        avatarModal.style.left = '0';
+        avatarModal.style.width = '100vw';
+        avatarModal.style.height = '100vh';
+        avatarModal.style.background = 'rgba(0,0,0,0.65)';
+        avatarModal.style.display = 'none';
+        avatarModal.style.justifyContent = 'center';
+        avatarModal.style.alignItems = 'center';
+        avatarModal.style.zIndex = '9999';
+
+        avatarModalImg.style.width = '400px';
+        avatarModalImg.style.height = '400px';
+        avatarModalImg.style.objectFit = 'cover';
+        avatarModalImg.style.borderRadius = '0'; // Kare
+        avatarModalImg.style.background = '#fff';
+        avatarModalImg.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+        avatarModalImg.style.display = 'block';
+
+        avatarImg.addEventListener('click', function(e) {
+            e.stopPropagation();
+            avatarModalImg.src = avatarImg.src;
+            avatarModal.style.display = 'flex';
+        });
+
+        // Modal dışında bir yere tıklanınca kapat
+        avatarModal.addEventListener('click', function(e) {
+            if (e.target === avatarModal) {
+                avatarModal.style.display = 'none';
+                avatarModalImg.src = '';
+            }
+        });
+
+        // ESC ile de kapat
+        document.addEventListener('keydown', function(e) {
+            if (avatarModal.style.display === 'flex' && e.key === 'Escape') {
+                avatarModal.style.display = 'none';
+                avatarModalImg.src = '';
+            }
         });
     }
 
@@ -141,30 +190,96 @@ function updateProfileUI(data, posts = [], comments = []) {
     document.getElementById('joinDate').textContent = 'Katılım: ' + formatDate(data.created_at);
 }
 
+// Takip etme fonksiyonelliğini baştan yaz
 function toggleFollow(userId) {
     if (!userId) return;
 
-    fetch('../toggle_follow.php', {
+    const followButton = document.getElementById('follow-button');
+    if (followButton) {
+        followButton.disabled = true;
+        followButton.textContent = 'İşleniyor...';
+    }
+
+    const formData = new FormData();
+    formData.append('userId', userId);
+
+    fetch('api/user/toggle-follow.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_id: userId })
+        body: formData,
+        credentials: 'same-origin'
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            // Takip/çık sonrası tekrar takip durumu kontrolü ve UI güncellemesi
-            loadProfile(userId);
-            showSuccess(data.message);
+        if (followButton) {
+            followButton.disabled = false;
+        }
+        // Takip işlemi başarılıysa buton ve takipçi sayısı anında güncellenir
+        if (data && typeof data === 'object') {
+            if (data.success) {
+                // Takip durumu kontrolü ve güncelle
+                fetch(`api/user/check-follow-status.php?user_id=${userId}`, { credentials: 'same-origin' })
+                    .then(res => res.json())
+                    .then(followData => {
+                        if (followButton) {
+                            if (followData.is_following) {
+                                followButton.textContent = 'Takipten Çık';
+                                followButton.classList.add('following');
+                            } else {
+                                followButton.textContent = 'Takip Et';
+                                followButton.classList.remove('following');
+                            }
+                        }
+                        // Takipçi sayısını güncelle
+                        updateFollowersCount(userId);
+                        showSuccess(data.message || 'Takip işlemi başarılı');
+                    });
+            } else {
+                showError(data.message || 'Takip işlemi başarısız');
+                // Takip başarısızsa butonun metnini tekrar kontrol et
+                fetch(`api/user/check-follow-status.php?user_id=${userId}`, { credentials: 'same-origin' })
+                    .then(res => res.json())
+                    .then(followData => {
+                        if (followButton) {
+                            if (followData.is_following) {
+                                followButton.textContent = 'Takipten Çık';
+                                followButton.classList.add('following');
+                            } else {
+                                followButton.textContent = 'Takip Et';
+                                followButton.classList.remove('following');
+                            }
+                        }
+                        updateFollowersCount(userId);
+                    });
+            }
         } else {
-            showError(data.message);
+            showError('Sunucudan beklenmeyen bir cevap alındı.');
+            if (followButton) {
+                followButton.textContent = 'Takip Et';
+            }
         }
     })
     .catch(error => {
-        showError('İşlem sırasında bir hata oluştu: ' + error.message);
-        console.error('Error:', error);
+        if (followButton) {
+            followButton.disabled = false;
+            followButton.textContent = 'Takip Et';
+        }
+        showError('Takip işlemi sırasında bir hata oluştu: ' + (error.message || error));
+        console.error('Takip işlemi hatası:', error);
     });
+}
+
+// Takipçi sayısını güncellemek için yardımcı fonksiyon
+function updateFollowersCount(userId) {
+    fetch('api/user/get-user-profile.php?id=' + encodeURIComponent(userId))
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.profile) {
+                const followersCount = document.getElementById('followersCount');
+                if (followersCount) {
+                    followersCount.textContent = data.profile.followers_count || 0;
+                }
+            }
+        });
 }
 
 function formatDate(dateString) {
